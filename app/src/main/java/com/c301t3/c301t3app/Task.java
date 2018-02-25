@@ -9,8 +9,8 @@ public class Task {
     String name;
     String description;
     String status;
-    // Photo photo;     // This is commented out due to Photo not being implemented
-    // GeoLoc location;     // This is commented out due to GeoLocation not being implemented
+    // Photo photo;     // Commented out from not knowing how/what to represent photo with.
+    // GeoLoc location;     // Commented out from not knowing how/what to represent location with.
 
     Task() { // Task constructor
         this.name = "";
