@@ -35,6 +35,19 @@ public class TaskTest {
     }
 
     @Test
+    // Tests if setting a name with an empty string into a
+    // task object will throw an IllegalArgumentException.
+    public void testSetEmptyName() {
+        Task task = new Task();
+        String EmptyString = "";
+        try {   // try {} statement excepted to fail and catch an IllegalArgumentException
+            task.setName(EmptyString);
+            Assert.fail("Setting name with an empty string of more than 300 characters " +
+                    "failed to throw IllegalArgumentException");
+        } catch (IllegalArgumentException e) {}
+    }
+
+    @Test
     // Tests if setting a name in task using a String with exactly 30 chars will succeed.
     public void testSetNameAt30Chars() {
         String name = "0123456789";
@@ -71,6 +84,19 @@ public class TaskTest {
     }
 
     @Test
+    // Tests if setting a description with an empty string into a
+    // task object will throw an IllegalArgumentException.
+    public void testSetEmptyDescription() {
+        Task task = new Task();
+        String EmptyString = "";
+        try {   // try {} statement excepted to fail and catch an IllegalArgumentException
+            task.setDescription(EmptyString);
+            Assert.fail("Setting description with an empty string of more than 300 characters " +
+                    "failed to throw IllegalArgumentException");
+        } catch (IllegalArgumentException e) {}
+    }
+
+    @Test
     // Tests if setting a description (String with exactly 300 chars) to a task object will succeed
     public void testSetDescriptionAt300Chars() {
         String description10 = "0123456789";
@@ -101,7 +127,7 @@ public class TaskTest {
         Task task = new Task();
         try {   // try {} statement expected to fail and catch an IllegalArgumentException
             task.setDescription(description301);
-            Assert.fail("Setting name with a string of more than 300 characters " +
+            Assert.fail("Setting description with a string of more than 300 characters " +
                     "failed to throw IllegalArgumentException");
         } catch (IllegalArgumentException e) {}
     }

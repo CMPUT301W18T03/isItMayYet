@@ -20,7 +20,9 @@ public class Task {
 
     Task(String name) throws IllegalArgumentException {
         this();
-        if (name.length() > 30 ) {
+        if (name.length() == 0) {
+            throw new IllegalArgumentException("Error: Name cannot be set with no characters");
+        } else if (name.length() > 30 ) {
             throw new IllegalArgumentException("Error: Name cannot go over 30 characters in length");
         }
         this.name = name;
@@ -28,7 +30,9 @@ public class Task {
 
     Task(String name, String description) throws IllegalArgumentException {
         this(name);
-        if (description.length() > 300) {
+        if (description.length() == 0) {
+            throw new IllegalArgumentException("Error: Description cannot be set with no characters");
+        } else if (description.length() > 300) {
             throw new IllegalArgumentException("Error: Description cannot go over 300 characters in length");
         }
         this.description = description;
@@ -40,14 +44,18 @@ public class Task {
     }
 
     public void setName(String name) throws IllegalArgumentException {
-        if (name.length() > 30 ) {
+        if (name.length() == 0) {
+            throw new IllegalArgumentException("Error: Name cannot be set with no characters");
+        } else if (name.length() > 30 ) {
             throw new IllegalArgumentException("Error: Name cannot go over 30 characters in length");
         }
         this.name = name;
     }
 
     public void setDescription(String description) throws IllegalArgumentException {
-        if (description.length() > 300) {
+        if (description.length() == 0) {
+            throw new IllegalArgumentException("Error: Description cannot be set with no characters");
+        } else if (description.length() > 300) {
             throw new IllegalArgumentException("Error: Description cannot go over 300 characters in length");
         }
         this.description = description;
