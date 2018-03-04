@@ -16,6 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".myTasksActivity"
+            android:parentActivityName=".MainActivity">
+            <!-- NOTE: android:parentActivityName is to set the
+             Activity of where the "back button" will go to, make
+             sure that this is edited to got to its previous page
+             if the story board changes! -->
+        </activity>
     </application>
 
 </manifest>
