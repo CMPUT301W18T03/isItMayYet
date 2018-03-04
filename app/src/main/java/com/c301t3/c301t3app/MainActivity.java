@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View view) {
                 setResult(RESULT_OK);
-                Intent intent = new Intent(view.getContext(), myTasksActivity.class);
+                Intent intent = new Intent(view.getContext(), MyTasksActivity.class);
 
                 Task task0 = new Task("task0", "description for task0", "okay");
                 Task task1 = new Task("task1", "description for task1", "meh");
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 tasklist.addTask(task1);
                 tasklist.addTask(task2);
 
-                intent.putExtra("SentTaskList", tasklist);
+                 intent.putExtra("SentTaskList", tasklist);
                 startActivityForResult(intent, MYTASKCODE);
             }
 

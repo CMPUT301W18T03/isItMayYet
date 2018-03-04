@@ -16,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".myTasksActivity"
+        <activity android:name=".MyTasksActivity"
             android:parentActivityName=".MainActivity">
             <!-- NOTE: android:parentActivityName is to set the
              Activity of where the "back button" will go to, make
