@@ -16,6 +16,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Here is how we are going to add a parent via the XML portion. Gonna use the like this
+         Also need to change Main Activity to view 2 name.-->
+        <activity
+            android:name=".selected_task_activity"
+            android:label="selected_task_activity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.c301t3.c301t3app.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>

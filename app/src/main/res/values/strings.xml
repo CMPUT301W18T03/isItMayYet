@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">C301T3app</string>
+    <string name="task_name">Task Name</string>
+    <string name="task_description">Task Description</string>
 </resources>
