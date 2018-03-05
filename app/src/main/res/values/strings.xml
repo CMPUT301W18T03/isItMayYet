@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">C301T3app</string>
-    <string name="task_name">Task Name</string>
-    <string name="task_description">Task Description</string>
+    <string name="enter_password" >Enter Password</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">Register User</string>
+    <string name="create_user">Create</string>
+    <string name="login">Login</string>
+    <string name="sign_in">Sign In</string>
+    <string name="register_new">Register</string>
 </resources>
