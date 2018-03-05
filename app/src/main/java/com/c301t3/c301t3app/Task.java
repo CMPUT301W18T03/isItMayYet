@@ -1,10 +1,12 @@
 package com.c301t3.c301t3app;
 
+import java.io.Serializable;
+
 /**
  * Created by Henry on 2018-02-23.
  */
 
-public class Task {
+public class Task implements Serializable {
 
     String name;
     String description;
@@ -75,5 +77,16 @@ public class Task {
 
     public String getStatus() {
         return this.status;
+    }
+
+    @Override
+    public String toString() {
+
+        String message = this.name;
+        for (int i = this.name.length() ; i < 31; i++) {
+            message = message + "\t";
+        }
+        message = message + this.status;
+        return message;
     }
 }
