@@ -28,6 +28,10 @@ public class TaskList implements Serializable {
         return this.tasklist.get(i);
     }
 
+    public void delTask(int i) {
+        this.tasklist.remove(i);
+    }
+
     public void setTask(int i, Task task) {
         this.tasklist.set(i, task);
     }

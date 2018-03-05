@@ -94,6 +94,7 @@ public class MyTasksActivity extends AppCompatActivity {
             System.out.println(message);
             tasklist = new TaskList();
         }
+        adapter.notifyDataSetChanged();
 
         // Sets up the array adapter with task_item, and binds it with tasklist's ArrayList<~>
         adapter = new ArrayAdapter<Task>(this,
