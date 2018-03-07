@@ -1,10 +1,20 @@
+/*
+ * TaskPasser
+ *
+ * March 7, 2018
+ *
+ * Copyright 2018 c301t3, isItMayYet
+ */
+
 package com.c301t3.c301t3app;
 
 import java.util.ArrayList;
 
 /**
- * Created by jonah on 07/03/18.
  * Singleton for passing data between tasks
+ *
+ * @author Jonah
+ * @version 3.02
  */
 
 public class TaskPasser {

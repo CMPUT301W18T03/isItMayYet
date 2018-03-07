@@ -16,4 +16,5 @@
     <string name="status">Status</string>
     <string name="price">Price</string>
     <string name="bid">Bid</string>
+    <string name="biddings">Biddings</string>
 </resources>

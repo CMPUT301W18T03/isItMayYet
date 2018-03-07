@@ -8,6 +8,6 @@ public class BiddingScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.biddingscreen);
+        setContentView(R.layout.bidding_screen);
     }
 }
