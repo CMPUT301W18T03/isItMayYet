@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 
 public class TaskPasser {
-    private ArrayList<Task> tasks;
+    private static ArrayList<Task> tasks;
 
     public TaskPasser() {
         tasks = new ArrayList<>();
