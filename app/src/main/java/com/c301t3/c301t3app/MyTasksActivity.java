@@ -64,6 +64,9 @@ public class MyTasksActivity extends AppCompatActivity {
                             "encountered no retrievable TaskLists from intent!";
             System.out.println(message);
         }
+//        final TaskPasser taskpasser = new TaskPasser();
+//        tasklist = taskpasser.getTasks();
+//        adapter.notifyDataSetChanged();
 
     }
 
@@ -95,6 +98,10 @@ public class MyTasksActivity extends AppCompatActivity {
             tasklist = new TaskList();
         }
         adapter.notifyDataSetChanged();
+//        final TaskPasser taskpasser = new TaskPasser();
+//        tasklist = taskpasser.getTasks();
+//        adapter.notifyDataSetChanged();
+
 
         // Sets up the array adapter with task_item, and binds it with tasklist's ArrayList<~>
         adapter = new ArrayAdapter<Task>(this,
