@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.c301t3.c301t3app">
@@ -15,6 +16,18 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <!--
+         Here is how we are going to add a parent via the XML portion. Gonna use the like this
+         Also need to change Main Activity to view 2 name. Implement this when there are  actual java  classes for each screen.
+        -->
+        <activity
+            android:name=".selected_task_activity"
+            android:label="selected_task_activity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.c301t3.c301t3app.MainActivity" />
         </activity>
     </application>
 
