@@ -16,16 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".MyTasksActivity"
-            android:parentActivityName=".MainActivity">
-            <!-- NOTE: android:parentActivityName is to set the
-             Activity of where the "back button" will go to, make
-             sure that this is edited to got to its previous page
-             if the story board changes! -->
-        </activity>
-        <!-- Here is how we are going to add a parent via the XML portion. Gonna use the like this
-         Also need to change Main Activity to view 2 name.-->
+        <!--
+         Here is how we are going to add a parent via the XML portion. Gonna use the like this
+         Also need to change Main Activity to view 2 name. Implement this when there are  actual java  classes for each screen.
+        -->
         <activity
             android:name=".selected_task_activity"
             android:label="selected_task_activity"
@@ -34,7 +28,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.c301t3.c301t3app.MainActivity" />
         </activity>
-
     </application>
 
 </manifest>

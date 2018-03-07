@@ -24,18 +24,10 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:text="Button"
+        android:text="@string/button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:onClick="launchSecondActivity"
-        android:text="Next Activity"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="147dp" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">C301T3app</string>
     <string name="title_activity_my_tasks">myTasksActivity</string>
-    <string name="enter_password" >Enter Password</string>
+    <string name="enter_password">Enter Password</string>
     <string name="enter_username">Enter Username</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="register">Register User</string>
@@ -9,4 +9,11 @@
     <string name="login">Login</string>
     <string name="sign_in">Sign In</string>
     <string name="register_new">Register</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="button">Button</string>
+    <string name="Task_Name">task_name</string>
+    <string name="Task_Description">task_description</string>
+    <string name="status">Status</string>
+    <string name="price">Price</string>
+    <string name="bid">Bid</string>
 </resources>
