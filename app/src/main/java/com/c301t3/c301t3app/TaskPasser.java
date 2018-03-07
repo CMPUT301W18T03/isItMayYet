@@ -21,4 +21,13 @@ public class TaskPasser {
     public void setTasks(ArrayList<Task> t) {
         tasks = t;
     }
+
+    public Task getTask() {
+        return tasks.get(0);
+    }
+
+    public void setTask(Task t) {
+        tasks = new ArrayList<>();
+        tasks.add(t);
+    }
 }
