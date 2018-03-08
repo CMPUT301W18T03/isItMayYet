@@ -26,14 +26,17 @@ public class MyTasksActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         myTasksList = (ListView) findViewById(R.id.myTasksList);
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        taskList = taskPasser.getTasks();
+        taskList = new ArrayList<>();
         adapter = new ArrayAdapter<Task>(this, R.layout.my_tasks_item, taskList);
         myTasksList.setAdapter(adapter);
+        taskList = taskPasser.getTasks();
+        adapter.notifyDataSetChanged();
     }
 
 }
