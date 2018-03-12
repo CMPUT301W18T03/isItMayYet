@@ -12,6 +12,8 @@ public class Task implements Serializable {
     String name;
     String description;
     String status;
+    int price;
+
     // Photo photo;     // Commented out from not knowing how/what to represent photo with.
     // GeoLoc location;     // Commented out from not knowing how/what to represent location with.
 
@@ -89,6 +91,14 @@ public class Task implements Serializable {
         }
         message = message + this.status;
         return message;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int p) {
+        price = p;
     }
 }
 
