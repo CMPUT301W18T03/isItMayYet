@@ -1,23 +1,30 @@
 package com.c301t3.c301t3app;
 
 
-
+/**
+ * An account class to be used by the user
+ *
+ * @author Luis
+ * @version 3.03
+ * LastEdit: 2018-03-12; 3:00 PM by John
+ */
 public class UserAccount {
-    private final static int MAX_USERNAME_LENGTH = 8; //subject to change
+    private final static int MAX_USERNAME_LENGTH = 32; //subject to change
 
     private String username;
-    private String fullName;
+    private String firstName;
+    private String lastName;
     private String emailAdd;
     private String address;
     private String phoneNum;
 
-    public UserAccount() { // empty constructor
 
-    }
 
-    public UserAccount(String username, String fullName, String emailAdd, String address, String phoneNum) throws IllegalArgumentException {
+    public UserAccount(String username, String firstName, String lastName, String emailAdd,
+                       String address, String phoneNum) throws IllegalArgumentException {
         this.setUsername(username);
-        this.setFullName(fullName);
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
         this.setEmailAdd(emailAdd);
         this.setAddress(address);
         this.setPhoneNum(phoneNum);
@@ -39,8 +46,12 @@ public class UserAccount {
 
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFirstName(String name) {
+        this.firstName = name;
+    }
+
+    public void setLastName(String name) {
+        this.lastName = name;
     }
 
     public void setEmailAdd(String emailAdd) {
@@ -60,8 +71,12 @@ public class UserAccount {
         return this.username;
     }
 
-    public String getFullName() {
-        return this.fullName;
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
     }
 
     public String getEmailAdd() {
