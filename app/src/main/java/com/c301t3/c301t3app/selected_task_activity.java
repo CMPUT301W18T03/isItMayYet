@@ -34,18 +34,18 @@ public class selected_task_activity extends AppCompatActivity {
         EditText taskBid = findViewById(R.id.editTextBid);
         Button taskBidBtn = findViewById(R.id.bidBtn);
 
-        taskBidBtn.setEnabled(false);
-        taskName.setText(currentTask.getTaskName());
-        taskDesc.setText(currentTask.getTaskDescription());
-        //taskImages.setImageResource(Drawablesres);
-        taskStat.setText(currentTask.getStatus());
-        taskPrice.setText(currentTask.getPrice());
-        try {
-            taskBid.setText(currentTask.getCurrentBid);
-        } catch (Exception e) {
-            Log.i("Bid error", "getting current bid error.");
-            e.printStackTrace();
-        }
+//        taskBidBtn.setEnabled(false);
+//        taskName.setText(currentTask.getTaskName());
+//        taskDesc.setText(currentTask.getTaskDescription());
+//        //taskImages.setImageResource(Drawablesres);
+//        taskStat.setText(currentTask.getStatus());
+//        taskPrice.setText(currentTask.getPrice());
+//        try {
+//            taskBid.setText(currentTask.getCurrentBid);
+//        } catch (Exception e) {
+//            Log.i("Bid error", "getting current bid error.");
+//            e.printStackTrace();
+//        }
 
     }
 
