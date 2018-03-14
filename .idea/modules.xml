@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../../Version3.02/isItMayYet/app/app.iml" filepath="$PROJECT_DIR$/../../Version3.02/isItMayYet/app/app.iml" />
-      <module fileurl="file://C:\Users\Jay\AndroidStudioProjects\GroupProject\Version3.03\isItMayYet\app\app.iml" filepath="C:\Users\Jay\AndroidStudioProjects\GroupProject\Version3.03\isItMayYet\app\app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../Version3.02/isItMayYet/isItMayYet.iml" filepath="$PROJECT_DIR$/../../Version3.02/isItMayYet/isItMayYet.iml" />
-      <module fileurl="file://C:\Users\Jay\AndroidStudioProjects\GroupProject\Version3.03\isItMayYet\isItMayYet.iml" filepath="C:\Users\Jay\AndroidStudioProjects\GroupProject\Version3.03\isItMayYet\isItMayYet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/isItMayYet.iml" filepath="$PROJECT_DIR$/isItMayYet.iml" />
     </modules>
   </component>
 </project>

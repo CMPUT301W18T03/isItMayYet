@@ -17,4 +17,6 @@
     <string name="price">Price</string>
     <string name="bid">Bid</string>
     <string name="biddings">Biddings</string>
+    <string name="title_activity_login">Sign in</string>
+
 </resources>
