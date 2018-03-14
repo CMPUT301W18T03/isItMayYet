@@ -24,6 +24,7 @@ public class UserAccount {
     private String emailAdd;
     private String address;
     private String phoneNum;
+    private  int uniqueID;
 
 
     /**
@@ -38,13 +39,14 @@ public class UserAccount {
      * @throws IllegalArgumentException; when username is longer than allowed
      */
     public UserAccount(String username, String firstName, String lastName, String emailAdd,
-                       String address, String phoneNum) throws IllegalArgumentException {
+                       String address, String phoneNum, int id) throws IllegalArgumentException {
         this.setUsername(username);
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setEmailAdd(emailAdd);
         this.setAddress(address);
         this.setPhoneNum(phoneNum);
+        this.uniqueID = id;
     }
 
     /**  Set the username of the user
@@ -155,6 +157,14 @@ public class UserAccount {
      */
     public String getPhoneNum() {
         return this.phoneNum;
+    }
+
+    /** Returns teh unique ID of the account
+     *
+     * @return uniqueID; the unique ID of the account
+     */
+    public int getID() {
+        return this.uniqueID;
     }
 
 }
