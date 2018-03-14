@@ -6,13 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private MainActivity activity = this;
-    private final TaskPasser taskPasser = new TaskPasser();
+    // private final TaskPasser taskPasser = new TaskPasser();
+    private TaskPasser taskPasser;
     /* Here is a good site with a good tutorial for back button and info sharing between activities.
     * https://google-developer-training.gitbooks.io/android-developer-fundamentals-course-practicals/content/en/Unit%201/21_p_create_and_start_activities.html*/
 
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button mainButton = (Button) findViewById(R.id.button_GoToMyTasks);
+
+        taskPasser = new TaskPasser();
 
         mainButton.setOnClickListener(new View.OnClickListener() {
 
@@ -37,8 +41,11 @@ public class MainActivity extends AppCompatActivity {
                 dummytasklist.add(task0);
                 dummytasklist.add(task1);
                 dummytasklist.add(task2);
+                final TaskPasser taskPasser = new TaskPasser();
                 taskPasser.setTasks(dummytasklist);
 
+                String foo = taskPasser.getTasks().toString();
+                Toast.makeText(getApplicationContext(), foo, Toast.LENGTH_SHORT).show();
                 startActivity(intent);
 
             }
