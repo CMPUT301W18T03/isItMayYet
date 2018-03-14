@@ -23,7 +23,7 @@ public class selected_task_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selected_task);
-        final TaskPasser passer = new TaskPasser();
+//        final TaskPasser passer = new TaskPasser();
         //get current selected task.
 
         TextView taskName = findViewById(R.id.textViewTaskName);
@@ -33,7 +33,7 @@ public class selected_task_activity extends AppCompatActivity {
         TextView taskPrice = findViewById(R.id.textViewPrice);
         EditText taskBid = findViewById(R.id.editTextBid);
         Button taskBidBtn = findViewById(R.id.bidBtn);
-        ArrayList<Task> t = new ArrayList<>();
+//        ArrayList<Task> t = new ArrayList<>();
 
 //        taskBidBtn.setEnabled(false);
 //        taskName.setText(currentTask.getTaskName());
