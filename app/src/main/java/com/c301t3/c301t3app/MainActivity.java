@@ -30,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(activity, MyTasksActivity.class);
 
                 ArrayList<Task> dummytasklist = new ArrayList<>();
-                Task task0 = new Task("task0","desc0", "completed");
-                Task task1 = new Task("task1","desc1", "in progress");
-                Task task2 = new Task("task2","desc2", "memes");
+                Task task0 = new Task("task0","desc0", TaskStatus.COMPLETED);
+                Task task1 = new Task("task1","desc1", TaskStatus.ASSIGNED);
+                Task task2 = new Task("task2","desc2", TaskStatus.REQUESTED);
                 dummytasklist.add(task0);
                 dummytasklist.add(task1);
                 dummytasklist.add(task2);
