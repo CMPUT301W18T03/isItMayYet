@@ -2,6 +2,7 @@
 package com.c301t3.c301t3app;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Henry on 2018-02-23.
@@ -13,7 +14,7 @@ public class Task implements Serializable {
     private String description;
     private TaskStatus status;
     private int price;
-    private ArrayList<Bid> bids = ArrayList<Bid>();
+    private ArrayList<Bid> bids;
 
     // Photo photo;     // Commented out from not knowing how/what to represent photo with.
     // GeoLoc location;     // Commented out from not knowing how/what to represent location with.
@@ -23,7 +24,7 @@ public class Task implements Serializable {
         this.description = "";
         this.status = TaskStatus.REQUESTED;
         this.price = 0;
-        this.bid = 0;
+        this.bids = ArrayList<Bid>();
     }
 
     Task(String name) throws IllegalArgumentException {
@@ -54,12 +55,11 @@ public class Task implements Serializable {
     Task(String name, String description, TaskStatus status, int price) {
         this(name, description, status);
         this.price = price;
-        this.bid = price;
     }
 
-    Task(String name, String description, TaskStatus status, int price, int bid) {
+    Task(String name, String description, TaskStatus status, int price, ArrayList<Bid> bids) {
         this(name, description, status, price);
-        this.bid = bid;
+        this.bids = bids;
     }
 
     public void setName(String name) throws IllegalArgumentException {
@@ -124,6 +124,5 @@ public class Task implements Serializable {
     public void addBid(Bid bid) {
         this.bids.add(bid);
     }
-    
 }
 
