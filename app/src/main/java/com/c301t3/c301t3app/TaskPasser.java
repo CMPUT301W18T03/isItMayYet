@@ -26,6 +26,7 @@ public class TaskPasser {
     public TaskPasser() {
         tasks = new ArrayList<>();
     }
+
     /**
      * Get the ArrayList passed, ALL the items
      *
@@ -44,6 +45,8 @@ public class TaskPasser {
         tasks = t;
     }
 
+    // The below is edited out because we think it is unnecessary right now
+    // Opinion on this might change in the future
     /**
     public Task getTask() {
         return tasks.get(0);
