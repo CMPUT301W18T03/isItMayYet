@@ -21,18 +21,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        // Button takes you to login page
-        Button bGoToSignIn = (Button) findViewById(R.id.bGoToSignIn);
-        bGoToSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent loginIntent = new Intent(activity, SimpleLoginActivity.class);
-                startActivity(loginIntent);
-            }
-        });
-
-
-
         Button mainButton = (Button) findViewById(R.id.button_GoToMyTasks);
         mainButton.setOnClickListener(new View.OnClickListener() {
 

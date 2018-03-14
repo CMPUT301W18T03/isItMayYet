@@ -49,9 +49,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.c301t3.c301t3app.MainActivity" />
         </activity>
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
         <activity android:name=".SimpleLoginActivity" />
         <activity android:name=".RegisterActivity"></activity>
     </application>
