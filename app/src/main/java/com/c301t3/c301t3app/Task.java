@@ -9,16 +9,18 @@ import java.io.Serializable;
 
 public class Task implements Serializable {
 
-    String name;
-    String description;
-    String status;
+    private String name;
+    private String description;
+    private TaskStatus status;
+    private int price;
+
     // Photo photo;     // Commented out from not knowing how/what to represent photo with.
     // GeoLoc location;     // Commented out from not knowing how/what to represent location with.
 
     Task() { // Task constructor
         this.name = "";
         this.description = "";
-        this.status = "";
+        this.status = TaskStatus.REQUESTED;
     }
 
     Task(String name) throws IllegalArgumentException {
@@ -41,7 +43,7 @@ public class Task implements Serializable {
         this.description = description;
     }
 
-    Task(String name, String description, String status) {
+    Task(String name, String description, TaskStatus status) {
         this(name, description);
         this.status = status;
     }
@@ -64,7 +66,7 @@ public class Task implements Serializable {
         this.description = description;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
@@ -76,7 +78,7 @@ public class Task implements Serializable {
         return this.description;
     }
 
-    public String getStatus() {
+    public TaskStatus getStatus() {
         return this.status;
     }
 
@@ -89,6 +91,14 @@ public class Task implements Serializable {
         }
         message = message + this.status;
         return message;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int p) {
+        price = p;
     }
 }
 
