@@ -33,6 +33,7 @@ public class selected_task_activity extends AppCompatActivity {
         TextView taskPrice = findViewById(R.id.textViewPrice);
         EditText taskBid = findViewById(R.id.editTextBid);
         Button taskBidBtn = findViewById(R.id.bidBtn);
+        ArrayList<Task> t = new ArrayList<>();
 
 //        taskBidBtn.setEnabled(false);
 //        taskName.setText(currentTask.getTaskName());
