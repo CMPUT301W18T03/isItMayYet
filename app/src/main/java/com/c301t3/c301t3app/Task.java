@@ -13,7 +13,7 @@ public class Task implements Serializable {
     private String description;
     private TaskStatus status;
     private int price;
-    private int bid;
+    private ArrayList<Bid> bids = ArrayList<Bid>();
 
     // Photo photo;     // Commented out from not knowing how/what to represent photo with.
     // GeoLoc location;     // Commented out from not knowing how/what to represent location with.
@@ -119,17 +119,11 @@ public class Task implements Serializable {
         }
     }
 
-    public int getBid() { return this.bid; }
+    public ArrayList<Bid> getBids() { return this.bids; }
 
-    public void setBid(int bid) throws IllegalArgumentException {
-        if (bid < 0) {
-            throw new IllegalArgumentException("Error: Bid cannot be lower than 0");
-        } else if (bid > this.price) {
-            throw new IllegalArgumentException("Error: Bid cannot be higher than current price");
-        } else {
-            this.bid = bid;
-        }
+    public void addBid(Bid bid) {
+        this.bids.add(bid);
     }
-
+    
 }
 
