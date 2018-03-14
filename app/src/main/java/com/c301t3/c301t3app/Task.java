@@ -13,6 +13,7 @@ public class Task implements Serializable {
     private String description;
     private TaskStatus status;
     private int price;
+    private int bid;
 
     // Photo photo;     // Commented out from not knowing how/what to represent photo with.
     // GeoLoc location;     // Commented out from not knowing how/what to represent location with.
@@ -21,6 +22,8 @@ public class Task implements Serializable {
         this.name = "";
         this.description = "";
         this.status = TaskStatus.REQUESTED;
+        this.price = 0;
+        this.bid = 0;
     }
 
     Task(String name) throws IllegalArgumentException {
@@ -46,6 +49,17 @@ public class Task implements Serializable {
     Task(String name, String description, TaskStatus status) {
         this(name, description);
         this.status = status;
+    }
+
+    Task(String name, String description, TaskStatus status, int price) {
+        this(name, description, status);
+        this.price = price;
+        this.bid = price;
+    }
+
+    Task(String name, String description, TaskStatus status, int price, int bid) {
+        this(name, description, status, price);
+        this.bid = bid;
     }
 
     public void setName(String name) throws IllegalArgumentException {
@@ -97,8 +111,25 @@ public class Task implements Serializable {
         return price;
     }
 
-    public void setPrice(int p) {
-        price = p;
+    public void setPrice(int price) throws IllegalArgumentException {
+        if (price < 0) {
+            throw new IllegalArgumentException("Error: Price cannot be lower than 0");
+        } else {
+            this.price = price;
+        }
     }
+
+    public int getBid() { return this.bid; }
+
+    public void setBid(int bid) throws IllegalArgumentException {
+        if (bid < 0) {
+            throw new IllegalArgumentException("Error: Bid cannot be lower than 0");
+        } else if (bid > this.price) {
+            throw new IllegalArgumentException("Error: Bid cannot be higher than current price");
+        } else {
+            this.bid = bid;
+        }
+    }
+
 }
 
