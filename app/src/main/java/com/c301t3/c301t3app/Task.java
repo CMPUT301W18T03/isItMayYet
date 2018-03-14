@@ -2,6 +2,7 @@
 package com.c301t3.c301t3app;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Henry on 2018-02-23.
@@ -13,6 +14,7 @@ public class Task implements Serializable {
     private String description;
     private TaskStatus status;
     private int price;
+    private ArrayList<Bid> bids;
 
     // Photo photo;     // Commented out from not knowing how/what to represent photo with.
     // GeoLoc location;     // Commented out from not knowing how/what to represent location with.
@@ -99,6 +101,14 @@ public class Task implements Serializable {
 
     public void setPrice(int p) {
         price = p;
+    }
+
+    public void addBid(Bid b) {
+        bids.add(b);
+    }
+
+    public ArrayList<Bid> getBids() {
+        return bids;
     }
 }
 
