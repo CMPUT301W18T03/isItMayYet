@@ -14,7 +14,11 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        final UserAccount account = new UserAccount(); // move below, to spot after you get details from user
+
         final EditText etUsername = (EditText) findViewById(R.id.etUsername);
+        final EditText etFirstName = (EditText) findViewById(R.id.etLastName);
+        final EditText etLastName = (EditText) findViewById(R.id.etFirstName);
         final EditText etEmail = (EditText) findViewById(R.id.etEmail);
         final EditText etPhone = (EditText) findViewById(R.id.etPhone);
         final EditText etPassword = (EditText) findViewById(R.id.etPassword);
@@ -27,6 +31,14 @@ public class RegisterActivity extends AppCompatActivity {
         bRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                account.setUsername(etUsername.getText().toString());
+                account.setFirstName(etFirstName.getText().toString());
+                account.setLastName(etLastName.getText().toString());
+                account.setEmailAdd(etEmail.getText().toString());
+                account.setPhoneNum(etPhone.getText().toString());
+                account.setPassword(etPassword.getText().toString());
+
                 Intent loginIntent = new Intent(RegisterActivity.this, SimpleLoginActivity.class);
                 RegisterActivity.this.startActivity(loginIntent);
             }
