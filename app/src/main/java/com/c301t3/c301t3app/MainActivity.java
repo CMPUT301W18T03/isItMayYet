@@ -26,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //This is the place to handle all the menu items.
@@ -62,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    //-----------Menu  Stuff ends here-----------//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
