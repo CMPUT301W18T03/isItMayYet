@@ -24,7 +24,7 @@ public class Task implements Serializable {
         this.description = "";
         this.status = TaskStatus.REQUESTED;
         this.price = 0;
-//        this.bids = ArrayList<Bid>(); // fix this LINE, it causes error.
+        this.bids = new ArrayList<Bid>(); // fix this LINE, it causes error.
     }
 
     Task(String name) throws IllegalArgumentException {
