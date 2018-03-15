@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.MyBids:
                 Toast.makeText(getApplicationContext(), "MyBids selected", Toast.LENGTH_SHORT).show();
-
                 break;
         }
 
