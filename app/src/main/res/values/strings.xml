@@ -23,5 +23,6 @@
     <string name="profile">Profile</string>
     <string name="my_tasks">My Tasks</string>
     <string name="my_bids">My Bids</string>
+    <string name="firstName">First Name</string>
 
 </resources>
