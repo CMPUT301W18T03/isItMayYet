@@ -43,7 +43,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.SignIN:
-                Toast.makeText(getApplicationContext(), "SignIN selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "SignIn selected", Toast.LENGTH_SHORT).show();
+                // go to login activity
+                Intent loginIntent = new Intent(activity, SimpleLoginActivity.class);
+                activity.startActivity(loginIntent);
 
                 break;
 
