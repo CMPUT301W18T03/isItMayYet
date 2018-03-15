@@ -52,15 +52,15 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
 
-            case R.id.myTasks:
-                Toast.makeText(getApplicationContext(), "MyTasks selected", Toast.LENGTH_SHORT).show();
-
-                break;
-
-            case R.id.MyBids:
-                Toast.makeText(getApplicationContext(), "MyBids selected", Toast.LENGTH_SHORT).show();
-
-                break;
+//            case R.id.myTasks:
+//                Toast.makeText(getApplicationContext(), "MyTasks selected", Toast.LENGTH_SHORT).show();
+//
+//                break;
+//
+//            case R.id.MyBids:
+//                Toast.makeText(getApplicationContext(), "MyBids selected", Toast.LENGTH_SHORT).show();
+//
+//                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -75,22 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
         taskPasser = new TaskPasser();
 
-<<<<<<< HEAD
-        Button loginButton = (Button) findViewById(R.id.bGoToSignIn);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent loginIntent = new Intent(activity, SimpleLoginActivity.class);
-                startActivity(loginIntent);
-            }
-        });
-
-
 
         Button mainButton = (Button) findViewById(R.id.button_GoToMyTasks);
-=======
-        Button mainButton = findViewById(R.id.button_GoToMyTasks);
->>>>>>> 5568920daad3e888f032681aa9fbdd43601ab667
 
         mainButton.setOnClickListener(new View.OnClickListener() {
 
