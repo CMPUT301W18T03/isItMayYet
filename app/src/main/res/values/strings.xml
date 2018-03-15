@@ -18,10 +18,10 @@
     <string name="bid">Bid</string>
     <string name="biddings">Biddings</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="enter_query">Enter query</string>
     <string name="logout">Logout</string>
     <string name="account">Account</string>
     <string name="profile">Profile</string>
     <string name="my_tasks">My Tasks</string>
     <string name="my_bids">My Bids</string>
-
 </resources>
