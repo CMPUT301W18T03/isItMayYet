@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/myTasks"
+        android:title="@string/my_tasks"
+        android:icon="@drawable/myTasks"
+        android:orderInCategory="102"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/MyBids"
+        android:title="@string/my_bids"
+        android:icon="@drawable/myBids"
+        android:orderInCategory="103"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/Account"
+        android:title="@string/account"
+        android:orderInCategory="101"
+        app:showAsAction="never">
+
+        <menu>
+            <item
+                android:id="@+id/Profile"
+                android:icon="@drawable/profile"
+                android:orderInCategory="100"
+                android:title="@string/profile" />
+            <item
+                android:id="@+id/SignIN"
+                android:icon="@drawable/check_in_icon"
+                android:title="@string/sign_in" />
+            <item
+                android:id="@+id/Logout"
+                android:icon="@mipmap/logout_btn"
+                android:orderInCategory="100"
+                android:title="@string/logout" />
+        </menu>
+
+
+    </item>
+</menu>
