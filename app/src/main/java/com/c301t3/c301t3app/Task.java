@@ -23,6 +23,8 @@ public class Task implements Serializable {
         this.name = "";
         this.description = "";
         this.status = TaskStatus.REQUESTED;
+        this.price = 0;
+        this.bids = ArrayList<Bid>();
     }
 
     Task(String name) throws IllegalArgumentException {
@@ -48,6 +50,16 @@ public class Task implements Serializable {
     Task(String name, String description, TaskStatus status) {
         this(name, description);
         this.status = status;
+    }
+
+    Task(String name, String description, TaskStatus status, int price) {
+        this(name, description, status);
+        this.price = price;
+    }
+
+    Task(String name, String description, TaskStatus status, int price, ArrayList<Bid> bids) {
+        this(name, description, status, price);
+        this.bids = bids;
     }
 
     public void setName(String name) throws IllegalArgumentException {
@@ -99,16 +111,18 @@ public class Task implements Serializable {
         return price;
     }
 
-    public void setPrice(int p) {
-        price = p;
+    public void setPrice(int price) throws IllegalArgumentException {
+        if (price < 0) {
+            throw new IllegalArgumentException("Error: Price cannot be lower than 0");
+        } else {
+            this.price = price;
+        }
     }
 
-    public void addBid(Bid b) {
-        bids.add(b);
-    }
+    public ArrayList<Bid> getBids() { return this.bids; }
 
-    public ArrayList<Bid> getBids() {
-        return bids;
+    public void addBid(Bid bid) {
+        this.bids.add(bid);
     }
 }
 
