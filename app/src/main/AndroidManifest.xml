@@ -47,6 +47,22 @@
         </activity>
         <activity android:name=".SimpleLoginActivity" />
         <activity android:name=".RegisterActivity"></activity>
+        <activity
+            android:name=".MainMenuActivity"
+            android:label="main_menu_activity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.c301t3.c301t3app.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".NewTaskActivity"
+            android:label="new_task_activity.xml"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.c301t3.c301t3app.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>
