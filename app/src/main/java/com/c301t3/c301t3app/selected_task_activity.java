@@ -13,12 +13,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
+/**
+ *
+ */
 public class selected_task_activity extends AppCompatActivity {
 
     private TaskPasser passer;
     private Task currentTask;
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +55,10 @@ public class selected_task_activity extends AppCompatActivity {
 
     }
 
+    /**
+     *
+     * @param view
+     */
     public void taskBidded(View view) {
         Log.i("button is pressed", "bid button is pressed.");
         // If the status of the bid is Green, btn is active.

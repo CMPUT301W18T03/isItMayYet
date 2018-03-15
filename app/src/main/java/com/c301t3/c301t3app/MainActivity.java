@@ -3,6 +3,8 @@ package com.c301t3.c301t3app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -17,6 +19,55 @@ public class MainActivity extends AppCompatActivity {
     /* Here is a good site with a good tutorial for back button and info sharing between activities.
     * https://google-developer-training.gitbooks.io/android-developer-fundamentals-course-practicals/content/en/Unit%201/21_p_create_and_start_activities.html*/
 
+    /// Menu Start Here-----------------------
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    /**
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //This is the place to handle all the menu items.
+        int id = item.getItemId();
+
+        switch (id) {
+
+            case R.id.Profile:
+                Toast.makeText(getApplicationContext(), "Profile selected", Toast.LENGTH_SHORT).show();
+
+                break;
+
+            case R.id.SignIN:
+                Toast.makeText(getApplicationContext(), "SignIN selected", Toast.LENGTH_SHORT).show();
+
+                break;
+
+            case R.id.Logout:
+                Toast.makeText(getApplicationContext(), "Logout selected", Toast.LENGTH_SHORT).show();
+
+                break;
+
+            case R.id.myTasks:
+                Toast.makeText(getApplicationContext(), "MyTasks selected", Toast.LENGTH_SHORT).show();
+
+                break;
+
+            case R.id.MyBids:
+                Toast.makeText(getApplicationContext(), "MyBids selected", Toast.LENGTH_SHORT).show();
+
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    //-----------Menu  Stuff ends here-----------//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         taskPasser = new TaskPasser();
 
-        Button mainButton = (Button) findViewById(R.id.button_GoToMyTasks);
+        Button mainButton = findViewById(R.id.button_GoToMyTasks);
 
         mainButton.setOnClickListener(new View.OnClickListener() {
 
