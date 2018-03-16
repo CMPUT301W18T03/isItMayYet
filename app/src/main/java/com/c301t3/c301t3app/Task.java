@@ -5,10 +5,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Created by Henry on 2018-02-23.
- */
-
-/**
  * Created by Henry on 23/02/18.
  * Class for that represents a Task, which contains
  * data for its name, description, status, price,
