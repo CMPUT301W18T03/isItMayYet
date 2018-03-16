@@ -194,10 +194,21 @@ public class Task implements Serializable {
         return message;
     }
 
+    /**
+     * Method that returns the price of Tasks.
+     *
+     * @return: price of the Task
+     */
     public int getPrice() {
         return price;
     }
 
+    /**
+     * Method that sets/edits the price of Tasks.
+     *
+     * @param price: the new price of Task.
+     * @throws IllegalArgumentException: if the new price is lower that 0.
+     */
     public void setPrice(int price) throws IllegalArgumentException {
         if (price < 0) {
             throw new IllegalArgumentException("Error: Price cannot be lower than 0");
@@ -206,8 +217,18 @@ public class Task implements Serializable {
         }
     }
 
+    /**
+     * Method that gets the list of bids of the Task.
+     *
+     * @return: ArrayList of bids associated to Task.
+     */
     public ArrayList<Bid> getBids() { return this.bids; }
 
+    /**
+     * Method that adds the bid of into the list of Bids of the Task.
+     *
+     * @param bid: the bid class that will be added on to Task's ArrayList.
+     */
     public void addBid(Bid bid) {
         this.bids.add(bid);
     }
