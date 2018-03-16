@@ -14,8 +14,9 @@ public class UserAccountTest {
         String eAdd1 = "doyouknowdawae@gmail.com";
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
+        String pw1 = "noob";
         int id1 = 19;
-        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, id1);
+        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
         test.setUsername(user1);
 
         assertTrue(test.getUsername().equals(user1));
@@ -30,8 +31,9 @@ public class UserAccountTest {
         String eAdd1 = "doyouknowdawae@gmail.com";
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
+        String pw1 = "noob";
         int id1 = 19;
-        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, id1);
+        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
 
         try { // exception expected
             test.setUsername(user1);
@@ -52,8 +54,9 @@ public class UserAccountTest {
         String eAdd1 = "doyouknowdawae@gmail.com";
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
+        String pw1 = "noob";
         int id1 = 19;
-        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, id1);
+        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
         test.setFirstName(first1);
 
         assertTrue(test.getFirstName().equals(first1));
@@ -67,8 +70,9 @@ public class UserAccountTest {
         String eAdd1 = "doyouknowdawae@gmail.com";
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
+        String pw1 = "noob";
         int id1 = 19;
-        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, id1);
+        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
         test.setFirstName(last1);
 
         assertTrue(test.getFirstName().equals(last1));
@@ -82,8 +86,9 @@ public class UserAccountTest {
         String eAdd1 = "doyouknowdawae@gmail.com";
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
+        String pw1 = "noob";
         int id1 = 19;
-        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, id1);
+        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
         test.setEmailAdd(eAdd1);
 
         assertTrue(test.getEmailAdd().equals(eAdd1));
@@ -97,8 +102,9 @@ public class UserAccountTest {
         String eAdd1 = "doyouknowdawae@gmail.com";
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
+        String pw1 = "noob";
         int id1 = 19;
-        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, id1);
+        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
         test.setAddress(addr1);
 
         assertTrue(test.getAddress().equals(addr1));
@@ -112,8 +118,9 @@ public class UserAccountTest {
         String eAdd1 = "doyouknowdawae@gmail.com";
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
+        String pw1 = "noob";
         int id1 = 19;
-        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, id1);
+        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
         test.setPhoneNum(pNum1);
 
         assertTrue(test.getPhoneNum().equals(pNum1));
@@ -127,10 +134,26 @@ public class UserAccountTest {
         String eAdd1 = "doyouknowdawae@gmail.com";
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
+        String pw1 = "noob";
         int id1 = 19;
-        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, id1);
+        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
 
         assertTrue(test.getID() == id1);
+    }
+
+    @Test
+    public void testGetPWSuccess() {
+        String user1 = "dawae";
+        String first1 = "Knuc";
+        String last1 =  "Kles";
+        String eAdd1 = "doyouknowdawae@gmail.com";
+        String addr1 = "Show Me Da Wae";
+        String pNum1 = "780-780-7800";
+        String pw1 = "noob";
+        int id1 = 19;
+        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
+
+        assertTrue(test.getPassword().equals(pw1));
     }
 
     @Test
@@ -141,9 +164,10 @@ public class UserAccountTest {
         String eAdd1 = "doyouknowdawae@gmail.com";
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
+        String pw1 = "noob";
         int id1 = 19;
 
-        UserAccount test = new UserAccount(user1,first1,last1, eAdd1,addr1,pNum1, id1);
+        UserAccount test = new UserAccount(user1,first1,last1, eAdd1,addr1,pNum1, pw1, id1);
 
         assertTrue(test.getUsername().equals(user1));
         assertTrue(test.getFirstName().equals(first1));
@@ -151,6 +175,8 @@ public class UserAccountTest {
         assertTrue(test.getEmailAdd().equals(eAdd1));
         assertTrue(test.getAddress().equals(addr1));
         assertTrue(test.getPhoneNum().equals(pNum1));
+        assertTrue(test.getPassword().equals(pw1));
+        assertTrue(test.getID() == id1);
     }
 
 }
