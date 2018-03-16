@@ -113,6 +113,12 @@ public class Task implements Serializable {
         this.bids = bids;
     }
 
+    /**
+     * Method that sets/edits name of Tasks.
+     *
+     * @param name: the name of the task.
+     * @throws IllegalArgumentException: if the name is an empty string or if over 30 chars.
+     */
     public void setName(String name) throws IllegalArgumentException {
         if (name.length() == 0) {
             throw new IllegalArgumentException("Error: Name cannot be set with no characters");
@@ -122,6 +128,12 @@ public class Task implements Serializable {
         this.name = name;
     }
 
+    /**
+     * Method that sets/edits description of Tasks.
+     *
+     * @param description: the description of the task.
+     * @throws IllegalArgumentException: if the name is an empty string or if over 300 chars.
+     */
     public void setDescription(String description) throws IllegalArgumentException {
         if (description.length() == 0) {
             throw new IllegalArgumentException("Error: Description cannot be set with no characters");
@@ -131,25 +143,49 @@ public class Task implements Serializable {
         this.description = description;
     }
 
+    /**
+     * Method that sets/edits description of Tasks.
+     *
+     * @param status: the status of the task.
+     */
     public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
+    /**
+     * Method that returns the name of Tasks.
+     *
+     * @return: name of the Task.
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Method that returns the description of Tasks.
+     *
+     * @return: description of the Task.
+     */
     public String getDescription() {
         return this.description;
     }
 
+    /**
+     * Status that returns the description of Tasks.
+     *
+     * @return: status of the Task.
+     */
     public TaskStatus getStatus() {
         return this.status;
     }
 
+    /**
+     * Override for the toString() Method to work with the adapter class of MyTasks.
+     *
+     * @return: message of summarizing the information of the Task.
+     */
     @Override
     public String toString() {
-
         String message = this.name;
         for (int i = this.name.length() ; i < 31; i++) {
             message = message + "\t";
