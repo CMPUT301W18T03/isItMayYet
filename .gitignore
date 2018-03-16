@@ -9,3 +9,5 @@
 .externalNativeBuild
 .mdj
 /.idea
+
+app/src/main/res/values/strings.xml

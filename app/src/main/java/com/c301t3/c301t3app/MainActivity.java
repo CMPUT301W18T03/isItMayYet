@@ -43,7 +43,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.SignIN:
-                Toast.makeText(getApplicationContext(), "SignIN selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "SignIn selected", Toast.LENGTH_SHORT).show();
+                // go to login activity
+                Intent loginIntent = new Intent(activity, SimpleLoginActivity.class);
+                activity.startActivity(loginIntent);
 
                 break;
 
@@ -52,15 +55,14 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
 
-//            case R.id.myTasks:
-//                Toast.makeText(getApplicationContext(), "MyTasks selected", Toast.LENGTH_SHORT).show();
-//
-//                break;
-//
-//            case R.id.MyBids:
-//                Toast.makeText(getApplicationContext(), "MyBids selected", Toast.LENGTH_SHORT).show();
-//
-//                break;
+            case R.id.myTasks:
+                Toast.makeText(getApplicationContext(), "MyTasks selected", Toast.LENGTH_SHORT).show();
+
+                break;
+
+            case R.id.MyBids:
+                Toast.makeText(getApplicationContext(), "MyBids selected", Toast.LENGTH_SHORT).show();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         taskPasser = new TaskPasser();
 
 
-        Button mainButton = (Button) findViewById(R.id.button_GoToMyTasks);
+        Button mainButton = findViewById(R.id.button_GoToMyTasks);
 
         mainButton.setOnClickListener(new View.OnClickListener() {
 
