@@ -11,9 +11,22 @@ import java.util.ArrayList;
 /**
  * Created by Henry on 2018-03-07.
  */
-
+/**
+ * Created by Henry on 07/03/18.
+ * Class that displays all the tasks that the user has, which
+ * primarily displays a summary of the information of all tasks
+ * and gives the user an opportunity to view more details of each
+ * of the tasks.
+ *
+ * NOTE:
+ * ASSUMES THAT AN ARRAYLIST WILL BE PROVIDED VIA TASKPASSER FOR IT
+ * TO FUNCTION CORRECTLY, NULL ENTRIES CANNOT BE ALLOWED.
+ *
+ * @author Henry
+ * @version 3.0
+ */
 public class MyTasksActivity extends AppCompatActivity {
-
+    // All the variables that hold data
     private TaskPasser taskPasser;
     private ArrayList<Task> taskList;
     private ArrayAdapter<Task> adapter;
