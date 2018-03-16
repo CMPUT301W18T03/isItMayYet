@@ -124,6 +124,6 @@ public class Task implements Serializable {
     public void addBid(Bid bid) {
         this.bids.add(bid);
     }
-    
+
 }
 
