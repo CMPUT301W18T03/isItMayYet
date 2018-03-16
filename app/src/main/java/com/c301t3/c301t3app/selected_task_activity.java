@@ -12,20 +12,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
-
+/**
+ *
+ */
 public class selected_task_activity extends AppCompatActivity {
 
     private TaskPasser passer;
     private Task currentTask;
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selected_task);
-        final TaskPasser passer = new TaskPasser();
+//        final TaskPasser passer = new TaskPasser();
         //get current selected task.
 
         TextView taskName = findViewById(R.id.textViewTaskName);
@@ -35,7 +39,7 @@ public class selected_task_activity extends AppCompatActivity {
         TextView taskPrice = findViewById(R.id.textViewPrice);
         EditText taskBid = findViewById(R.id.editTextBid);
         Button taskBidBtn = findViewById(R.id.bidBtn);
-        ArrayList<Task> t = new ArrayList<>();
+//        ArrayList<Task> t = new ArrayList<>();
 
 //        taskBidBtn.setEnabled(false);
 //        taskName.setText(currentTask.getTaskName());
@@ -52,6 +56,10 @@ public class selected_task_activity extends AppCompatActivity {
 
     }
 
+    /**
+     *
+     * @param view
+     */
     public void taskBidded(View view) {
         Log.i("button is pressed", "bid button is pressed.");
         // If the status of the bid is Green, btn is active.
