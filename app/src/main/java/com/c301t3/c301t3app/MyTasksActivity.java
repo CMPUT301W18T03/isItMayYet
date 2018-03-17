@@ -1,6 +1,5 @@
 package com.c301t3.c301t3app;
 
-import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
@@ -48,8 +47,18 @@ public class MyTasksActivity extends AppCompatActivity {
         TextView assignedTaskTextView = (TextView) findViewById(R.id.TextView_assignedTasksTitle);
         TextView requestedTaskTextView = (TextView) findViewById(R.id.TextView_requestedTasksTitle);
 
+<<<<<<< HEAD
         assignedTaskTextView.setText(TITLE_ASSIGNED_TASKS);
         requestedTaskTextView.setText(TITLE_REQUESTED_TASKS);
+=======
+        assignedTaskTextView.setText("Assigned Tasks");
+        requestedTaskTextView.setText("Requested Tasks");
+
+//        if (taskList == null) {
+//            String thing = "Thing";
+//            Toast.makeText(getApplicationContext(), thing, Toast.LENGTH_SHORT).show();
+//        }
+>>>>>>> master
 
     }
 
