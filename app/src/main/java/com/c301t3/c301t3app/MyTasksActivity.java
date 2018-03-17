@@ -1,16 +1,15 @@
 package com.c301t3.c301t3app;
 
+import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-/**
- * Created by Henry on 2018-03-07.
- */
 /**
  * Created by Henry on 07/03/18.
  * Class that displays all the tasks that the user has, which
@@ -50,6 +49,17 @@ public class MyTasksActivity extends AppCompatActivity {
 
         assignedTasks = (ListView) findViewById(R.id.ListView_assignedTasks);
         requestedTasks = (ListView) findViewById(R.id.ListView_requestedTasks);
+
+        TextView assignedTaskTextView = (TextView) findViewById(R.id.TextView_assignedTasksTitle);
+        TextView requestedTaskTextView = (TextView) findViewById(R.id.TextView_requestedTasksTitle);
+
+        final InfoPasser test = InfoPasser.getInstance();
+        Bundle thing = test.getInfo();
+        String message = thing.getString("testStringKey");
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+
+        assignedTaskTextView.setText("Assigned Tasks");
+        requestedTaskTextView.setText("Requested Tasks");
 
 //        if (taskList == null) {
 //            String thing = "Thing";
