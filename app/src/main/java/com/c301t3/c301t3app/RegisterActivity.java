@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * Created by kiefer on 2018-03-08.
+ * Class for Register
+ */
+
 public class RegisterActivity extends AppCompatActivity {
 
     @Override
