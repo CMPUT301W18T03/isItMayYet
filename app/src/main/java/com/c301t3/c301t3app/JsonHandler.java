@@ -1,6 +1,7 @@
 package com.c301t3.c301t3app;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -31,7 +32,7 @@ public class JsonHandler {
 
     public JsonHandler() {
         try {
-            taskQueue = new FileWriter(taskQueuePath, false);
+            taskQueue = new FileWriter(taskQueuePath, true);
             userData = new FileWriter(userDataPath, false);
             userTask = new FileWriter(userTaskPath, false);
 
@@ -58,16 +59,24 @@ public class JsonHandler {
             UserAccount u = gson.fromJson(reader, UserAccount.class);
             return u;
     }
-     /*
 
     public void dumpUserTasks(ArrayList<Task> t) {
-
+        String repr = gson.toJson(t);
+        try {
+            userTask.write(repr);
+            userTask.flush();
+        } catch (java.io.IOException e) {
+            Log.e("IOError", "Unable to open local stored objects");
+        }
     }
 
     public ArrayList<Task> loadUserTasks() {
-
+        BufferedReader reader = new BufferedReader(userTaskR);
+        ArrayList<Task> t = gson.fromJson(reader, new TypeToken<ArrayList<Task>>(){}.getType());
+        return t;
     }
 
+    /*
     public void dumpTaskToQueue(Task t) {
 
     }
