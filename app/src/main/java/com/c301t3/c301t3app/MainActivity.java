@@ -98,6 +98,11 @@ public class MainActivity extends AppCompatActivity {
                 final TaskPasser taskPasser = new TaskPasser();
                 taskPasser.setTasks(dummytasklist);
 
+                final InfoPasser test = InfoPasser.getInstance();
+                Bundle thing = new Bundle();
+                thing.putString("testStringKey", "Hello!");
+                test.setInfo(thing);
+
 //                String foo = taskPasser.getTasks().toString();
 //                Toast.makeText(getApplicationContext(), foo, Toast.LENGTH_SHORT).show();
                 startActivity(intent);
