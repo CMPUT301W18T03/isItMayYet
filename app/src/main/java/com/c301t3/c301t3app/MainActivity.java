@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
                 activity.startActivity(myTasksIntent);
 
-                break;
+            break;
 
             case R.id.MyBids:
                 Toast.makeText(getApplicationContext(), "MyBids selected", Toast.LENGTH_SHORT).show();
@@ -127,8 +127,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 setResult(RESULT_OK);
 
-                // Intent intent = new Intent(activity, MyTasksActivity.class);
-                Intent intent = new Intent(activity, MainMenuActivity.class);
+                Intent mainMenuIntent = new Intent(activity, MainMenuActivity.class);
 
                 ArrayList<Task> dummytasklist = new ArrayList<>();
                 Task task0 = new Task("task0","desc0", TaskStatus.COMPLETED);
@@ -147,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
 //                String foo = taskPasser.getTasks().toString();
 //                Toast.makeText(getApplicationContext(), foo, Toast.LENGTH_SHORT).show();
-                startActivity(intent);
+                startActivity(mainMenuIntent);
 
             }
 
