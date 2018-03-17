@@ -28,6 +28,17 @@ public class UserAccount {
     private int uniqueID;
 
 
+    // default constructor
+    public UserAccount() {
+        this.username = "";
+        this.firstName = "";
+        this.lastName = "";
+        this.emailAdd = "";
+        this.address = "";
+        this.phoneNum = "";
+        this.password = "";
+        this.uniqueID = -1;
+    }
     /**
      * Creating a new UserAccount includes all the following parameters
      *
@@ -40,20 +51,9 @@ public class UserAccount {
      * @param password; password for the user.
      * @throws IllegalArgumentException; when username is longer than allowed
      */
-
-    // default constructor
-    public UserAccount() {
-        this.username = "";
-        this.firstName = "";
-        this.lastName = "";
-        this.emailAdd = "";
-        this.address = "";
-        this.phoneNum = "";
-        this.password = "";
-    }
-
     public UserAccount(String username, String firstName, String lastName, String emailAdd,
-                       String address, String phoneNum, String password, int id) throws IllegalArgumentException {
+                       String address, String phoneNum, String password, int id)
+            throws IllegalArgumentException {
         this.setUsername(username);
         this.setFirstName(firstName);
         this.setLastName(lastName);

@@ -10,6 +10,11 @@ import android.widget.TextView;
 
 public class SimpleLoginActivity extends AppCompatActivity {
 
+
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
