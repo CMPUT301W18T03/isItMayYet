@@ -1,16 +1,15 @@
 package com.c301t3.c301t3app;
 
+import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-/**
- * Created by Henry on 2018-03-07.
- */
 /**
  * Created by Henry on 07/03/18.
  * Class that displays all the tasks that the user has, which
@@ -27,10 +26,17 @@ import java.util.ArrayList;
  */
 public class MyTasksActivity extends AppCompatActivity {
     // All the variables that hold data
-    private TaskPasser taskPasser;
-    private ArrayList<Task> taskList;
-    private ArrayAdapter<Task> adapter;
-    private ListView myTasksList;
+    // private TaskPasser taskPasser;
+//    private ArrayList<Task> taskList;
+//    private ArrayAdapter<Task> adapter;
+//    private ListView myTasksList;
+
+    private ArrayList<Task> assignedTaskList;
+    private ArrayList<Task> requestedTaskList;
+    private ArrayAdapter<Task> assignedAdapter;
+    private ArrayAdapter<Task> requestedAdapter;
+    private ListView assignedTasks;
+    private ListView requestedTasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,51 +45,84 @@ public class MyTasksActivity extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        myTasksList = (ListView) findViewById(R.id.myTasksList);
+//        myTasksList = (ListView) findViewById(R.id.myTasksList);
 
-        if (taskList == null) {
-            String thing = "Thing";
-            Toast.makeText(getApplicationContext(), thing, Toast.LENGTH_SHORT).show();
-        }
+        assignedTasks = (ListView) findViewById(R.id.ListView_assignedTasks);
+        requestedTasks = (ListView) findViewById(R.id.ListView_requestedTasks);
 
+        TextView assignedTaskTextView = (TextView) findViewById(R.id.TextView_assignedTasksTitle);
+        TextView requestedTaskTextView = (TextView) findViewById(R.id.TextView_requestedTasksTitle);
 
-//        ArrayList<Task> tl = new ArrayList<>();
-//        Task task0 = new Task("Task0");
-//        Task task1 = new Task("Task1");
-//        tl.add(task1);
-//        tl.add(task0);
-//        tl.add(task1);
-//        taskList = tl;
-//        adapter.notifyDataSetChanged();
-        //final TaskPasser taskPasser = new TaskPasser();
-        //taskList = taskPasser.getTasks();
-        //adapter.notifyDataSetChanged();
+        final InfoPasser test = InfoPasser.getInstance();
+        Bundle thing = test.getInfo();
+        String message = thing.getString("testStringKey");
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+
+        assignedTaskTextView.setText("Assigned Tasks");
+        requestedTaskTextView.setText("Requested Tasks");
+
+//        if (taskList == null) {
+//            String thing = "Thing";
+//            Toast.makeText(getApplicationContext(), thing, Toast.LENGTH_SHORT).show();
+//        }
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        taskList = new ArrayList<>();
-//        Task task0 = new Task("Task0");
-//        Task task1 = new Task("Task1");
+
+        assignedTaskList = new ArrayList<Task>();
+        requestedTaskList = new ArrayList<Task>();
+
+        Task task0 = new Task("task0");
+        Task task1 = new Task("task1");
+        Task task2 = new Task("task2");
+        assignedTaskList.add(task0);
+        assignedTaskList.add(task1);
+        assignedTaskList.add(task2);
+
+        Task taskx = new Task("taskx");
+        Task tasky = new Task("tasky");
+        Task taskz = new Task("taskz");
+        requestedTaskList.add(taskx);
+        requestedTaskList.add(tasky);
+        requestedTaskList.add(taskz);
+
+        assignedAdapter = new ArrayAdapter<Task>(this, R.layout.my_tasks_assigned, assignedTaskList);
+        requestedAdapter = new ArrayAdapter<Task>(this, R.layout.my_tasks_requested, requestedTaskList);
+
+        assignedTasks.setAdapter(assignedAdapter);
+        requestedTasks.setAdapter(requestedAdapter);
+
+//        final TaskPasser taskPasser = new TaskPasser();
+//        ArrayList<Task> taskList = taskPasser.getTasks();
+//        if (taskList != null) {
+//            this.taskList = taskList;
+//        } else {
+//            this.taskList = new ArrayList<Task>();
+//        }
+//        Task task0 = new Task("task0");
+//        Task task1 = new Task("task1");
+//        Task task2 = new Task("task2");
 //        taskList.add(task0);
 //        taskList.add(task1);
-        adapter = new ArrayAdapter<Task>(this, R.layout.my_tasks_item, taskList);
-        myTasksList.setAdapter(adapter);
-//        taskList.add(task0);
-//        adapter.notifyDataSetChanged();
+//        taskList.add(task2);
+//
+//        adapter = new ArrayAdapter<Task>(this, R.layout.my_tasks_item, taskList);
+//        myTasksList.setAdapter(adapter);
 
-        final TaskPasser taskPasser = new TaskPasser();
-        taskList = taskPasser.getTasks();
-        String foo = taskPasser.getTasks().toString();
-        adapter.notifyDataSetChanged();
-
-        String thing = "Bop";
-        Toast.makeText(getApplicationContext(), foo, Toast.LENGTH_SHORT).show();
-
+//        final TaskPasser taskPasser = new TaskPasser();
 //        taskList = taskPasser.getTasks();
 //        adapter.notifyDataSetChanged();
+//        final TaskPasser taskPasser = new TaskPasser();
+////        String thing = taskPasser.getTasks().toString();
+//        ArrayList<Task> mytasks = taskPasser.getTasks();
+//        taskList = mytasks;
+//        adapter.notifyDataSetChanged();
+//        String thing = "Boop";
+//        Toast.makeText(getApplicationContext(), thing, Toast.LENGTH_SHORT).show();
+
     }
 
 }

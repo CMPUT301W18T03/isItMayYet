@@ -45,4 +45,9 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     }
+
+    // Refer to select_task_activity for
+    // taskStat.setText(currentTask.getStatus());
+    // taskPrice.setText(currentTask.getPrice());
+    // except for editing user profile, via register view.
 }

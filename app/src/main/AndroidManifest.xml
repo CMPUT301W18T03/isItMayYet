@@ -21,7 +21,7 @@
          Also need to change Main Activity to view 2 name. Implement this when there are  actual java  classes for each screen.
         -->
         <activity
-            android:name=".selected_task_activity"
+            android:name=".SelectedTaskActivity"
             android:label="selected_task_activity"
             android:parentActivityName=".MainActivity">
             <meta-data
