@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -47,6 +48,12 @@ public class MyTasksActivity extends AppCompatActivity {
 
         assignedTasks = (ListView) findViewById(R.id.ListView_assignedTasks);
         requestedTasks = (ListView) findViewById(R.id.ListView_requestedTasks);
+
+        TextView assignedTaskTextView = (TextView) findViewById(R.id.TextView_assignedTasksTitle);
+        TextView requestedTaskTextView = (TextView) findViewById(R.id.TextView_requestedTasksTitle);
+
+        assignedTaskTextView.setText("Assigned Tasks");
+        requestedTaskTextView.setText("Requested Tasks");
 
 //        if (taskList == null) {
 //            String thing = "Thing";
