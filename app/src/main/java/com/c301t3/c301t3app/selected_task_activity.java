@@ -12,11 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import java.util.ArrayList;
 
 /**
  *
  */
-public class SelectedTaskActivity extends AppCompatActivity {
+public class selected_task_activity extends AppCompatActivity {
 
     private TaskPasser passer;
     private Task currentTask;
