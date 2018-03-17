@@ -40,4 +40,14 @@ public class JsonHandlerTest {
             assertTrue(a.get(i).getName().equals(l.get(i).getName()));
         }
     }
+
+    @Test
+    public void taskQueueTest() {
+        Task t = new Task();
+        t.setName("Finish my degree for me");
+        JsonHandler j = new JsonHandler();
+        j.dumpTaskToQueue(t);
+        ArrayList<Task> a = j.loadTaskQueue();
+        assertTrue(a.get(0).getName().equals(t.getName()));
+    }
 }

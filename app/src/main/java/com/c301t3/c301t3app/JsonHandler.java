@@ -32,7 +32,7 @@ public class JsonHandler {
 
     public JsonHandler() {
         try {
-            taskQueue = new FileWriter(taskQueuePath, true);
+            taskQueue = new FileWriter(taskQueuePath, false);
             userData = new FileWriter(userDataPath, false);
             userTask = new FileWriter(userTaskPath, false);
 
@@ -76,13 +76,25 @@ public class JsonHandler {
         return t;
     }
 
-    /*
-    public void dumpTaskToQueue(Task t) {
 
+    public void dumpTaskToQueue(Task t) {
+        ArrayList<Task> q = this.loadTaskQueue();
+        if(q == null) {
+            q = new ArrayList<>();
+        }
+        q.add(t);
+        String repr = gson.toJson(q);
+        try {
+            taskQueue.write(repr);
+            taskQueue.flush();
+        } catch (java.io.IOException e) {
+            Log.e("IOError", "Unable to open local stored objects");
+        }
     }
 
     public ArrayList<Task> loadTaskQueue() {
-
+        BufferedReader reader = new BufferedReader(taskQueueR);
+        ArrayList<Task> q = gson.fromJson(reader, new TypeToken<ArrayList<Task>>(){}.getType());
+        return q;
     }
-    */
 }
