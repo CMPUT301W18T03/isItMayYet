@@ -6,35 +6,44 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/TextView_requestedTask"
+        android:layout_width="0dp"
+        android:layout_height="31dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="0Requested Tasks0"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ListView_assignedTasks" />
+
+    <TextView
         android:id="@+id/TextView_myTasksTitle"
         android:layout_width="0dp"
         android:layout_height="29dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Current Tasks"
+        android:text="0Assigned Tasks0"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ListView
-        android:id="@+id/myTasksList"
-        android:layout_width="304dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="20dp"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextView_myTasksTitle" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/ListView_assignedTasks"
         android:layout_width="288dp"
         android:layout_height="128dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myTasksList" />
+        app:layout_constraintTop_toBottomOf="@+id/TextView_myTasksTitle" />
 
     <ListView
         android:id="@+id/ListView_requestedTasks"
@@ -46,5 +55,6 @@
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ListView_assignedTasks" />
+        app:layout_constraintTop_toBottomOf="@+id/TextView_requestedTask" />
+
 </android.support.constraint.ConstraintLayout>

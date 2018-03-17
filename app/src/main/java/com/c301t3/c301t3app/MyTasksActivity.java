@@ -9,9 +9,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 /**
- * Created by Henry on 2018-03-07.
- */
-/**
  * Created by Henry on 07/03/18.
  * Class that displays all the tasks that the user has, which
  * primarily displays a summary of the information of all tasks
