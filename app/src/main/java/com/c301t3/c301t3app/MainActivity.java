@@ -57,11 +57,50 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.myTasks:
                 Toast.makeText(getApplicationContext(), "MyTasks selected", Toast.LENGTH_SHORT).show();
-                Intent myTaskIntent = new Intent(activity, MyTasksActivity.class);
-                activity.startActivity(myTaskIntent);
+                // go to myTasks activity
+                Intent myTasksIntent = new Intent(activity, MyTasksActivity.class);
 
+                ArrayList<Task> assignedTaskList = new ArrayList<Task>();
+                ArrayList<Task> requestedTaskList = new ArrayList<Task>();
 
-                break;
+                Task assignedTask0 = new Task("assignedTask0",
+                        "assignedTask description0",
+                        TaskStatus.ASSIGNED, 10);
+
+                Task assignedTask1 = new Task("assignedTask1",
+                        "assignedTask description1",
+                        TaskStatus.COMPLETED, 15);
+
+                assignedTaskList.add(assignedTask0);
+                assignedTaskList.add(assignedTask1);
+
+                Task requestedTask0 = new Task("requestedTask0",
+                        "requestedTask description0",
+                        TaskStatus.REQUESTED, 11);
+
+                Task requestedTask1 = new Task("requestedTask1",
+                        "requestedTask description1",
+                        TaskStatus.BIDDED, 19);
+
+                requestedTaskList.add(requestedTask0);
+                requestedTaskList.add(requestedTask1);
+
+                final InfoPasser info = InfoPasser.getInstance();
+                Bundle bundle = new Bundle();
+
+                TaskList adaptedAssignedList = new TaskList(assignedTaskList);
+                TaskList adaptedRequestedList = new TaskList(requestedTaskList);
+
+                Toast.makeText(getApplicationContext(), adaptedAssignedList.toString(), Toast.LENGTH_SHORT).show();
+
+                bundle.putSerializable("assignedTaskList", adaptedAssignedList);
+                bundle.putSerializable("requestedTaskList", adaptedRequestedList);
+
+                info.setInfo(bundle);
+
+                activity.startActivity(myTasksIntent);
+
+            break;
 
             case R.id.MyBids:
                 Toast.makeText(getApplicationContext(), "MyBids selected", Toast.LENGTH_SHORT).show();
@@ -100,10 +139,10 @@ public class MainActivity extends AppCompatActivity {
                 final TaskPasser taskPasser = new TaskPasser();
                 taskPasser.setTasks(dummytasklist);
 
-                final InfoPasser test = InfoPasser.getInstance();
-                Bundle thing = new Bundle();
-                thing.putString("testStringKey", "Hello!");
-                test.setInfo(thing);
+                // final InfoPasser test = InfoPasser.getInstance();
+                // Bundle thing = new Bundle();
+                // thing.putString("testStringKey", "Hello!");
+                // test.setInfo(thing);
 
 //                String foo = taskPasser.getTasks().toString();
 //                Toast.makeText(getApplicationContext(), foo, Toast.LENGTH_SHORT).show();
