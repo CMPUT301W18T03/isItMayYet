@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 TaskList adaptedAssignedList = new TaskList(assignedTaskList);
                 TaskList adaptedRequestedList = new TaskList(requestedTaskList);
 
-                Toast.makeText(getApplicationContext(), adaptedAssignedList.toString(), Toast.LENGTH_SHORT).show();
 
                 bundle.putSerializable("assignedTaskList", adaptedAssignedList);
                 bundle.putSerializable("requestedTaskList", adaptedRequestedList);
@@ -127,8 +126,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 setResult(RESULT_OK);
 
-                Intent intent = new Intent(activity, MyTasksActivity.class);
-                // Intent intent = new Intent(activity, MainMenuActivity.class);
+                Intent mainMenuIntent = new Intent(activity, MainMenuActivity.class);
 
                 ArrayList<Task> dummytasklist = new ArrayList<>();
                 Task task0 = new Task("task0","desc0", TaskStatus.COMPLETED);
@@ -142,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
 //                String foo = taskPasser.getTasks().toString();
 //                Toast.makeText(getApplicationContext(), foo, Toast.LENGTH_SHORT).show();
-                startActivity(intent);
+                startActivity(mainMenuIntent);
 
             }
 

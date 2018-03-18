@@ -1,7 +1,11 @@
 package com.c301t3.c301t3app;
 
+import android.content.Intent;
+import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -49,6 +53,31 @@ public class MyTasksActivity extends AppCompatActivity {
 
         assignedTaskTextView.setText(TITLE_ASSIGNED_TASKS);
         requestedTaskTextView.setText(TITLE_REQUESTED_TASKS);
+
+        assignedTasks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // click's action is left empty for now.
+            }
+
+        });
+
+        requestedTasks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // click's action is left empty for now.
+                Object listItem = requestedTasks.getItemAtPosition(position);
+                Task task = (Task) listItem;
+
+                Toast.makeText(getApplicationContext(), task.toString(), Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(view.getContext(), ViewBidsActivity.class);
+                startActivity(intent);
+            }
+
+        });
 
     }
 

@@ -21,7 +21,7 @@
          Also need to change Main Activity to view 2 name. Implement this when there are  actual java  classes for each screen.
         -->
         <activity
-            android:name=".selected_task_activity"
+            android:name=".SelectedTaskActivity"
             android:label="selected_task_activity"
             android:parentActivityName=".MainActivity">
             <meta-data
@@ -45,14 +45,14 @@
                 android:value="com.c301t3.c301t3app.MainActivity" />
         </activity>
         <activity android:name=".SimpleLoginActivity" />
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".RegisterActivity" />
         <activity
             android:name=".MainMenuActivity"
             android:label="main_menu_activity"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.c301t3.c301t3app.MainActivity"/>
+                android:value="com.c301t3.c301t3app.MainActivity" />
         </activity>
         <activity
             android:name=".NewTaskActivity"
@@ -60,8 +60,9 @@
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.c301t3.c301t3app.MainActivity"/>
+                android:value="com.c301t3.c301t3app.MainActivity" />
         </activity>
+        <activity android:name=".ViewBidsActivity"></activity>
     </application>
 
 </manifest>
