@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -25,8 +28,8 @@ public class MainMenuActivity extends AppCompatActivity{
     private final TaskPasser taskPasser = new TaskPasser();
     public TaskList taskList = new TaskList(); //sample list TODO: remove, maybe
 
-    private ListView taskListView;
-    private ArrayAdapter adapter;
+    private RecyclerView taskListView;
+    private TasksRequestedAdapter adapter;
     private FloatingActionButton addTaskButton;
     private EditText searchInput;
     private ArrayList<Task> tasks = new ArrayList<Task>();
@@ -39,11 +42,11 @@ public class MainMenuActivity extends AppCompatActivity{
         setContentView(R.layout.main_menu_activity);
 
         addTaskButton = (FloatingActionButton) findViewById(R.id.addTaskButton);
-        taskListView = (ListView) findViewById(R.id.listView);
+        taskListView = (RecyclerView) findViewById(R.id.tasksView);
 
         //debug
-        Task task0 = new Task("Task0","Desc0",TaskStatus.REQUESTED);
-        Task task1 = new Task("Task1","Desc1",TaskStatus.REQUESTED);
+        Task task0 = new Task("Task0","Description for task0",TaskStatus.REQUESTED);
+        Task task1 = new Task("Task1","There isn't really any reason to describe this",TaskStatus.REQUESTED);
         Task task2 = new Task("Task2","Desc2",TaskStatus.ASSIGNED);
         taskList.addTask(task0);
         taskList.addTask(task1);
@@ -65,12 +68,17 @@ public class MainMenuActivity extends AppCompatActivity{
     @Override
     protected void onStart() {
         super.onStart();
-        taskListView = (ListView) findViewById(R.id.listView);
+        taskListView = (RecyclerView) findViewById(R.id.tasksView);
         searchInput = (EditText) findViewById(R.id.searchBar);
         searchInput.setOnKeyListener(searchTasks);
 
-        adapter = new ArrayAdapter(this, R.layout.task_item,tasks);
+        adapter = new TasksRequestedAdapter(this,tasks);
+        RecyclerView.ItemDecoration itemDeco = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        taskListView.addItemDecoration(itemDeco);
+        RecyclerView.LayoutManager layoutMan = new LinearLayoutManager(this);
+        layoutMan.setAutoMeasureEnabled(true);
         taskListView.setAdapter(adapter);
+        taskListView.setLayoutManager(layoutMan);
 
         adapter.notifyDataSetChanged();
     }
