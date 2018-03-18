@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
                 TaskList adaptedAssignedList = new TaskList(assignedTaskList);
                 TaskList adaptedRequestedList = new TaskList(requestedTaskList);
 
-
                 bundle.putSerializable("assignedTaskList", adaptedAssignedList);
                 bundle.putSerializable("requestedTaskList", adaptedRequestedList);
 

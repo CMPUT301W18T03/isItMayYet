@@ -31,8 +31,8 @@ public class MyTasksActivity extends AppCompatActivity {
     public static final String TITLE_ASSIGNED_TASKS = "Assigned Tasks";
     public static final String TITLE_REQUESTED_TASKS = "Requested Tasks";
 
-    private ArrayList<Task> assignedTaskList;
-    private ArrayList<Task> requestedTaskList;
+    private ArrayList<Task> assignedTaskList = new ArrayList<Task>();
+    private ArrayList<Task> requestedTaskList = new ArrayList<Task>();
     private ArrayAdapter<Task> assignedAdapter;
     private ArrayAdapter<Task> requestedAdapter;
     private ListView assignedTasks;
@@ -82,6 +82,13 @@ public class MyTasksActivity extends AppCompatActivity {
                 Object listItem = requestedTasks.getItemAtPosition(position);
                 Task task = (Task) listItem;
 
+                // Toast.makeText(getApplicationContext(), task.toString(), Toast.LENGTH_SHORT).show();
+
+                final InfoPasser info = InfoPasser.getInstance();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("requestedTask", task);
+                info.setInfo(bundle);
+
                 Intent intent = new Intent(view.getContext(), ViewBidsActivity.class);
                 startActivity(intent);
             }
@@ -114,10 +121,7 @@ public class MyTasksActivity extends AppCompatActivity {
 
             assignedTaskList = adaptedAssignedList.getTaskList();
             requestedTaskList = adaptedRequestedList.getTaskList();
-        } catch (NullPointerException e) {
-            assignedTaskList = new ArrayList<Task>();
-            requestedTaskList = new ArrayList<Task>();
-        }
+        } catch (NullPointerException e) {}
     }
 
 }
