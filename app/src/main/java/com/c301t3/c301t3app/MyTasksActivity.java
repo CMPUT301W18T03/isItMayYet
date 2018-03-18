@@ -82,8 +82,6 @@ public class MyTasksActivity extends AppCompatActivity {
                 Object listItem = requestedTasks.getItemAtPosition(position);
                 Task task = (Task) listItem;
 
-                Toast.makeText(getApplicationContext(), task.toString(), Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(view.getContext(), ViewBidsActivity.class);
                 startActivity(intent);
             }
