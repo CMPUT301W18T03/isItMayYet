@@ -31,8 +31,8 @@ public class MyTasksActivity extends AppCompatActivity {
 //    private ArrayAdapter<Task> adapter;
 //    private ListView myTasksList;
 
-    private ArrayList<Task> assignedTaskList;
-    private ArrayList<Task> requestedTaskList;
+    private ArrayList<Task> assignedTaskList = new ArrayList<Task>();
+    private ArrayList<Task> requestedTaskList = new ArrayList<Task>();
     private ArrayAdapter<Task> assignedAdapter;
     private ArrayAdapter<Task> requestedAdapter;
     private ListView assignedTasks;

@@ -23,7 +23,6 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText etPhone = (EditText) findViewById(R.id.etPhone);
         final EditText etPassword = (EditText) findViewById(R.id.etPassword);
         final EditText etConfirmPassword = (EditText) findViewById(R.id.etConfirmPassword);
-        final JsonHandler j = new JsonHandler(this);
 
 
         final Button bRegister = (Button) findViewById(R.id.bCreate);
@@ -39,8 +38,6 @@ public class RegisterActivity extends AppCompatActivity {
                 account.setEmailAdd(etEmail.getText().toString());
                 account.setPhoneNum(etPhone.getText().toString());
                 account.setPassword(etPassword.getText().toString());
-
-                j.dumpUser(account);
 
                 Intent loginIntent = new Intent(RegisterActivity.this, SimpleLoginActivity.class);
                 RegisterActivity.this.startActivity(loginIntent);
