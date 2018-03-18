@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
         final JsonHandler j = new JsonHandler(this);
 
         final Button bRegister = (Button) findViewById(R.id.bCreate);
-
+        
         // go back to login activity after creating new user
         bRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,11 +44,8 @@ public class RegisterActivity extends AppCompatActivity {
                 account.setPhoneNum(etPhone.getText().toString());
                 account.setPassword(etPassword.getText().toString());
 
-<<<<<<< HEAD
+
                 // send user account to jsonHandler.
-                JsonHandler j = new JsonHandler();
-=======
->>>>>>> master
                 j.dumpUser(account);
 
                 Intent loginIntent = new Intent(RegisterActivity.this, SimpleLoginActivity.class);
