@@ -23,43 +23,44 @@
         <activity
             android:name=".SelectedTaskActivity"
             android:label="selected_task_activity"
-            android:parentActivityName=".MainMenuActivity">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.c301t3.c301t3app.MainMenuActivity" />
+                android:value="com.c301t3.c301t3app.MainActivity" />
         </activity>
         <activity
             android:name=".BiddingScreen"
             android:label="bidding_screen"
-            android:parentActivityName=".MainMenuActivity">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.c301t3.c301t3app.MainMenuActivity" />
+                android:value="com.c301t3.c301t3app.MainActivity" />
         </activity>
         <activity
             android:name=".MyTasksActivity"
             android:label="my_tasks"
-            android:parentActivityName=".MainMenuActivity">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.c301t3.c301t3app.MainMenuActivity" />
+                android:value="com.c301t3.c301t3app.MainActivity" />
         </activity>
         <activity android:name=".SimpleLoginActivity" />
-        <activity android:name=".RegisterActivity">
-
-        </activity>
+        <activity android:name=".RegisterActivity"></activity>
         <activity
             android:name=".MainMenuActivity"
-            android:label="main_menu_activity">
+            android:label="main_menu_activity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.c301t3.c301t3app.MainActivity"/>
         </activity>
-
         <activity
             android:name=".NewTaskActivity"
             android:label="new_task_activity.xml"
-            android:parentActivityName=".MainMenuActivity">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.c301t3.c301t3app.MainMenuActivity" />
+                android:value="com.c301t3.c301t3app.MainActivity"/>
         </activity>
     </application>
 
