@@ -21,9 +21,8 @@
         android:id="@+id/task_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/task_name"
+        android:layout_below="@+id/task_price"
         android:text="Task desc here..."
-        android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp" />
 
     <TextView
@@ -35,6 +34,15 @@
         android:text="Task status"
         android:textStyle="bold"
         android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/task_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/task_status"
+        android:textSize="12sp"
+        android:text="Task price"/>
 
 
 </RelativeLayout>

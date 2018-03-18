@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 
@@ -83,6 +85,7 @@ public class TasksRequestedAdapter extends RecyclerView.Adapter<TasksRequestedAd
         private final TextView taskNameView;
         private final TextView taskStatusView;
         private final TextView taskDescriptionView;
+        private final TextView taskPriceView;
 
         private Task task;
         private Context context;
@@ -96,6 +99,7 @@ public class TasksRequestedAdapter extends RecyclerView.Adapter<TasksRequestedAd
             this.taskNameView = itemView.findViewById(R.id.task_name);
             this.taskStatusView = itemView.findViewById(R.id.task_status);
             this.taskDescriptionView = itemView.findViewById(R.id.task_desc);
+            this.taskPriceView = itemView.findViewById(R.id.task_price);
 
             itemView.setOnLongClickListener(this);
 
@@ -122,10 +126,13 @@ public class TasksRequestedAdapter extends RecyclerView.Adapter<TasksRequestedAd
             String taskName = task.getName();
             String taskStatus = task.getStatus().toString();
             String taskDescription = task.getDescription();
+            int taskPrice = task.getPrice();
+            String taskPriceFormat = String.format("$%d.00",taskPrice);
 
             this.taskNameView.setText(taskName);
             this.taskStatusView.setText(taskStatus);
             this.taskDescriptionView.setText(taskDescription);
+            this.taskPriceView.setText(taskPriceFormat);
         }
 
     }

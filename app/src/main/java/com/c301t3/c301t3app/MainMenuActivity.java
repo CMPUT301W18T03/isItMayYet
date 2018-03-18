@@ -49,9 +49,9 @@ public class MainMenuActivity extends AppCompatActivity{
         taskListView = (RecyclerView) findViewById(R.id.tasksView);
 
         //debug
-        Task task0 = new Task("Task0","Description for task0",TaskStatus.REQUESTED);
-        Task task1 = new Task("Task1","There isn't really any reason to describe this",TaskStatus.REQUESTED);
-        Task task2 = new Task("Task2","Desc2",TaskStatus.ASSIGNED);
+        Task task0 = new Task("Task0","Description for task0",TaskStatus.REQUESTED,15);
+        Task task1 = new Task("Task1","There isn't really any reason to describe this",TaskStatus.REQUESTED,20);
+        Task task2 = new Task("Task2","Desc2",TaskStatus.ASSIGNED,20);
         taskList.addTask(task0);
         taskList.addTask(task1);
         taskList.addTask(task2);
@@ -113,9 +113,12 @@ public class MainMenuActivity extends AppCompatActivity{
                     Toast.makeText(getApplicationContext(),"Error: Please enter a search query",Toast.LENGTH_SHORT).show();
                     return false;
                 }
+
                 else {
                     for (i=0;i<taskList.getTaskList().size();i++) { // works for hardcoded short list of tasks.. takes long for more content
-                        if ((taskList.getTask(i).getDescription().toLowerCase().contains(searchWord)) && ((taskList.getTask(i).getStatus()==TaskStatus.REQUESTED) || (taskList.getTask(i).getStatus()==TaskStatus.BIDDED))) {
+                        if ((taskList.getTask(i).getDescription().toLowerCase().contains(searchWord))
+                                && ((taskList.getTask(i).getStatus()==TaskStatus.REQUESTED)
+                                || (taskList.getTask(i).getStatus()==TaskStatus.BIDDED))) {
                             searchMatch.add(taskList.getTask(i));
                         }
                     }
