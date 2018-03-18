@@ -1,6 +1,5 @@
 package com.c301t3.c301t3app;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,13 +9,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -39,14 +37,70 @@ public class MainMenuActivity extends AppCompatActivity{
     private ArrayList<Task> tasks = new ArrayList<Task>();
 
 
+    /// Menu Start Here-----------------------
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    /**
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //This is the place to handle all the menu items.
+        int id = item.getItemId();
+
+        switch (id) {
+
+            case R.id.Profile:
+                Toast.makeText(getApplicationContext(), "Profile selected", Toast.LENGTH_SHORT).show();
+
+                break;
+
+            case R.id.SignIN:
+                Toast.makeText(getApplicationContext(), "SignIn selected", Toast.LENGTH_SHORT).show();
+                // go to login activity
+                Intent loginIntent = new Intent(activity, SimpleLoginActivity.class);
+                activity.startActivity(loginIntent);
+
+                break;
+
+            case R.id.Logout:
+                Toast.makeText(getApplicationContext(), "Logout selected", Toast.LENGTH_SHORT).show();
+
+                break;
+
+            case R.id.myTasks:
+                Toast.makeText(getApplicationContext(), "MyTasks selected", Toast.LENGTH_SHORT).show();
+                Intent myTaskIntent = new Intent(activity, MyTasksActivity.class);
+                activity.startActivity(myTaskIntent);
+
+
+                break;
+
+            case R.id.MyBids:
+                Toast.makeText(getApplicationContext(), "MyBids selected", Toast.LENGTH_SHORT).show();
+                Intent myBidsIntent = new Intent(activity, BiddingScreen.class);
+                activity.startActivity(myBidsIntent);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    //-----------Menu  Stuff ends here-----------//
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu_activity);
 
-        addTaskButton = (FloatingActionButton) findViewById(R.id.addTaskButton);
-        taskListView = (RecyclerView) findViewById(R.id.tasksView);
+        addTaskButton = findViewById(R.id.addTaskButton);
+        taskListView = findViewById(R.id.listView);
 
         //debug
         Task task0 = new Task("Task0","Description for task0",TaskStatus.REQUESTED,15);
@@ -72,8 +126,8 @@ public class MainMenuActivity extends AppCompatActivity{
     @Override
     protected void onStart() {
         super.onStart();
-        taskListView = (RecyclerView) findViewById(R.id.tasksView);
-        searchInput = (EditText) findViewById(R.id.searchBar);
+        taskListView = findViewById(R.id.listView);
+        searchInput = findViewById(R.id.searchBar);
         searchInput.setOnKeyListener(searchTasks);
 
         adapter = new TasksRequestedAdapter(this,tasks);

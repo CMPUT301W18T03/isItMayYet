@@ -10,7 +10,7 @@
     <string name="sign_in">Sign In</string>
     <string name="register_new">Register</string>
     <string name="title_activity_main2">Main2Activity</string>
-    <string name="button">Button</string>
+    <string name="Start_Searching">Button</string>
     <string name="Task_Name">task_name</string>
     <string name="Task_Description">task_description</string>
     <string name="status">Status</string>
@@ -24,5 +24,11 @@
     <string name="profile">Profile</string>
     <string name="my_tasks">My Tasks</string>
     <string name="my_bids">My Bids</string>
+    <string name="button">Button</string>
+    <string name="textviewlogin">TextViewLogin</string>
+    <string name="already_have_an_account_login">Already have an account, Login</string>
+    <string name="Login">Login</string>
+    <string name="start_searching">Start Searching</string>
 
 </resources>
+
