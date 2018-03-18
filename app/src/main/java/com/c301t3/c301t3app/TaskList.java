@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class TaskList implements Serializable {
 
-    private ArrayList<Task> tasklist;
+    ArrayList<Task> tasklist;
 
     TaskList() {
         this.tasklist = new ArrayList<Task>();
