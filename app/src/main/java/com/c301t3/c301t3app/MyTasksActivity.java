@@ -1,6 +1,5 @@
 package com.c301t3.c301t3app;
 
-import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
