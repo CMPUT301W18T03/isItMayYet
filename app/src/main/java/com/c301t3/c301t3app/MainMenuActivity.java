@@ -24,9 +24,13 @@ import java.util.Locale;
 
 
 public class MainMenuActivity extends AppCompatActivity{
+
+    private final Context context = MainMenuActivity.this;
     private MainMenuActivity activity = this;
     private final TaskPasser taskPasser = new TaskPasser();
     public TaskList taskList = new TaskList(); //sample list TODO: remove, maybe
+
+    private int position;
 
     private RecyclerView taskListView;
     private TasksRequestedAdapter adapter;
@@ -77,10 +81,22 @@ public class MainMenuActivity extends AppCompatActivity{
         taskListView.addItemDecoration(itemDeco);
         RecyclerView.LayoutManager layoutMan = new LinearLayoutManager(this);
         layoutMan.setAutoMeasureEnabled(true);
+
         taskListView.setAdapter(adapter);
         taskListView.setLayoutManager(layoutMan);
 
         adapter.notifyDataSetChanged();
+
+        adapter.setOnItemClickListener(new TasksRequestedAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View singleTask, int pos) {
+                position = pos;
+                Intent selectedIntent = new Intent(context, SelectedTaskActivity.class);
+                Task selTask = adapter.getItem(pos);
+                selectedIntent.putExtra("TASK",selTask);
+                startActivity(selectedIntent);
+            }
+        });
     }
 
     EditText.OnKeyListener searchTasks = new EditText.OnKeyListener() {
@@ -111,4 +127,6 @@ public class MainMenuActivity extends AppCompatActivity{
             return true;
         }
     };
+
+
 }
