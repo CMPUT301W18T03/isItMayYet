@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 TaskList adaptedAssignedList = new TaskList(assignedTaskList);
                 TaskList adaptedRequestedList = new TaskList(requestedTaskList);
 
-                Toast.makeText(getApplicationContext(), adaptedAssignedList.toString(), Toast.LENGTH_SHORT).show();
 
                 bundle.putSerializable("assignedTaskList", adaptedAssignedList);
                 bundle.putSerializable("requestedTaskList", adaptedRequestedList);
