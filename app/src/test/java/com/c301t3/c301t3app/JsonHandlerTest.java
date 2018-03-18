@@ -2,6 +2,7 @@ package com.c301t3.c301t3app;
 
 import org.junit.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertTrue;
@@ -18,7 +19,7 @@ public class JsonHandlerTest {
                 "420-696-1337",
                 "noh4x",
                 20);
-        JsonHandler j = new JsonHandler();
+        JsonHandler j = new JsonHandler(null);
         j.dumpUser(u);
         UserAccount v = j.loadUser();
         assertTrue(v.getFirstName().equals(u.getFirstName()));
@@ -33,7 +34,7 @@ public class JsonHandlerTest {
         t2.setName("Make me a halloween costume");
         a.add(t1);
         a.add(t2);
-        JsonHandler j = new JsonHandler();
+        JsonHandler j = new JsonHandler(null);
         j.dumpUserTasks(a);
         ArrayList<Task> l = j.loadUserTasks();
         for(int i = 0; i < a.size(); i++) {
@@ -45,7 +46,7 @@ public class JsonHandlerTest {
     public void taskQueueTest() {
         Task t = new Task();
         t.setName("Finish my degree for me");
-        JsonHandler j = new JsonHandler();
+        JsonHandler j = new JsonHandler(null);
         j.dumpTaskToQueue(t);
         ArrayList<Task> a = j.loadTaskQueue();
         assertTrue(a.get(0).getName().equals(t.getName()));
