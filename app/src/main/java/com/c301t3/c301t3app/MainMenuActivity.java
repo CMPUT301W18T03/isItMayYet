@@ -93,7 +93,7 @@ public class MainMenuActivity extends AppCompatActivity{
                 position = pos;
                 Intent selectedIntent = new Intent(context, SelectedTaskActivity.class);
                 Task selTask = adapter.getItem(pos);
-                selectedIntent.putExtra("TASK",selTask);
+                selectedIntent.putExtra("MainSelectedTask",selTask);
                 startActivity(selectedIntent);
             }
         });
