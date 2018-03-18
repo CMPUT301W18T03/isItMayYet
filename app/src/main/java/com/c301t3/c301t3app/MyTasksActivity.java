@@ -59,6 +59,17 @@ public class MyTasksActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // click's action is left empty for now.
+                Object listItem = assignedTasks.getItemAtPosition(position);
+                Task task = (Task) listItem;
+
+                final InfoPasser info = InfoPasser.getInstance();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("assignedTask", task);
+                info.setInfo(bundle);
+
+                Intent intent = new Intent(view.getContext(), SelectedTaskActivity.class);
+                startActivity(intent);
+
             }
 
         });
