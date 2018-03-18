@@ -39,4 +39,10 @@ public class Bid {
     public int getUserId() {
         return userId;
     }
+
+    @Override
+    public String toString() {
+        String message = Integer.toString(userId) + "      " + Integer.toString(value);
+        return message;
+    }
 }
