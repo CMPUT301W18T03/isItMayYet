@@ -170,11 +170,16 @@ public class MainMenuActivity extends AppCompatActivity{
 
         //debug
         Task task0 = new Task("Task0","Description for task0",TaskStatus.REQUESTED,15);
-        Task task1 = new Task("Task1","There isn't really any reason to describe this",TaskStatus.REQUESTED,20);
+        Task task1 = new Task("Task1","There isn't really any reason to describe this",TaskStatus.BIDDED,20);
         Task task2 = new Task("Task2","Desc2",TaskStatus.ASSIGNED,20);
+        Task task3 = new Task("Task3","Some fluff text here for task 3", TaskStatus.BIDDED,22);
+        Task task4 = new Task("Task4","Some fluff text here for task 4",TaskStatus.REQUESTED,12);
+
         taskList.addTask(task0);
         taskList.addTask(task1);
         taskList.addTask(task2);
+        taskList.addTask(task3);
+        taskList.addTask(task4);
 
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
