@@ -26,6 +26,7 @@ public class SelectedTaskActivity extends AppCompatActivity {
     private TaskPasser passer;
     private Task currentTask;
     private String extraString;
+    //final InfoPasser infoInstance = InfoPasser.getInstance();
     /**
      * @param savedInstanceState
      */
@@ -33,6 +34,7 @@ public class SelectedTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selected_task);
+        extraString = null;
 //        final TaskPasser passer = new TaskPasser();
         //get current selected task.
 
@@ -48,6 +50,10 @@ public class SelectedTaskActivity extends AppCompatActivity {
         /**
          * This Grabs any extras from other activities and applies the changes we want. Which is to show only task detials but not to bid on it.
          */
+//        Task task = new Task();
+//        Bundle bundle1 = infoInstance.getInfo();
+//        task =  bundle1.getData("assignedTask");
+        //Log.i("the passed String is:", extraString);
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras == null) {
@@ -55,6 +61,7 @@ public class SelectedTaskActivity extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(), "extra string is NULL", Toast.LENGTH_SHORT).show();
             } else {
                 extraString = extras.getString("SelectedTask");
+
                 Log.i("the passed String is:", extraString);
                 StringTokenizer tokens = new StringTokenizer(extraString, "/");
                 taskName.setText(tokens.nextToken());
