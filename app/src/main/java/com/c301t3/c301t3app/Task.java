@@ -221,12 +221,36 @@ public class Task implements Serializable {
     public ArrayList<Bid> getBids() { return this.bids; }
 
     /**
-     * Method that adds the bid of into the list of Bids of the Task.
+     * Method that overwrites the bids of the Task.
+     *
+     * @param bids: the ArrayList that represents all the bids.
+     */
+    public void setBids(ArrayList<Bid> bids) {
+        this.bids = bids;
+    }
+
+    /**
+     * Method that adds the bid into the list of Bids of the Task.
      *
      * @param bid: the bid class that will be added on to Task's ArrayList.
      */
     public void addBid(Bid bid) {
         this.bids.add(bid);
     }
+
+    /**
+     * Method that removes the bid from the list of bids of the Task.
+     *
+     * @param bid: the bid that will be removed from the list of bids.
+     */
+    public void remBid(Bid bid) { this.bids.remove(bid); }
+
+    /**
+     * Method that removes the bids from the list of bids of the Task.
+     *
+     * @param i: the bid from the given index of the ArrayList that will be removed.
+     */
+    public void remBid(int i) { this.bids.remove(i); }
+
 }
 
