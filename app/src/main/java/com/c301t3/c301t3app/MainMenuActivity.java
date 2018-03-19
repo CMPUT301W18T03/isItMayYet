@@ -13,15 +13,18 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
 
+/**
+ * This is the main Screen of the app, all activities go back to this one.
+ * Allows for the searching of tasks and selecting a task to bid on, as well as
+ * to see more  details about a task.
+ */
 public class MainMenuActivity extends AppCompatActivity{
     private MainMenuActivity activity = this;
     private final TaskPasser taskPasser = new TaskPasser();
@@ -45,7 +48,7 @@ public class MainMenuActivity extends AppCompatActivity{
     }
 
     /**
-     * @param item
+     * @param item The menu  item selected.
      * @return
      */
     @Override
@@ -57,6 +60,8 @@ public class MainMenuActivity extends AppCompatActivity{
 
             case R.id.Profile:
                 Toast.makeText(getApplicationContext(), "Profile selected", Toast.LENGTH_SHORT).show();
+
+                //TODO: set up Profile activity.
 
                 break;
 
@@ -71,11 +76,72 @@ public class MainMenuActivity extends AppCompatActivity{
             case R.id.Logout:
                 Toast.makeText(getApplicationContext(), "Logout selected", Toast.LENGTH_SHORT).show();
 
+                //TODO: actually log the user out.
+
+                // go to login activity
+                Intent logoutIntent = new Intent(activity, SimpleLoginActivity.class);
+                activity.startActivity(logoutIntent);
+
                 break;
 
             case R.id.myTasks:
                 Toast.makeText(getApplicationContext(), "MyTasks selected", Toast.LENGTH_SHORT).show();
                 Intent myTaskIntent = new Intent(activity, MyTasksActivity.class);
+
+                //---------------------------------------------------------------------------------///
+                /* Henry's code, seems to assign test shit. */
+                ArrayList<Task> assignedTaskList = new ArrayList<Task>();
+                ArrayList<Task> requestedTaskList = new ArrayList<Task>();
+
+                Task assignedTask0 = new Task("assignedTask0",
+                        "assignedTask description0",
+                        TaskStatus.ASSIGNED, 10);
+
+                Task assignedTask1 = new Task("assignedTask1",
+                        "assignedTask description1",
+                        TaskStatus.COMPLETED, 15);
+
+                assignedTaskList.add(assignedTask0);
+                assignedTaskList.add(assignedTask1);
+
+                Bid bid0 = new Bid(1920, 12345);
+                Bid bid1 = new Bid(1254, 54321);
+                Bid bidx = new Bid(420, 99999);
+                Bid bidy = new Bid(720, 33333);
+
+                ArrayList<Bid> bids0 = new ArrayList<Bid>();
+                bids0.add(bid0);
+                bids0.add(bid1);
+
+                ArrayList<Bid> bids1 = new ArrayList<Bid>();
+                bids1.add(bidx);
+                bids1.add(bidy);
+
+                Task requestedTask0 = new Task("requestedTask0",
+                        "requestedTask description0",
+                        TaskStatus.REQUESTED, 11, bids0);
+
+                Task requestedTask1 = new Task("requestedTask1",
+                        "requestedTask description1",
+                        TaskStatus.BIDDED, 19, bids1);
+
+                requestedTaskList.add(requestedTask0);
+                requestedTaskList.add(requestedTask1);
+
+                final InfoPasser info = InfoPasser.getInstance();
+                Bundle bundle = new Bundle();
+
+                TaskList adaptedAssignedList = new TaskList(assignedTaskList);
+                TaskList adaptedRequestedList = new TaskList(requestedTaskList);
+
+                bundle.putSerializable("assignedTaskList", adaptedAssignedList);
+                bundle.putSerializable("requestedTaskList", adaptedRequestedList);
+
+                info.setInfo(bundle);
+
+                //---------------------------------------------------------------------------------///
+
+
                 activity.startActivity(myTaskIntent);
 
 
@@ -99,16 +165,21 @@ public class MainMenuActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu_activity);
 
-        addTaskButton = (FloatingActionButton) findViewById(R.id.addTaskButton);
-        taskListView = (RecyclerView) findViewById(R.id.tasksView);
+        addTaskButton = findViewById(R.id.addTaskButton);
+        taskListView = findViewById(R.id.tasksView);
 
         //debug
         Task task0 = new Task("Task0","Description for task0",TaskStatus.REQUESTED,15);
-        Task task1 = new Task("Task1","There isn't really any reason to describe this",TaskStatus.REQUESTED,20);
+        Task task1 = new Task("Task1","There isn't really any reason to describe this",TaskStatus.BIDDED,20);
         Task task2 = new Task("Task2","Desc2",TaskStatus.ASSIGNED,20);
+        Task task3 = new Task("Task3","Some fluff text here for task 3", TaskStatus.BIDDED,22);
+        Task task4 = new Task("Task4","Some fluff text here for task 4",TaskStatus.REQUESTED,12);
+
         taskList.addTask(task0);
         taskList.addTask(task1);
         taskList.addTask(task2);
+        taskList.addTask(task3);
+        taskList.addTask(task4);
 
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,11 +194,14 @@ public class MainMenuActivity extends AppCompatActivity{
         });
     }
 
+    /**
+     *
+     */
     @Override
     protected void onStart() {
         super.onStart();
-        taskListView = (RecyclerView) findViewById(R.id.tasksView);
-        searchInput = (EditText) findViewById(R.id.searchBar);
+        taskListView = findViewById(R.id.tasksView);
+        searchInput = findViewById(R.id.searchBar);
         searchInput.setOnKeyListener(searchTasks);
 
         adapter = new TasksRequestedAdapter(this,tasks);
@@ -142,17 +216,28 @@ public class MainMenuActivity extends AppCompatActivity{
         adapter.notifyDataSetChanged();
 
         adapter.setOnItemClickListener(new TasksRequestedAdapter.OnItemClickListener() {
+            /**
+             * @param singleTask the task selected by the user
+             * @param pos        The position of the selected task in the listview.
+             */
             @Override
             public void onItemClick(View singleTask, int pos) {
                 position = pos;
                 Intent selectedIntent = new Intent(context, SelectedTaskActivity.class);
                 Task selTask = adapter.getItem(pos);
-                selectedIntent.putExtra("MainSelectedTask",selTask);
+//                Log.i("Info", selTask.getName());
+//                Log.i("desc", selTask.getDescription());
+//                Log.i("price", String.valueOf(selTask.getPrice()));
+                String strname = selTask.getName() + "/" + selTask.getDescription() + "/" + selTask.getStatus().toString() + "/" + String.valueOf(selTask.getPrice());
+                selectedIntent.putExtra("SelectedTask", strname);
                 startActivity(selectedIntent);
             }
         });
     }
 
+    /**
+     * This is where the search is handled for the tasks. By description and if left empty and hit enter, returns all results.
+     */
     EditText.OnKeyListener searchTasks = new EditText.OnKeyListener() {
         @Override
         public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -166,10 +251,8 @@ public class MainMenuActivity extends AppCompatActivity{
                     Log.i("debug","empty search");
                     Toast.makeText(getApplicationContext(),"Error: Please enter a search query",Toast.LENGTH_SHORT).show();
                     return false;
-                }
-
-                else {
-                    for (i=0;i<taskList.getTaskList().size();i++) { // works for hardcoded short list of tasks.. takes long for more content
+                } else {
+                    for (i=0; i<taskList.getTaskList().size(); i++) { // works for hardcoded short list of tasks.. takes long for more content
                         if ((taskList.getTask(i).getDescription().toLowerCase().contains(searchWord))
                                 && ((taskList.getTask(i).getStatus()==TaskStatus.REQUESTED)
                                 || (taskList.getTask(i).getStatus()==TaskStatus.BIDDED))) {

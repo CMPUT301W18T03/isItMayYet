@@ -1,4 +1,11 @@
 package com.c301t3.c301t3app;
+/**
+ * Custom adapter for viewing Tasks in the MainMenuActivity to display each Task's name,
+ * description, status, and price
+ * Based off of
+ * https://developer.android.com/samples/RecyclerView/src/com.example.android.recyclerview/
+ * CustomAdapter.html
+ */
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -20,10 +27,14 @@ public class TasksRequestedAdapter extends RecyclerView.Adapter<TasksRequestedAd
     private Context context;
     private int position;
 
-    //clicks
     private View.OnLongClickListener longClickListener;
     private OnItemClickListener clickListener;
 
+    /**
+     * Adapter constructor
+     * @param context Context for activity
+     * @param tasks ArrayList of Task objects
+     */
     public TasksRequestedAdapter(Context context, ArrayList<Task> tasks) {
         this.tasks = tasks;
         this.context = context;
@@ -79,6 +90,9 @@ public class TasksRequestedAdapter extends RecyclerView.Adapter<TasksRequestedAd
         this.longClickListener = listener;
     }
 
+    /**
+     * Class for handling each task to be viewed
+     */
     public class TaskHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
         public final View taskItemView;
@@ -90,6 +104,11 @@ public class TasksRequestedAdapter extends RecyclerView.Adapter<TasksRequestedAd
         private Task task;
         private Context context;
 
+        /**
+         * Constructor for TaskHolder
+         * @param context Context for activity
+         * @param itemView View for activity
+         */
         public TaskHolder(Context context, View itemView) {
             super(itemView);
 
@@ -122,6 +141,11 @@ public class TasksRequestedAdapter extends RecyclerView.Adapter<TasksRequestedAd
             return false;
         }
 
+        /**
+         * Binds a task to a single task view, setting each field in the view to contain
+         * an aspect of the task
+         * @param task Task object to be viewed
+         */
         public void bindTask(Task task) {
             String taskName = task.getName();
             String taskStatus = task.getStatus().toString();

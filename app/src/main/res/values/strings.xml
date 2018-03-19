@@ -30,5 +30,7 @@
     <string name="Login">Login</string>
     <string name="name_error">Fields cannot be blank</string>
     <string name="start_searching">Start Searching</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 </resources>

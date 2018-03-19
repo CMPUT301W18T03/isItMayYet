@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * Created by kiefer on 2018-03-08.
+ * Class for Register
+ */
+
 public class RegisterActivity extends AppCompatActivity {
 
     @Override
@@ -25,10 +30,9 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText etConfirmPassword = (EditText) findViewById(R.id.etConfirmPassword);
         final JsonHandler j = new JsonHandler(this);
 
-
         final Button bRegister = (Button) findViewById(R.id.bCreate);
-
-        // go back to login activity
+        
+        // go back to login activity after creating new user
         bRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,7 +43,13 @@ public class RegisterActivity extends AppCompatActivity {
                 account.setEmailAdd(etEmail.getText().toString());
                 account.setPhoneNum(etPhone.getText().toString());
                 account.setPassword(etPassword.getText().toString());
+                account.setID(UserAccount.userCount++);
 
+
+                //handle user.id here. needs to increment based on existing count of users.
+                
+
+                // send user account to jsonHandler.
                 j.dumpUser(account);
 
                 Intent loginIntent = new Intent(RegisterActivity.this, SimpleLoginActivity.class);
