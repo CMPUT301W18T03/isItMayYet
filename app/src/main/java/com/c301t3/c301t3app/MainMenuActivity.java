@@ -135,11 +135,16 @@ public class MainMenuActivity extends AppCompatActivity{
                 TaskList adaptedRequestedList = new TaskList(requestedTaskList);
 
                 bundle.putSerializable("assignedTaskList", adaptedAssignedList);
-                bundle.putSerializable("requestedTaskList", adaptedRequestedList);
+                // bundle.putSerializable("requestedTaskList", adaptedRequestedList);
 
                 info.setInfo(bundle);
-                //---------------------------------------------------------------------------------///
 
+                final JsonHandler j = new JsonHandler(this);
+                ArrayList<Task> test = j.loadUserTasks();
+                if (test == null) {
+                    j.dumpUserTasks(requestedTaskList);
+                }
+                //---------------------------------------------------------------------------------///
 
                 activity.startActivity(myTaskIntent);
 

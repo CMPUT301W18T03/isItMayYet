@@ -118,28 +118,29 @@ public class MyTasksActivity extends AppCompatActivity {
 
     private void loadFromInfoPasser() {
         final InfoPasser info = InfoPasser.getInstance();
+        final JsonHandler j = new JsonHandler(this);
         Bundle bundle = info.getInfo();
 
         // This is to attempt to check if the infoPasser passed assignedList/requestedList
-        try {
-            TaskList adaptedAssignedList = (TaskList) bundle.getSerializable("assignedTaskList");
-            TaskList adaptedRequestedList = (TaskList) bundle.getSerializable("requestedTaskList");
-
+        TaskList adaptedAssignedList = (TaskList) bundle.getSerializable("assignedTaskList");
+        if (adaptedAssignedList != null) {
             assignedTaskList = adaptedAssignedList.getTaskList();
+        } else {}
+
+        TaskList adaptedRequestedList = (TaskList) bundle.getSerializable("requestedTaskList");
+        if (adaptedRequestedList != null) {
             requestedTaskList = adaptedRequestedList.getTaskList();
-        } catch (NullPointerException e) {}
+        } else {
+            requestedTaskList = j.loadUserTasks();
+        }
 
         // This is to attempt to check if there is any modifiers that came from ViewBidsActvity.java
         Task task = (Task) bundle.getSerializable("ViewBidsTask");
         int taskIndex = bundle.getInt("ViewBidsTaskIndex");
         if (task != null) {
             requestedTaskList.set(taskIndex, task);
+            j.dumpUserTasks(requestedTaskList);
         }
     }
-
-//    private void loadInfo() {
-//        final JsonHandler j = new JsonHandler(this);
-//        requestedTaskList = j.loadUserTasks();
-//    }
 
 }
