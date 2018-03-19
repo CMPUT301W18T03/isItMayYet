@@ -1,8 +1,8 @@
 package com.c301t3.c301t3app;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,16 +25,16 @@ public class SimpleLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_login);
 
-        final EditText etUsername = (EditText) findViewById(R.id.etUsername);
-        final EditText etPassword = (EditText) findViewById(R.id.etPassword);
-        final Button bSignIn = (Button) findViewById(R.id.bSignIn);
-        final TextView registerLink = (TextView) findViewById(R.id.tvRegisterHere);
+        final EditText etUsername = findViewById(R.id.etUsername);
+        final EditText etPassword = findViewById(R.id.etPassword);
+        final Button bSignIn = findViewById(R.id.bSignIn);
+        final TextView registerLink = findViewById(R.id.tvRegisterHere);
 
         // go to main activity
         bSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mainIntent = new Intent(SimpleLoginActivity.this, MainActivity.class);
+                Intent mainIntent = new Intent(SimpleLoginActivity.this, MainMenuActivity.class);
                 SimpleLoginActivity.this.startActivity(mainIntent);
             }
         });

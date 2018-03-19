@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     private MainActivity activity = this;
     // private final TaskPasser taskPasser = new TaskPasser();
     private TaskPasser taskPasser;
+    private Intent loginIntent;
+    private Intent mainMenuIntent;
     /* Here is a good site with a good tutorial for back button and info sharing between activities.
     * https://google-developer-training.gitbooks.io/android-developer-fundamentals-course-practicals/content/en/Unit%201/21_p_create_and_start_activities.html*/
 
@@ -57,11 +59,61 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.myTasks:
                 Toast.makeText(getApplicationContext(), "MyTasks selected", Toast.LENGTH_SHORT).show();
-                Intent myTaskIntent = new Intent(activity, MyTasksActivity.class);
-                activity.startActivity(myTaskIntent);
+                // go to myTasks activity
+                Intent myTasksIntent = new Intent(activity, MyTasksActivity.class);
 
+                ArrayList<Task> assignedTaskList = new ArrayList<Task>();
+                ArrayList<Task> requestedTaskList = new ArrayList<Task>();
 
-                break;
+                Task assignedTask0 = new Task("assignedTask0",
+                        "assignedTask description0",
+                        TaskStatus.ASSIGNED, 10);
+
+                Task assignedTask1 = new Task("assignedTask1",
+                        "assignedTask description1",
+                        TaskStatus.COMPLETED, 15);
+
+                assignedTaskList.add(assignedTask0);
+                assignedTaskList.add(assignedTask1);
+
+                Bid bid0 = new Bid(1920, 12345);
+                Bid bid1 = new Bid(1254, 54321);
+                Bid bidx = new Bid(420, 99999);
+                Bid bidy = new Bid(720, 33333);
+
+                ArrayList<Bid> bids0 = new ArrayList<Bid>();
+                bids0.add(bid0);
+                bids0.add(bid1);
+
+                ArrayList<Bid> bids1 = new ArrayList<Bid>();
+                bids1.add(bidx);
+                bids1.add(bidy);
+
+                Task requestedTask0 = new Task("requestedTask0",
+                        "requestedTask description0",
+                        TaskStatus.REQUESTED, 11, bids0);
+
+                Task requestedTask1 = new Task("requestedTask1",
+                        "requestedTask description1",
+                        TaskStatus.BIDDED, 19, bids1);
+
+                requestedTaskList.add(requestedTask0);
+                requestedTaskList.add(requestedTask1);
+
+                final InfoPasser info = InfoPasser.getInstance();
+                Bundle bundle = new Bundle();
+
+                TaskList adaptedAssignedList = new TaskList(assignedTaskList);
+                TaskList adaptedRequestedList = new TaskList(requestedTaskList);
+
+                bundle.putSerializable("assignedTaskList", adaptedAssignedList);
+                bundle.putSerializable("requestedTaskList", adaptedRequestedList);
+
+                info.setInfo(bundle);
+
+                activity.startActivity(myTasksIntent);
+
+            break;
 
             case R.id.MyBids:
                 Toast.makeText(getApplicationContext(), "MyBids selected", Toast.LENGTH_SHORT).show();
@@ -73,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //-----------Menu  Stuff ends here-----------//
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,15 +133,17 @@ public class MainActivity extends AppCompatActivity {
 
         taskPasser = new TaskPasser();
 
-
-        Button mainButton = findViewById(R.id.button_GoToMyTasks);
+        Button mainButton = findViewById(R.id.button_GoToMainMenu);
+        Button loginButton = findViewById(R.id.loginBtn);
 
         mainButton.setOnClickListener(new View.OnClickListener() {
-
+            /**
+             * @param v
+             */
             public void onClick(View v) {
                 setResult(RESULT_OK);
-
-                Intent mainMenuIntent = new Intent(activity, MainMenuActivity.class);
+                //Toast.makeText(getApplicationContext(), v.toString(),Toast.LENGTH_SHORT).show();
+                mainMenuIntent = new Intent(activity, MainMenuActivity.class);
 
                 ArrayList<Task> dummytasklist = new ArrayList<>();
                 Task task0 = new Task("task0","desc0", TaskStatus.COMPLETED);
@@ -100,11 +155,6 @@ public class MainActivity extends AppCompatActivity {
                 final TaskPasser taskPasser = new TaskPasser();
                 taskPasser.setTasks(dummytasklist);
 
-                final InfoPasser test = InfoPasser.getInstance();
-                Bundle thing = new Bundle();
-                thing.putString("testStringKey", "Hello!");
-                test.setInfo(thing);
-
 //                String foo = taskPasser.getTasks().toString();
 //                Toast.makeText(getApplicationContext(), foo, Toast.LENGTH_SHORT).show();
                 startActivity(mainMenuIntent);
@@ -112,6 +162,16 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+    }
+
+    /**
+     * @param view
+     */
+    public void loginClick(View view) {
+        //Toast.makeText(getApplicationContext(), "Login clicked",Toast.LENGTH_SHORT).show();
+        loginIntent = new Intent(activity, SimpleLoginActivity.class);
+        startActivity(loginIntent);
 
     }
 
