@@ -138,7 +138,6 @@ public class MainMenuActivity extends AppCompatActivity{
                 bundle.putSerializable("requestedTaskList", adaptedRequestedList);
 
                 info.setInfo(bundle);
-
                 //---------------------------------------------------------------------------------///
 
 
