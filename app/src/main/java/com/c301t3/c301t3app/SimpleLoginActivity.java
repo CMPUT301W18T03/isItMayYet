@@ -34,6 +34,11 @@ public class SimpleLoginActivity extends AppCompatActivity {
         bSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // login confirmation logic
+                //test
+
+
                 Intent mainIntent = new Intent(SimpleLoginActivity.this, MainMenuActivity.class);
                 SimpleLoginActivity.this.startActivity(mainIntent);
             }

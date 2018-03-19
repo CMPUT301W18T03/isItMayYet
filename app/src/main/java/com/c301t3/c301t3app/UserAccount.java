@@ -19,6 +19,7 @@ public class UserAccount {
     private final static int MAX_USERNAME_LENGTH = 32;
     // Number of registered users
     public static int userCount = 0; // used for setting userID of new user to userID + 1
+    //TODO: Once Elasticsearch, query the database for a count of users to create uniqueID
     // All the variables that hold data
     private String username;
     private String firstName;
