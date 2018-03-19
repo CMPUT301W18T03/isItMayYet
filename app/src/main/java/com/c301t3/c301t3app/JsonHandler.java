@@ -1,7 +1,6 @@
 package com.c301t3.c301t3app;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -63,6 +62,7 @@ public class JsonHandler {
             UserAccount u = gson.fromJson(reader, UserAccount.class);
             return u;
     }
+     /*
 
     public void dumpUserTasks(ArrayList<Task> t) {
         String repr = gson.toJson(t);
@@ -87,6 +87,7 @@ public class JsonHandler {
         return t;
     }
 
+    }
 
     public void dumpTaskToQueue(Task t) {
         ArrayList<Task> q = this.loadTaskQueue();
@@ -115,4 +116,5 @@ public class JsonHandler {
         ArrayList<Task> t = gson.fromJson(reader, new TypeToken<ArrayList<Task>>(){}.getType());
         return t;
     }
+    */
 }
