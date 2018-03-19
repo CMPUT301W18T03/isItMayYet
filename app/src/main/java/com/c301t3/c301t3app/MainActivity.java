@@ -1,5 +1,6 @@
 package com.c301t3.c301t3app;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+/**
+ * This is the Welcome screen of the App, the User only sees it when starting the app.
+ * Allows for quick login or to start searching as a free user.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private MainActivity activity = this;
@@ -29,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * @param item
+     * @param item The menu being selected
      * @return
      */
     @Override
@@ -67,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "MyTasks selected", Toast.LENGTH_SHORT).show();
                 // go to myTasks activity
                 Intent myTasksIntent = new Intent(activity, MyTasksActivity.class);
+
+
+                /* Henry's code, seems to assign test shit. */
+
                 /*
                 ArrayList<Task> assignedTaskList = new ArrayList<Task>();
                 ArrayList<Task> requestedTaskList = new ArrayList<Task>();
@@ -119,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 */
                 activity.startActivity(myTasksIntent);
 
-            break;
+                break;
 
             case R.id.MyBids:
                 Toast.makeText(getApplicationContext(), "MyBids selected", Toast.LENGTH_SHORT).show();
@@ -144,22 +153,23 @@ public class MainActivity extends AppCompatActivity {
 
         mainButton.setOnClickListener(new View.OnClickListener() {
             /**
-             * @param v
+             * @param v the button that is being pressed, the Start Searching button.
+             *          This will bring the user to the main menu.
              */
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 //Toast.makeText(getApplicationContext(), v.toString(),Toast.LENGTH_SHORT).show();
                 mainMenuIntent = new Intent(activity, MainMenuActivity.class);
-
-                ArrayList<Task> dummytasklist = new ArrayList<>();
-                Task task0 = new Task("task0","desc0", TaskStatus.COMPLETED);
-                Task task1 = new Task("task1","desc1", TaskStatus.ASSIGNED);
-                Task task2 = new Task("task2","desc2", TaskStatus.REQUESTED);
-                dummytasklist.add(task0);
-                dummytasklist.add(task1);
-                dummytasklist.add(task2);
-                final TaskPasser taskPasser = new TaskPasser();
-                taskPasser.setTasks(dummytasklist);
+                // commented  this out cuz usless, have diff dummy lists.
+//                ArrayList<Task> dummytasklist = new ArrayList<>();
+//                Task task0 = new Task("task0","desc0", TaskStatus.COMPLETED);
+//                Task task1 = new Task("task1","desc1", TaskStatus.ASSIGNED);
+//                Task task2 = new Task("task2","desc2", TaskStatus.REQUESTED);
+//                dummytasklist.add(task0);
+//                dummytasklist.add(task1);
+//                dummytasklist.add(task2);
+//                final TaskPasser taskPasser = new TaskPasser();
+//                taskPasser.setTasks(dummytasklist);
 
 //                String foo = taskPasser.getTasks().toString();
 //                Toast.makeText(getApplicationContext(), foo, Toast.LENGTH_SHORT).show();
@@ -172,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * @param view
+     * @param view The Login button that brings the user right to the login page.
      */
     public void loginClick(View view) {
         //Toast.makeText(getApplicationContext(), "Login clicked",Toast.LENGTH_SHORT).show();
