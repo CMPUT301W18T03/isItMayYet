@@ -55,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.Logout:
                 Toast.makeText(getApplicationContext(), "Logout selected", Toast.LENGTH_SHORT).show();
 
+                //TODO: actually log the user out.
+
+                // go to login activity
+                Intent logoutIntent = new Intent(activity, SimpleLoginActivity.class);
+                activity.startActivity(logoutIntent);
+
                 break;
 
             case R.id.myTasks:
