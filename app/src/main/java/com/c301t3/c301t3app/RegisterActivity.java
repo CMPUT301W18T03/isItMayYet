@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * Created by kiefer on 2018-03-08.
@@ -36,27 +37,48 @@ public class RegisterActivity extends AppCompatActivity {
         bRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isEmpty(etUsername)||isEmpty(etFirstName)||isEmpty(etLastName)||isEmpty(etEmail)
+                        ||isEmpty(etPhone)||isEmpty(etPassword)||isEmpty(etConfirmPassword)){
+                    Toast.makeText(RegisterActivity.this,
+                            "Please fill in all the fields",Toast.LENGTH_LONG).show();
+                }
 
-                account.setUsername(etUsername.getText().toString());
-                account.setFirstName(etFirstName.getText().toString());
-                account.setLastName(etLastName.getText().toString());
-                account.setEmailAdd(etEmail.getText().toString());
-                account.setPhoneNum(etPhone.getText().toString());
-                account.setPassword(etPassword.getText().toString());
-                account.setID(UserAccount.userCount++);
+                else if (etPassword.getText().toString() != etConfirmPassword.getText().toString()) {
+                    Toast.makeText(RegisterActivity.this,
+                            "Password does not match",Toast.LENGTH_LONG).show();
+                }
+
+                else {
+                    account.setUsername(etUsername.getText().toString());
+                    account.setFirstName(etFirstName.getText().toString());
+                    account.setLastName(etLastName.getText().toString());
+                    account.setEmailAdd(etEmail.getText().toString());
+                    account.setPhoneNum(etPhone.getText().toString());
+                    account.setPassword(etPassword.getText().toString());
+                    account.setID(UserAccount.userCount++);
 
 
-                //handle user.id here. needs to increment based on existing count of users.
-                
+                    //handle user.id here. needs to increment based on existing count of users.
 
-                // send user account to jsonHandler.
-                j.dumpUser(account);
 
-                Intent loginIntent = new Intent(RegisterActivity.this, SimpleLoginActivity.class);
-                RegisterActivity.this.startActivity(loginIntent);
+                    // send user account to jsonHandler.
+                    j.dumpUser(account);
+
+                    Intent loginIntent = new Intent(RegisterActivity.this, SimpleLoginActivity.class);
+                    RegisterActivity.this.startActivity(loginIntent);
+                }
+
+
             }
         });
 
+    }
+
+    private boolean isEmpty(EditText editField) {
+        if (editField.getText().toString().trim().length() > 0) {
+            return false;
+        }
+        return true;
     }
 
     // Refer to select_task_activity for
