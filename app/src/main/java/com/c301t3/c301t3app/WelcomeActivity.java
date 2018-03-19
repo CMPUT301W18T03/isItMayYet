@@ -10,15 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 /**
  * This is the Welcome screen of the App, the User only sees it when starting the app.
  * Allows for quick login or to start searching as a free user.
  */
-public class MainActivity extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity {
 
-    private MainActivity activity = this;
+    private WelcomeActivity activity = this;
     // private final TaskPasser taskPasser = new TaskPasser();
     private TaskPasser taskPasser;
     private Intent loginIntent;
