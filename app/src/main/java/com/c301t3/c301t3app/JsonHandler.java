@@ -53,15 +53,15 @@ public class JsonHandler {
     }
 
     public UserAccount loadUser() {
-            FileReader file = null;
-            try {
-                file = new FileReader(userData);
-            } catch (java.io.FileNotFoundException e) {
-                Log.e("IOError", e.getMessage());
-            }
-            BufferedReader reader = new BufferedReader(file);
-            UserAccount u = gson.fromJson(reader, UserAccount.class);
-            return u;
+        FileReader file = null;
+        try {
+            file = new FileReader(userData);
+        } catch (java.io.FileNotFoundException e) {
+            Log.e("IOError", e.getMessage());
+        }
+        BufferedReader reader = new BufferedReader(file);
+        UserAccount u = gson.fromJson(reader, UserAccount.class);
+        return u;
     }
 
     public void dumpUserTasks(ArrayList<Task> t) {
