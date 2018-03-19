@@ -17,6 +17,8 @@ package com.c301t3.c301t3app;
 public class UserAccount {
     // Maximum length for a username is currently 32
     private final static int MAX_USERNAME_LENGTH = 32;
+    // Number of registered users
+    public static int userCount = 0; // used for setting userID of new user to userID + 1
     // All the variables that hold data
     private String username;
     private String firstName;
@@ -132,6 +134,15 @@ public class UserAccount {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    /** Set the uniqueID of the user
+     *
+     * @param uniqueID; ID of the user
+     */
+    public void setID(int uniqueID) {
+        this.uniqueID = uniqueID;
+    }
+
 
 
     /**  Return the username of the user

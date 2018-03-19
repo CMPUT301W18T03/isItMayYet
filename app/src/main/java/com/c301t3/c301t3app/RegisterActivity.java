@@ -43,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
                 account.setEmailAdd(etEmail.getText().toString());
                 account.setPhoneNum(etPhone.getText().toString());
                 account.setPassword(etPassword.getText().toString());
+                account.setID(UserAccount.userCount++);
 
 
                 //handle user.id here. needs to increment based on existing count of users.
