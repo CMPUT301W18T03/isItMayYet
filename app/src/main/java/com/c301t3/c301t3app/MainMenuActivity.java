@@ -168,9 +168,16 @@ public class MainMenuActivity extends AppCompatActivity{
                 ArrayList<Task> searchMatch = new ArrayList<Task>();
                 String searchWord = searchInput.getText().toString().toLowerCase(Locale.getDefault());
                 if (searchWord.isEmpty()) {
-                    Log.i("debug","empty search");
-                    Toast.makeText(getApplicationContext(),"Error: Please enter a search query",Toast.LENGTH_SHORT).show();
-                    return false;
+                    for (i=0;i<taskList.getTaskList().size();i++) {
+                        if ((taskList.getTask(i).getStatus()==TaskStatus.REQUESTED)
+                                || (taskList.getTask(i).getStatus()==TaskStatus.BIDDED)) {
+                            searchMatch.add(taskList.getTask(i));
+                        }
+                    }
+
+                    tasks.clear();
+                    tasks.addAll(searchMatch);
+                    adapter.notifyDataSetChanged();
                 }
 
                 else {
