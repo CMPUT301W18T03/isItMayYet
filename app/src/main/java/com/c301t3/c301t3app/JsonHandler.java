@@ -37,7 +37,7 @@ public class JsonHandler {
         } else {
             taskQueue = new File(context.getFilesDir(), taskQueuePath);
             userData = new File(context.getFilesDir(), userDataPath);
-            userTask = new File(context.getFilesDir(), userDataPath);
+            userTask = new File(context.getFilesDir(), userTaskPath);
         }
     }
 
