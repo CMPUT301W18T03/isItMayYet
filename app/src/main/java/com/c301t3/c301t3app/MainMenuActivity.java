@@ -61,6 +61,8 @@ public class MainMenuActivity extends AppCompatActivity{
             case R.id.Profile:
                 Toast.makeText(getApplicationContext(), "Profile selected", Toast.LENGTH_SHORT).show();
 
+                //TODO: set up Profile activity.
+
                 break;
 
             case R.id.SignIN:
@@ -73,8 +75,13 @@ public class MainMenuActivity extends AppCompatActivity{
 
             case R.id.Logout:
                 Toast.makeText(getApplicationContext(), "Logout selected", Toast.LENGTH_SHORT).show();
+
+                //TODO: actually log the user out.
+
+                // go to login activity
                 Intent logoutIntent = new Intent(activity, SimpleLoginActivity.class);
                 activity.startActivity(logoutIntent);
+
                 break;
 
             case R.id.myTasks:

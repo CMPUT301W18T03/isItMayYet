@@ -65,6 +65,7 @@ public class MyTasksActivity extends AppCompatActivity {
                 final InfoPasser info = InfoPasser.getInstance();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("assignedTask", task);
+                bundle.putInt("assignedIndex", position);
                 info.setInfo(bundle);
 
                 Intent intent = new Intent(view.getContext(), SelectedTaskActivity.class);
@@ -82,11 +83,10 @@ public class MyTasksActivity extends AppCompatActivity {
                 Object listItem = requestedTasks.getItemAtPosition(position);
                 Task task = (Task) listItem;
 
-                // Toast.makeText(getApplicationContext(), task.toString(), Toast.LENGTH_SHORT).show();
-
                 final InfoPasser info = InfoPasser.getInstance();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("requestedTask", task);
+                bundle.putInt("requestedIndex", position);
                 info.setInfo(bundle);
 
                 Intent intent = new Intent(view.getContext(), ViewBidsActivity.class);
@@ -115,6 +115,7 @@ public class MyTasksActivity extends AppCompatActivity {
         final InfoPasser info = InfoPasser.getInstance();
         Bundle bundle = info.getInfo();
 
+        // This is to attempt to check if the infoPasser passed assignedList/requestedList
         try {
             TaskList adaptedAssignedList = (TaskList) bundle.getSerializable("assignedTaskList");
             TaskList adaptedRequestedList = (TaskList) bundle.getSerializable("requestedTaskList");
@@ -122,6 +123,14 @@ public class MyTasksActivity extends AppCompatActivity {
             assignedTaskList = adaptedAssignedList.getTaskList();
             requestedTaskList = adaptedRequestedList.getTaskList();
         } catch (NullPointerException e) {}
+
+        // This is to attempt to check if there is any modifiers that came from ViewBidsActvity.java
+        Task task = (Task) bundle.getSerializable("ViewBidsTask");
+        int taskIndex = bundle.getInt("ViewBidsTaskIndex");
+        if (task != null) {
+            requestedTaskList.set(taskIndex, task);
+        }
+
     }
 
 }

@@ -60,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.Logout:
                 Toast.makeText(getApplicationContext(), "Logout selected", Toast.LENGTH_SHORT).show();
 
+                //TODO: actually log the user out.
+
+                // go to login activity
+                Intent logoutIntent = new Intent(activity, SimpleLoginActivity.class);
+                activity.startActivity(logoutIntent);
+
                 break;
 
             case R.id.myTasks:
@@ -69,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                 /* Henry's code, seems to assign test shit. */
+
+                /*
                 ArrayList<Task> assignedTaskList = new ArrayList<Task>();
                 ArrayList<Task> requestedTaskList = new ArrayList<Task>();
 
@@ -117,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 bundle.putSerializable("requestedTaskList", adaptedRequestedList);
 
                 info.setInfo(bundle);
-
+                */
                 activity.startActivity(myTasksIntent);
 
                 break;

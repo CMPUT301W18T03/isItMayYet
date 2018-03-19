@@ -8,6 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+/**
+ * Created by kiefer on 2018-03-08.
+ * Class for Login
+ */
+
 public class SimpleLoginActivity extends AppCompatActivity {
 
 
