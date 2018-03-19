@@ -16,7 +16,7 @@ public class UserAccountTest {
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
         int id1 = 19;
-        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
+        UserAccount test = new UserAccount();
         test.setUsername(user1);
 
         assertTrue(test.getUsername().equals(user1));
@@ -33,7 +33,7 @@ public class UserAccountTest {
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
         int id1 = 19;
-        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
+        UserAccount test = new UserAccount();
 
         try { // exception expected
             test.setUsername(user1);
@@ -56,7 +56,7 @@ public class UserAccountTest {
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
         int id1 = 19;
-        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
+        UserAccount test = new UserAccount();
         test.setFirstName(first1);
 
         assertTrue(test.getFirstName().equals(first1));
@@ -72,7 +72,7 @@ public class UserAccountTest {
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
         int id1 = 19;
-        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
+        UserAccount test = new UserAccount();
         test.setFirstName(last1);
 
         assertTrue(test.getFirstName().equals(last1));
@@ -88,7 +88,7 @@ public class UserAccountTest {
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
         int id1 = 19;
-        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
+        UserAccount test = new UserAccount();
         test.setEmailAdd(eAdd1);
 
         assertTrue(test.getEmailAdd().equals(eAdd1));
@@ -104,7 +104,7 @@ public class UserAccountTest {
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
         int id1 = 19;
-        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
+        UserAccount test = new UserAccount();
         test.setAddress(addr1);
 
         assertTrue(test.getAddress().equals(addr1));
@@ -120,7 +120,7 @@ public class UserAccountTest {
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
         int id1 = 19;
-        UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
+        UserAccount test = new UserAccount();
         test.setPhoneNum(pNum1);
 
         assertTrue(test.getPhoneNum().equals(pNum1));
@@ -178,5 +178,7 @@ public class UserAccountTest {
         assertTrue(test.getPassword().equals(pw1));
         assertTrue(test.getID() == id1);
     }
+
+    //TODO: test unique username and unique id for when elasticsearch is implemented
 
 }

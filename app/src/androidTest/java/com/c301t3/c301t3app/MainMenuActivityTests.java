@@ -15,7 +15,7 @@ public class MainMenuActivityTests extends ActivityInstrumentationTestCase2{
         Activity activity = getActivity();
     }
 
-    public void testSearch() { //tests on hardcoded sample tasks
+    public void testSearch() { //tests on hardcoded sample tasks TODO: update for ES implementation
         solo = new Solo(getInstrumentation(),getActivity());
         solo.assertCurrentActivity("Wrong activity", MainMenuActivity.class);
         solo.clickOnView(solo.getView(R.id.searchBar));
