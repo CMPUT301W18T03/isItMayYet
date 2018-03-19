@@ -29,6 +29,11 @@ public class JsonHandler {
     private File userData;
     private File userTask;
 
+    /**
+     * Outlines the structure and initalize Json Handler.
+     * @param context application context
+     */
+
     public JsonHandler(Context context) {
         if(context == null) {
             taskQueue = new File(taskQueuePath);
@@ -41,6 +46,11 @@ public class JsonHandler {
         }
     }
 
+    /**
+     * Puts user account into gson format.
+     * @param u this is a user account
+     */
+
     public void dumpUser(UserAccount u) {
         String repr = gson.toJson(u);
         try {
@@ -51,6 +61,11 @@ public class JsonHandler {
             Log.e("IOError", e.getMessage());
         }
     }
+
+    /**
+     * Retrieves user account from gson, into a UserAccount object
+     * @return UserAccount object
+     */
 
     public UserAccount loadUser() {
         FileReader file = null;
@@ -64,6 +79,11 @@ public class JsonHandler {
         return u;
     }
 
+    /**
+     * Creates a gson object to wirte that is tasks.
+     * @param t Tasks object
+     */
+
     public void dumpUserTasks(ArrayList<Task> t) {
         String repr = gson.toJson(t);
         try {
@@ -74,6 +94,11 @@ public class JsonHandler {
             Log.e("IOError", e.getMessage());
         }
     }
+
+    /**
+     * Loads a user task from gson to an ArrayList type.
+     * @return object of type ArrayList
+     */
 
     public ArrayList<Task> loadUserTasks() {
         FileReader file = null;
@@ -87,6 +112,10 @@ public class JsonHandler {
         return t;
     }
 
+    /**
+     * If full, makes a queue and dumps it to a queue.
+     * @param t ArrayList type
+     */
 
     public void dumpTaskToQueue(Task t) {
         ArrayList<Task> q = this.loadTaskQueue();
@@ -103,6 +132,11 @@ public class JsonHandler {
             Log.e("IOError", e.getMessage());
         }
     }
+
+    /**
+     * Load task from Queue
+     * @return ArrayList of tasks.
+     */
 
     public ArrayList<Task> loadTaskQueue() {
         FileReader file = null;

@@ -38,15 +38,15 @@ public class SimpleLoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                UserAccount u = j.loadUser();
+//                UserAccount u = j.loadUser();
 
-                // login confirmation logic
-                if (etUsername.getText().toString() == u.getUsername()){
-
-                }
-                else{
-
-                }
+//                // login confirmation logic
+//                if (etUsername.getText().toString() == u.getUsername()){
+//
+//                }
+//                else{
+//
+//                }
 
                 Intent mainIntent = new Intent(SimpleLoginActivity.this, MainMenuActivity.class);
                 SimpleLoginActivity.this.startActivity(mainIntent);

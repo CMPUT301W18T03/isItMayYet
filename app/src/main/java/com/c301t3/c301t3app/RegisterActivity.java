@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 /**
  * Created by kiefer on 2018-03-08.
- * Class for Register
+ * Class for Registering a new user.
  */
 
 public class RegisterActivity extends AppCompatActivity {
@@ -70,15 +70,17 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Check if field is empty, prevents crashes
+     * @param editField
+     * @return boolean
+     */
+
     private boolean isEmpty(EditText editField) {
         if (editField.getText().toString().trim().length() > 0) {
             return false;
         }
         return true;
     }
-
-    // Refer to select_task_activity for
-    // taskStat.setText(currentTask.getStatus());
-    // taskPrice.setText(currentTask.getPrice());
-    // except for editing user profile, via register view.
+    
 }

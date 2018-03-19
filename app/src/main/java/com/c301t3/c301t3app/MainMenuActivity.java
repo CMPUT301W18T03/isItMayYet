@@ -49,7 +49,7 @@ public class MainMenuActivity extends AppCompatActivity{
 
     /**
      * @param item The menu  item selected.
-     * @return
+     * @return item selected.
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -160,6 +160,7 @@ public class MainMenuActivity extends AppCompatActivity{
 
     //-----------Menu  Stuff ends here-----------//
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,6 +170,10 @@ public class MainMenuActivity extends AppCompatActivity{
         taskListView = findViewById(R.id.tasksView);
 
         //debug
+        /**
+         * Test Cases
+         */
+
         Task task0 = new Task("Task0","Description for task0",TaskStatus.REQUESTED,15);
         Task task1 = new Task("Task1","There isn't really any reason to describe this",TaskStatus.BIDDED,20);
         Task task2 = new Task("Task2","Desc2",TaskStatus.ASSIGNED,20);
@@ -195,7 +200,7 @@ public class MainMenuActivity extends AppCompatActivity{
     }
 
     /**
-     *
+     * Creates the task list to show the user all the tasks they can search for.
      */
     @Override
     protected void onStart() {
