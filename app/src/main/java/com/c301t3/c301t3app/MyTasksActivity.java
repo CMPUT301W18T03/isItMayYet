@@ -101,7 +101,8 @@ public class MyTasksActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        loadFromInfoPasser();
+         loadFromInfoPasser();
+        // loadInfo();
 
         assignedAdapter = new ArrayAdapter<Task>(this, R.layout.my_tasks_assigned, assignedTaskList);
         requestedAdapter = new ArrayAdapter<Task>(this, R.layout.my_tasks_requested, requestedTaskList);
@@ -134,7 +135,11 @@ public class MyTasksActivity extends AppCompatActivity {
         if (task != null) {
             requestedTaskList.set(taskIndex, task);
         }
-
     }
+
+//    private void loadInfo() {
+//        final JsonHandler j = new JsonHandler(this);
+//        requestedTaskList = j.loadUserTasks();
+//    }
 
 }

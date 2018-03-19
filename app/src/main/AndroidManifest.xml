@@ -63,7 +63,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.c301t3.c301t3app.MainMenuActivity" />
         </activity>
-        <activity android:name=".ViewBidsActivity"></activity>
+        <activity
+            android:name=".ViewBidsActivity"
+            android:label="activity_view_bids"
+            android:parentActivityName=".ViewBidsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.c301t3.c301t3app.MyTasksActivity" />
+        </activity>
     </application>
 
 </manifest>
