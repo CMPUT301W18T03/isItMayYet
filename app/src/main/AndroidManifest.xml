@@ -57,7 +57,7 @@
 
         <activity
             android:name=".NewTaskActivity"
-            android:label="new_task_activity.xml"
+            android:label="New task"
             android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
