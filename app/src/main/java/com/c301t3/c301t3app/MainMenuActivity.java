@@ -80,6 +80,61 @@ public class MainMenuActivity extends AppCompatActivity{
             case R.id.myTasks:
                 Toast.makeText(getApplicationContext(), "MyTasks selected", Toast.LENGTH_SHORT).show();
                 Intent myTaskIntent = new Intent(activity, MyTasksActivity.class);
+
+                //---------------------------------------------------------------------------------///
+                /* Henry's code, seems to assign test shit. */
+                ArrayList<Task> assignedTaskList = new ArrayList<Task>();
+                ArrayList<Task> requestedTaskList = new ArrayList<Task>();
+
+                Task assignedTask0 = new Task("assignedTask0",
+                        "assignedTask description0",
+                        TaskStatus.ASSIGNED, 10);
+
+                Task assignedTask1 = new Task("assignedTask1",
+                        "assignedTask description1",
+                        TaskStatus.COMPLETED, 15);
+
+                assignedTaskList.add(assignedTask0);
+                assignedTaskList.add(assignedTask1);
+
+                Bid bid0 = new Bid(1920, 12345);
+                Bid bid1 = new Bid(1254, 54321);
+                Bid bidx = new Bid(420, 99999);
+                Bid bidy = new Bid(720, 33333);
+
+                ArrayList<Bid> bids0 = new ArrayList<Bid>();
+                bids0.add(bid0);
+                bids0.add(bid1);
+
+                ArrayList<Bid> bids1 = new ArrayList<Bid>();
+                bids1.add(bidx);
+                bids1.add(bidy);
+
+                Task requestedTask0 = new Task("requestedTask0",
+                        "requestedTask description0",
+                        TaskStatus.REQUESTED, 11, bids0);
+
+                Task requestedTask1 = new Task("requestedTask1",
+                        "requestedTask description1",
+                        TaskStatus.BIDDED, 19, bids1);
+
+                requestedTaskList.add(requestedTask0);
+                requestedTaskList.add(requestedTask1);
+
+                final InfoPasser info = InfoPasser.getInstance();
+                Bundle bundle = new Bundle();
+
+                TaskList adaptedAssignedList = new TaskList(assignedTaskList);
+                TaskList adaptedRequestedList = new TaskList(requestedTaskList);
+
+                bundle.putSerializable("assignedTaskList", adaptedAssignedList);
+                bundle.putSerializable("requestedTaskList", adaptedRequestedList);
+
+                info.setInfo(bundle);
+
+                //---------------------------------------------------------------------------------///
+
+
                 activity.startActivity(myTaskIntent);
 
 
