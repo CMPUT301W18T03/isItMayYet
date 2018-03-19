@@ -45,6 +45,9 @@ public class RegisterActivity extends AppCompatActivity {
                 account.setPassword(etPassword.getText().toString());
 
 
+                //handle user.id here. needs to increment based on existing count of users.
+                
+
                 // send user account to jsonHandler.
                 j.dumpUser(account);
 
