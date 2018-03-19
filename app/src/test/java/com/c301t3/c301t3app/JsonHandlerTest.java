@@ -31,7 +31,7 @@ public class JsonHandlerTest {
         Task t1 = new Task();
         t1.setName("Carry me to diamond");
         Task t2 = new Task();
-        t2.setName("Make me a halloween costume");
+        t2.setName("Make me a halloween costume~");
         a.add(t1);
         a.add(t2);
         JsonHandler j = new JsonHandler(null);
