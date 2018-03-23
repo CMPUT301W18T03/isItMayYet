@@ -1,5 +1,7 @@
 package com.c301t3.c301t3app;
 
+import android.util.Log;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -23,11 +25,13 @@ public class ElasticsearchControllerTest {
 
         ElasticsearchController.GetTask getTask = new ElasticsearchController.GetTask();
 
-        ArrayList<Task> r1 = getTask.doInBackground("diamond");
+//        ArrayList<Task> r1;
+        Object o = getTask.execute();
+        Log.i("execute", o.toString());
 
-        Task t2 = r1.get(0);
+//        Task t2 = r1.get(0);
 
-        assertTrue(t1.getName().equals(t2.getName()));
+//        assertTrue(t1.getName().equals(t2.getName()));
 
     }
 }

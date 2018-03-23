@@ -54,12 +54,19 @@ public class ElasticsearchController {
     public static class GetTask extends AsyncTask<String, Void, ArrayList<Task>> {
         @Override
         protected ArrayList<Task> doInBackground(String... search_parameters) {
-            verifySettings();
+            //verifySettings();
 
             ArrayList<Task> tasks = new ArrayList<Task>();
 
             // TODO Build the query
-            Search search = new Search.Builder(search_parameters[0]).addIndex("cmput301w18t03").addType("task").build();
+//            Search search = new Search.Builder(search_parameters[0]).addIndex("cmput301w18t03").addType("task").build(); // default
+
+            String query = "{\"query\": {\"term\": {\"name\": %s}}}";
+//            String result = String.format(query, search_parameters);
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301w18t03")
+                    .addType("task")
+                    .build();
 
             try {
                 // TODO get the results of the query
