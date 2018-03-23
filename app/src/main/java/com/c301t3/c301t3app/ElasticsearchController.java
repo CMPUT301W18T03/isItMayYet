@@ -38,12 +38,12 @@ public class ElasticsearchController {
                     if (documentresult.isSucceeded()){
                         t.setId(documentresult.getId());
                     }else{
-
+                        Log.e("Error", "Failed to get a result");
                     }
 
                 }
                 catch (Exception e) {
-                    Log.i("Error", "The application failed to build and send the tweets");
+                    Log.i("Error", "The application failed to build and send the tasks");
                 }
 
             }
@@ -51,31 +51,31 @@ public class ElasticsearchController {
         }
     }
 
-//    public static class GetTask extends AsyncTask<String, Void, ArrayList<NormalTweet>> {
-//        @Override
-//        protected ArrayList<NormalTweet> doInBackground(String... search_parameters) {
-//            verifySettings();
-//
-//            ArrayList<NormalTweet> tweets = new ArrayList<NormalTweet>();
-//
-//            // TODO Build the query
-//            Search search = new Search.Builder(search_parameters[0]).addIndex("testQuery").addType("tweet").build();
-//
-//            try {
-//                // TODO get the results of the query
-//                SearchResult result = client.execute(search);
-//                if (result.isSucceeded()){
-//                    List<NormalTweet> returnTweet = result.getSourceAsObjectList(NormalTweet.class);
-//                    tweets.addAll(returnTweet);
-//                }
-//            }
-//            catch (Exception e) {
-//                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
-//            }
-//
-//            return tweets;
-//        }
-//    }
+    public static class GetTask extends AsyncTask<String, Void, ArrayList<Task>> {
+        @Override
+        protected ArrayList<Task> doInBackground(String... search_parameters) {
+            verifySettings();
+
+            ArrayList<Task> tasks = new ArrayList<Task>();
+
+            // TODO Build the query
+            Search search = new Search.Builder(search_parameters[0]).addIndex("cmput301w18t03").addType("task").build();
+
+            try {
+                // TODO get the results of the query
+                SearchResult result = client.execute(search);
+                if (result.isSucceeded()){
+                    List<Task> returnTweet = result.getSourceAsObjectList(Task.class);
+                    tasks.addAll(returnTweet);
+                }
+            }
+            catch (Exception e) {
+                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            }
+
+            return tasks;
+        }
+    }
 
     //TODO: catch offline flag here?
     public static void verifySettings() {
@@ -88,7 +88,5 @@ public class ElasticsearchController {
             client = (JestDroidClient) factory.getObject();
         }
     }
-
-
 
 }
