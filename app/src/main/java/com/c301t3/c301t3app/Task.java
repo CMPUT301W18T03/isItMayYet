@@ -251,6 +251,21 @@ public class Task implements Serializable {
      * @param i: the bid from the given index of the ArrayList that will be removed.
      */
     public void remBid(int i) { this.bids.remove(i); }
+    
+    /**
+     * Setter for id
+     * @param i: new id
+     */
+    public void setId(String i) {
+        id = i;
+    }
 
+    /**
+     * Getter for id
+     * @return: String id
+     */
+    public String getId() {
+        return id;
+    }
 }
 
