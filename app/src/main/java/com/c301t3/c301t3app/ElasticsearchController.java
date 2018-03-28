@@ -30,7 +30,7 @@ public class ElasticsearchController {
             verifySettings();
 
             for (Task t : tasks) {
-                Index index = new Index.Builder(tasks).index("cmput301w18t03").type("task").build();
+                Index index = new Index.Builder(t).index("cmput301w18t03").type("task").build();
 
                 try {
                     // where is the client?
@@ -51,6 +51,33 @@ public class ElasticsearchController {
         }
     }
 
+//    public static class AddUser extends AsyncTask<UserAccount, Void, Void> {
+//
+//        @Override
+//        protected Void doInBackground(UserAccount user) {
+//            verifySettings();
+//
+//            Index index = new Index.Builder(user).index("cmput301w18t03").type("user").build();
+//
+//            try {
+//                // where is the client?
+//                DocumentResult documentresult = client.execute(index);
+//                if (documentresult.isSucceeded()){
+//                    user.setID(documentresult.getId()); //TODO: fix the setID.. ?
+//                }else{
+//                    Log.e("Error", "Failed to get a result");
+//                }
+//
+//            }
+//            catch (Exception e) {
+//                Log.i("Error", "The application failed to build and send the user");
+//            }
+//
+//            return null;
+//        }
+//    }
+
+
     public static class GetTask extends AsyncTask<String, Void, ArrayList<Task>> {
         @Override
         protected ArrayList<Task> doInBackground(String... search_parameters) {
@@ -60,8 +87,8 @@ public class ElasticsearchController {
 
             // TODO Build the query
 //            Search search = new Search.Builder(search_parameters[0]).addIndex("cmput301w18t03").addType("task").build(); // default
-
-            String query = "{\"query\": {\"term\": {\"name\": %s}}}";
+//          TODO: Make an actual query parser.
+            String query = "{\"query\": {\"term\": {\"name\": \"john\" }}}";
 //            String result = String.format(query, search_parameters);
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w18t03")
@@ -72,8 +99,8 @@ public class ElasticsearchController {
                 // TODO get the results of the query
                 SearchResult result = client.execute(search);
                 if (result.isSucceeded()){
-                    List<Task> returnTweet = result.getSourceAsObjectList(Task.class);
-                    tasks.addAll(returnTweet);
+                    List<Task> returnTask = result.getSourceAsObjectList(Task.class);
+                    tasks.addAll(returnTask);
                 }
             }
             catch (Exception e) {
@@ -82,7 +109,47 @@ public class ElasticsearchController {
 
             return tasks;
         }
+
+        @Override
+        protected void onPostExecute( ArrayList<Task> task ) {
+            Log.i("E", task.toString());
+        }
     }
+
+    //TODO: MODIFY THIS FOR GetUser
+//    public static class GetUser extends AsyncTask<String, Void, Void> {
+//        @Override
+//        protected UserAccount doInBackground(String... search_parameters) {
+//            //verifySettings();
+//
+//            ArrayList<Task> tasks = new ArrayList<Task>();
+//
+//            // TODO Build the query
+////            Search search = new Search.Builder(search_parameters[0]).addIndex("cmput301w18t03").addType("task").build(); // default
+//
+//            String query = "{\"query\": {\"term\": {\"name\": %s}}}";
+////            String result = String.format(query, search_parameters);
+//            Search search = new Search.Builder(query)
+//                    .addIndex("cmput301w18t03")
+//                    .addType("task")
+//                    .build();
+//
+//            try {
+//                // TODO get the results of the query
+//                SearchResult result = client.execute(search);
+//                if (result.isSucceeded()){
+//                    List<Task> returnTask = result.getSourceAsObjectList(Task.class);
+//                    tasks.addAll(returnTask);
+//                }
+//            }
+//            catch (Exception e) {
+//                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+//            }
+//
+//            return tasks;
+//        }
+//    }
+
 
     //TODO: catch offline flag here?
     public static void verifySettings() {
