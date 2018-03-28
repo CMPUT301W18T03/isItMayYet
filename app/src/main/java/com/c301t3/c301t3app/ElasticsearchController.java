@@ -149,8 +149,8 @@ public class ElasticsearchController {
 //            return tasks;
 //        }
 //    }
-
-
+//
+//
     //TODO: catch offline flag here?
     public static void verifySettings() {
         if (client == null) {

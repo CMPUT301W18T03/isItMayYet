@@ -174,7 +174,7 @@ public class MainMenuActivity extends AppCompatActivity{
         addTaskButton = findViewById(R.id.addTaskButton);
         taskListView = findViewById(R.id.tasksView);
 
-        // test for controller (elastic)
+        // hardcoded test for elasticsearch
         Task t1 = new Task();
         t1.setName("Carry me to diamond");
 
@@ -185,7 +185,7 @@ public class MainMenuActivity extends AppCompatActivity{
         ElasticsearchController.GetTask getTask = new ElasticsearchController.GetTask();
 
 //        ArrayList<Task> r1;
-        getTask.execute("john");
+        getTask.execute("john"); // "john" was manually inserted into the server.
         Object o = null;
         try {
             o = getTask.get();
@@ -201,6 +201,7 @@ public class MainMenuActivity extends AppCompatActivity{
 
 //        assertTrue(t1.getName().equals(t2.getName()));
 
+        // end test for elastic search
 
 
 
