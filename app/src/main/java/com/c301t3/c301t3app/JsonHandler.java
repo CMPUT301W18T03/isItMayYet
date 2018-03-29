@@ -21,9 +21,9 @@ import android.util.Log;
 public class JsonHandler {
     private static Gson gson = new Gson();
 
-    private static String taskQueuePath = "queue.json";
-    private static String userDataPath = "user.json";
-    private static String userTaskPath = "tasks.json";
+    private static String taskQueuePath = "/queue.json";
+    private static String userDataPath = "/user.json";
+    private static String userTaskPath = "/tasks.json";
 
     private File taskQueue;
     private File userData;
@@ -43,6 +43,34 @@ public class JsonHandler {
             taskQueue = new File(context.getFilesDir(), taskQueuePath);
             userData = new File(context.getFilesDir(), userDataPath);
             userTask = new File(context.getFilesDir(), userTaskPath);
+        }
+        try {
+            boolean newQueue = taskQueue.createNewFile();
+            boolean newUser = userData.createNewFile();
+            boolean newTasks = userTask.createNewFile();
+            if (newQueue || newTasks) {
+                ArrayList<Task> emptyTasks = new ArrayList<>();
+                String repr = gson.toJson(emptyTasks);
+                if (newQueue) {
+                    FileWriter writer = new FileWriter(taskQueue);
+                    writer.write(repr);
+                    writer.close();
+                }
+                if (newTasks) {
+                    FileWriter writer = new FileWriter(userTask);
+                    writer.write(repr);
+                    writer.close();
+                }
+            }
+            if (newUser) {
+                UserAccount emptyUser = new UserAccount();
+                String repr = gson.toJson(emptyUser);
+                FileWriter writer = new FileWriter(userData);
+                writer.write(repr);
+                writer.close();
+            }
+        } catch (java.io.IOException e) {
+            Log.e("JSONError", e.getMessage());
         }
     }
 
