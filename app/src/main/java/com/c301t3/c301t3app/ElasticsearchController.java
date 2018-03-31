@@ -123,7 +123,6 @@ public class ElasticsearchController {
     }
 
     public static ArrayList<Task> serverTaskQuery(String... params) {
-        ArrayList<Task> queryResults = new ArrayList<>();
         ElasticsearchController.GetTask getTask = new ElasticsearchController.GetTask();
         getTask.execute(params);
         return getTask.qResults;

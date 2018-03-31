@@ -195,10 +195,17 @@ public class MainMenuActivity extends AppCompatActivity{
             e.printStackTrace();
         }
 
+        // 2nd test
+        Task t2 = new Task();
+        t2.setName("I like cake");
+        ElasticsearchController.taskToServer(t2); // send it to server
+
+        ArrayList<Task> results = ElasticsearchController.serverTaskQuery("cake"); // retrieve from server
+        Log.i("query", results.toString());
+
+
 //        Log.i("execute", o.toString());
-
 //        Task t2 = r1.get(0);
-
 //        assertTrue(t1.getName().equals(t2.getName()));
 
         // end test for elastic search
