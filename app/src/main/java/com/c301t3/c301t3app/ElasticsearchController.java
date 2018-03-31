@@ -8,6 +8,7 @@ import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
@@ -79,7 +80,6 @@ public class ElasticsearchController {
 
 
     public static class GetTask extends AsyncTask<String, Void, ArrayList<Task>> {
-        public ArrayList<Task> qResults;
         @Override
         protected ArrayList<Task> doInBackground(String... search_parameters) {
             //verifySettings();
@@ -124,8 +124,14 @@ public class ElasticsearchController {
 
     public static ArrayList<Task> serverTaskQuery(String... params) {
         ElasticsearchController.GetTask getTask = new ElasticsearchController.GetTask();
-        getTask.execute(params);
-        return getTask.qResults;
+        try {
+            return getTask.execute(params).get();
+        } catch (InterruptedException e) {
+            Log.e("E", "Server access interrupted");
+        } catch (ExecutionException e) {
+            Log.e("E", e.getMessage().toString());
+        }
+        return null;
     }
 
     //TODO: MODIFY THIS FOR GetUser
