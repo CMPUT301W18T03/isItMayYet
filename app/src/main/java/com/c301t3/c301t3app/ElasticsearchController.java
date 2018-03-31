@@ -79,6 +79,7 @@ public class ElasticsearchController {
 
 
     public static class GetTask extends AsyncTask<String, Void, ArrayList<Task>> {
+        public ArrayList<Task> qResults;
         @Override
         protected ArrayList<Task> doInBackground(String... search_parameters) {
             //verifySettings();
@@ -112,8 +113,20 @@ public class ElasticsearchController {
 
         @Override
         protected void onPostExecute( ArrayList<Task> task ) {
-            Log.i("E", task.toString());
+            qResults = task;
         }
+    }
+
+    public static void taskToServer(Task t) {
+        ElasticsearchController.AddTask addTask = new ElasticsearchController.AddTask();
+        addTask.execute(t);
+    }
+
+    public static ArrayList<Task> serverTaskQuery(String... params) {
+        ArrayList<Task> queryResults = new ArrayList<>();
+        ElasticsearchController.GetTask getTask = new ElasticsearchController.GetTask();
+        getTask.execute(params);
+        return getTask.qResults;
     }
 
     //TODO: MODIFY THIS FOR GetUser
