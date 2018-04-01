@@ -86,16 +86,20 @@ public class ElasticsearchController {
 
             ArrayList<Task> tasks = new ArrayList<Task>();
 
-            // TODO Build the query
-//            Search search = new Search.Builder(search_parameters[0]).addIndex("cmput301w18t03").addType("task").build(); // default
 //          TODO: Make an actual query parser.
-            String query = "{\"query\": {\"term\": {\"name\": \"john\" }}}";
-//            String result = String.format(query, search_parameters);
+            String query = "{\"query\": {\"bool\": {\"must\": [";
+            for (String s: search_parameters) {
+                query += "{ \"match\": { \"name\": \"";
+                query += s;
+                query += "\" } }, ";
+            }
+            query = query.substring(0, query.length() - 2);
+            query += " ] } } }";
+            // String query = "{\"query\": {\"match\": " + terms + "}}";
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w18t03")
                     .addType("task")
                     .build();
-
             try {
                 // TODO get the results of the query
                 SearchResult result = client.execute(search);
