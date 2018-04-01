@@ -110,11 +110,6 @@ public class ElasticsearchController {
 
             return tasks;
         }
-
-        @Override
-        protected void onPostExecute( ArrayList<Task> task ) {
-            qResults = task;
-        }
     }
 
     public static void taskToServer(Task t) {
@@ -123,10 +118,10 @@ public class ElasticsearchController {
     }
 
     public static ArrayList<Task> serverTaskQuery(String... params) {
-        ArrayList<Task> queryResults = new ArrayList<>();
         ElasticsearchController.GetTask getTask = new ElasticsearchController.GetTask();
         try {
-            return getTask.execute(params).get();
+            getTask.execute(params);
+            return getTask.get();
         } catch (InterruptedException e) {
             Log.e("E", "Server access interrupted");
         } catch (ExecutionException e) {
