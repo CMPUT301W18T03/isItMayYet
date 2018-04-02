@@ -204,10 +204,10 @@ public class MainMenuActivity extends AppCompatActivity{
 
 
         // hardcoded test for user elasticsearch
-        UserAccount u1 = new UserAccount();
-        u1.setFirstName("Chad");
+//        UserAccount u1 = new UserAccount();
+//        u1.setFirstName("Chad");
 
-        ElasticsearchController.userToServer(u1);
+//        ElasticsearchController.userToServer(u1);
 
         // end test for elastic search
 

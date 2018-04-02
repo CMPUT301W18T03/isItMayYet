@@ -3,10 +3,13 @@ package com.c301t3.c301t3app;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by kiefer on 2018-03-08.
@@ -43,6 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
                             "Please fill in all the fields",Toast.LENGTH_LONG).show();
                 }
 
+                //TODO: I encountered an error here, same pw, threw error. Check logic.
                 else if (etPassword.getText().toString() != etConfirmPassword.getText().toString()) {
                     Toast.makeText(RegisterActivity.this,
                             "Password does not match",Toast.LENGTH_LONG).show();
@@ -55,7 +59,20 @@ public class RegisterActivity extends AppCompatActivity {
                     account.setEmailAdd(etEmail.getText().toString());
                     account.setPhoneNum(etPhone.getText().toString());
                     account.setPassword(etPassword.getText().toString());
-//                    account.setID(UserAccount.userCount++);
+
+                    // send user to Elasticsearch server
+                    try {
+                        ElasticsearchController.userToServer(account);
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    Log.i("UniqueID", account.getID());
+
+                    // get uniqueID from Elasticsearch
+//                    account.setID(ElasticsearchController.addUser.getID());
 
                     // send user account to jsonHandler.
                     j.dumpUser(account);

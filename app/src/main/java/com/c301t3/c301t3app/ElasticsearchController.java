@@ -114,11 +114,12 @@ public class ElasticsearchController {
      * User methods for Elasticsearch
      */
 
-    public static class AddUser extends AsyncTask<UserAccount, Void, Void> {
+    public static class AddUser extends AsyncTask<UserAccount, Void, String> {
 
         @Override
-        protected Void doInBackground(UserAccount... user) {
+        protected String doInBackground(UserAccount... user) {
             verifySettings();
+            String userID = new String();
 
             for (UserAccount u : user) {
                 Index index = new Index.Builder(u).index("cmput301w18t03").type("user").build();
@@ -129,6 +130,7 @@ public class ElasticsearchController {
                     if (documentresult.isSucceeded()) {
                         u.setID(documentresult.getId());
                         Log.i("UserID", u.getID());
+                        userID = documentresult.getId();
                     } else {
                         Log.e("Error", "Failed to get a result");
                     }
@@ -136,7 +138,7 @@ public class ElasticsearchController {
                     Log.i("Error", "The application failed to build and send the user");
                 }
             }
-            return null;
+            return userID;
         }
 
     }
@@ -176,9 +178,10 @@ public class ElasticsearchController {
 //        }
 //    }
 //
-    public static void userToServer(UserAccount u) {
+    public static void userToServer(UserAccount u) throws ExecutionException, InterruptedException {
         ElasticsearchController.AddUser addUser = new ElasticsearchController.AddUser();
         addUser.execute(u);
+        u.setID(addUser.get());
     }
 
 //    public static ArrayList<Task> serverUserQuery(String... params) {
