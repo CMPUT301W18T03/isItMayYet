@@ -55,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
                     account.setEmailAdd(etEmail.getText().toString());
                     account.setPhoneNum(etPhone.getText().toString());
                     account.setPassword(etPassword.getText().toString());
-                    account.setID(UserAccount.userCount++);
+//                    account.setID(UserAccount.userCount++);
 
                     // send user account to jsonHandler.
                     j.dumpUser(account);

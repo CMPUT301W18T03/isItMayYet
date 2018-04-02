@@ -28,7 +28,7 @@ public class UserAccount {
     private String address;
     private String phoneNum;
     private String password;
-    private int uniqueID;
+    private String uniqueID;
 
 
     // default constructor
@@ -40,7 +40,7 @@ public class UserAccount {
         this.address = "";
         this.phoneNum = "";
         this.password = "";
-        this.uniqueID = -1;
+        this.uniqueID = "";
     }
     /**
      * Creating a new UserAccount includes all the following parameters
@@ -55,7 +55,7 @@ public class UserAccount {
      * @throws IllegalArgumentException; when username is longer than allowed
      */
     public UserAccount(String username, String firstName, String lastName, String emailAdd,
-                       String address, String phoneNum, String password, int id)
+                       String address, String phoneNum, String password, String id)
             throws IllegalArgumentException {
         this.setUsername(username);
         this.setFirstName(firstName);
@@ -140,7 +140,7 @@ public class UserAccount {
      *
      * @param uniqueID; ID of the user
      */
-    public void setID(int uniqueID) {
+    public void setID(String uniqueID) {
         this.uniqueID = uniqueID;
     }
 
@@ -204,7 +204,7 @@ public class UserAccount {
      *
      * @return uniqueID; the unique ID of the account
      */
-    public int getID() {
+    public String getID() {
         return this.uniqueID;
     }
 
