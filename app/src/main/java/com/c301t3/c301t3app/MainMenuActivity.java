@@ -178,7 +178,6 @@ public class MainMenuActivity extends AppCompatActivity{
         Task t1 = new Task();
         t1.setName("Carry me to diamond");
 
-
         ElasticsearchController.AddTask addTask = new ElasticsearchController.AddTask();
         addTask.execute(t1);
 
@@ -204,9 +203,11 @@ public class MainMenuActivity extends AppCompatActivity{
         Log.i("query", results.toString());
 
 
-//        Log.i("execute", o.toString());
-//        Task t2 = r1.get(0);
-//        assertTrue(t1.getName().equals(t2.getName()));
+        // hardcoded test for user elasticsearch
+        UserAccount u1 = new UserAccount();
+        u1.setFirstName("Chad");
+
+        ElasticsearchController.userToServer(u1);
 
         // end test for elastic search
 
