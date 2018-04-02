@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -172,6 +173,44 @@ public class MainMenuActivity extends AppCompatActivity{
 
         addTaskButton = findViewById(R.id.addTaskButton);
         taskListView = findViewById(R.id.tasksView);
+
+        // hardcoded test for elasticsearch
+        Task t1 = new Task();
+        t1.setName("Carry me to diamond");
+
+
+        ElasticsearchController.AddTask addTask = new ElasticsearchController.AddTask();
+        addTask.execute(t1);
+
+        ElasticsearchController.GetTask getTask = new ElasticsearchController.GetTask();
+
+//        ArrayList<Task> r1;
+        getTask.execute("john"); // "john" was manually inserted into the server.
+        Object o = null;
+        try {
+            o = getTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        // 2nd test
+        Task t2 = new Task();
+        t2.setName("I like cake");
+        ElasticsearchController.taskToServer(t2); // send it to server
+
+        ArrayList<Task> results = ElasticsearchController.serverTaskQuery("cake"); // retrieve from server
+        Log.i("query", results.toString());
+
+
+//        Log.i("execute", o.toString());
+//        Task t2 = r1.get(0);
+//        assertTrue(t1.getName().equals(t2.getName()));
+
+        // end test for elastic search
+
+
 
         //debug
         /**
