@@ -17,6 +17,7 @@ package com.c301t3.c301t3app;
 public class UserAccount {
     // Maximum length for a username is currently 32
     private final static int MAX_USERNAME_LENGTH = 32;
+    // Number of registered users
     // All the variables that hold data
     private String username;
     private String firstName;
