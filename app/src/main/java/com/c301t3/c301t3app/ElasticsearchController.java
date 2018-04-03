@@ -1,7 +1,9 @@
 package com.c301t3.c301t3app;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
@@ -41,14 +43,13 @@ public class ElasticsearchController {
                 try {
                     // where is the client?
                     DocumentResult documentresult = client.execute(index);
-                    if (documentresult.isSucceeded()){
+                    if (documentresult.isSucceeded()) {
                         t.setId(documentresult.getId());
-                    }else{
+                    } else {
                         Log.e("Error", "Failed to get a result");
                     }
 
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     Log.i("Error", "The application failed to build and send the tasks");
                 }
 
@@ -71,8 +72,7 @@ public class ElasticsearchController {
                 try {
                     JestResult j = client.execute(delete);
                     result = result && j.isSucceeded();
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     Log.i("Error", e.getMessage().toString());
                 }
 
@@ -106,7 +106,7 @@ public class ElasticsearchController {
 
 //          TODO: Make an actual query parser.
             String query = "{\"query\": {\"bool\": {\"must\": [";
-            for (String s: search_parameters) {
+            for (String s : search_parameters) {
                 query += "{ \"match\": { \"name\": \"";
                 query += s;
                 query += "\" } }, ";
@@ -121,12 +121,11 @@ public class ElasticsearchController {
             try {
                 // TODO get the results of the query
                 SearchResult result = client.execute(search);
-                if (result.isSucceeded()){
+                if (result.isSucceeded()) {
                     List<Task> returnTask = result.getSourceAsObjectList(Task.class);
                     tasks.addAll(returnTask);
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
             }
 
@@ -135,6 +134,7 @@ public class ElasticsearchController {
     }
 
     public static void taskToServer(Task t) {
+        if (!checkOnline())
         ElasticsearchController.AddTask addTask = new ElasticsearchController.AddTask();
         addTask.execute(t);
     }
@@ -250,13 +250,23 @@ public class ElasticsearchController {
 //    }
 
 
-
     /**
      * Other methods for Elasticsearch
      */
 
-//    public boolean isConnected(UserAccount user) {
-//        return ApplicationController.isOnline();
+    /**
+     * method checks if online connection exists.
+     * @return
+     */
+    public static boolean checkOnline() {
+        if (!ApplicationController.isOnline(ApplicationController.c)) {
+            return false;
+        } else { return true; }
+    }
+//    else if (!ApplicationController.isOnline(getApplicationContext())){
+//        Toast.makeText(RegisterActivity.this,
+//                "Internet Connection Unavailable: Registration unsuccessful.",
+//                Toast.LENGTH_LONG).show();
 //    }
 
     //TODO: catch offline flag here?
