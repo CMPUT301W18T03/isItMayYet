@@ -38,5 +38,20 @@ public class RegisterActivityTests extends ActivityInstrumentationTestCase2{
         solo.waitForText("Password does not match"); // message from toast on non-matching pw
     }
 
+    public void testAccountRegisterSuccess() { //TODO: implement ES
+        solo = new Solo(getInstrumentation(),getActivity());
+        solo.assertCurrentActivity("Wrong activity", RegisterActivity.class);
+        solo.enterText(0,"username");
+        solo.enterText(1,"email");
+        solo.enterText(2,"7807800000");
+        solo.enterText(3,"password1");
+        solo.enterText(4,"password1");
+        solo.enterText(5,"firstname");
+        solo.enterText(6,"lastname");
+        solo.clickOnView(solo.getView(R.id.bCreate));
+
+        solo.assertCurrentActivity("Wrong activity", SimpleLoginActivity.class);
+    }
+
     //TODO: test on registering
 }
