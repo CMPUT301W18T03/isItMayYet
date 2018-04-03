@@ -52,7 +52,6 @@ public class ElasticsearchController {
                 } catch (Exception e) {
                     Log.i("Error", "The application failed to build and send the tasks");
                 }
-
             }
             return null;
         }
@@ -66,7 +65,7 @@ public class ElasticsearchController {
             Boolean result = true;
 
             for (String s : ids) {
-                String query = "{\"_id\":\"" + s + "\"}";
+                String query = "{\"query\": {\"match\": {\"_id\":\"" + s + "\"}}}";
                 DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301w18t03").addType("task").build();
 
                 try {
