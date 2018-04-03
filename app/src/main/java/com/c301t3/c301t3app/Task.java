@@ -3,6 +3,7 @@ package com.c301t3.c301t3app;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import io.searchbox.annotations.JestId;
 
 /**
  * Created by Henry on 23/02/18.
