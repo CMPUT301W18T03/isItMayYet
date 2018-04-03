@@ -41,14 +41,6 @@ public class SimpleLoginActivity extends AppCompatActivity {
 
 //                UserAccount u = j.loadUser();
 
-//                // login confirmation logic
-//                if (etUsername.getText().toString() == u.getUsername()){
-//
-//                }
-//                else{
-//
-//                }
-
                 Intent mainIntent = new Intent(SimpleLoginActivity.this, MainMenuActivity.class);
                 ApplicationController.setUser(new UserAccount()); //TODO: replace for ES
                 SimpleLoginActivity.this.startActivity(mainIntent);

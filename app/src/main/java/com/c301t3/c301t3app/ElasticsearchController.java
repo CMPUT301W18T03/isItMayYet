@@ -136,7 +136,7 @@ public class ElasticsearchController {
                     }
                 } catch (Exception e) {
 //                    Log.i("Error", "The application failed to build and send the user");
-                    Log.i("Error", e.getMessage().toString());
+                    Log.i("Error", e.getMessage());
                 }
             }
             return userID;
@@ -212,6 +212,10 @@ public class ElasticsearchController {
     /**
      * Other methods for Elasticsearch
      */
+
+//    public boolean isConnected(UserAccount user) {
+//        return ApplicationController.isOnline();
+//    }
 
     //TODO: catch offline flag here?
     public static void verifySettings() {
