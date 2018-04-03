@@ -46,8 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
                             "Please fill in all the fields",Toast.LENGTH_LONG).show();
                 }
 
-                //TODO: I encountered an error here, same pw, threw error. Check logic.
-                else if (etPassword.getText().toString() != etConfirmPassword.getText().toString()) {
+                else if (!(etPassword.getText().toString().equals(etConfirmPassword.getText().toString()))) {
                     Toast.makeText(RegisterActivity.this,
                             "Password does not match",Toast.LENGTH_LONG).show();
                 }

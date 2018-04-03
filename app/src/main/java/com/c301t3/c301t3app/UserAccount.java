@@ -1,6 +1,8 @@
 package com.c301t3.c301t3app;
 
 
+import static com.c301t3.c301t3app.ApplicationController.MAX_USERNAME_LENGTH;
+
 /**
  * An account class to be used by the user, including username, firstName, lastName,
  * emailAddress, address, and phoneNumber.

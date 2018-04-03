@@ -56,8 +56,14 @@ public class WelcomeActivity extends AppCompatActivity {
      */
     public void loginClick(View view) {
         //Toast.makeText(getApplicationContext(), "Login clicked",Toast.LENGTH_SHORT).show();
-        loginIntent = new Intent(activity, SimpleLoginActivity.class);
-        startActivity(loginIntent);
+        if (ApplicationController.getCurrUser()==null){
+            loginIntent = new Intent(activity, SimpleLoginActivity.class);
+            startActivity(loginIntent);
+        }
+
+        else {
+            startActivity(mainMenuIntent);
+        }
 
     }
 
