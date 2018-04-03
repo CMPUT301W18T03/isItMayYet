@@ -162,12 +162,12 @@ public class ElasticsearchController {
                         Log.e("Error", "Failed to get a result");
                     }
                 } catch (Exception e) {
-                    Log.i("Error", "The application failed to build and send the user");
+//                    Log.i("Error", "The application failed to build and send the user");
+                    Log.i("Error", e.getMessage().toString());
                 }
             }
             return userID;
         }
-
     }
 
 
@@ -209,6 +209,7 @@ public class ElasticsearchController {
         ElasticsearchController.AddUser addUser = new ElasticsearchController.AddUser();
         addUser.execute(u);
         u.setID(addUser.get());
+
     }
 
 //    public static ArrayList<Task> serverUserQuery(String... params) {
@@ -223,6 +224,17 @@ public class ElasticsearchController {
 //        }
 //        return null;
 //    }
+
+
+//    public static class UpdateUser extends AsyncTask<UserAccount, Void, Boolean> {
+//
+//    }
+
+//    public static void userUpdateServer(UserAccount u) {
+//
+//    }
+
+
 
     /**
      * Other methods for Elasticsearch

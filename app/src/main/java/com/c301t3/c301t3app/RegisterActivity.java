@@ -68,10 +68,10 @@ public class RegisterActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    Log.i("UniqueID", account.getID());
+                    // check to see if the uniqueID matches. ofc it does.
+                    Log.i("uniqueID", account.getID());
 
-                    // get uniqueID from Elasticsearch
-//                    account.setID(ElasticsearchController.addUser.getID());
+                    //TODO: update user in database now after having set the uniqueID
 
                     // send user account to jsonHandler.
                     j.dumpUser(account);
@@ -79,7 +79,6 @@ public class RegisterActivity extends AppCompatActivity {
                     Intent loginIntent = new Intent(RegisterActivity.this, SimpleLoginActivity.class);
                     RegisterActivity.this.startActivity(loginIntent);
                 }
-
 
             }
         });

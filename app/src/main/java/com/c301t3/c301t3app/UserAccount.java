@@ -19,6 +19,7 @@ import static com.c301t3.c301t3app.ApplicationController.MAX_USERNAME_LENGTH;
 public class UserAccount {
     // Maximum length for a username is currently 32
     private final static int MAX_USERNAME_LENGTH = 32;
+    // Number of registered users
     // All the variables that hold data
     private String username;
     private String firstName;
@@ -199,7 +200,7 @@ public class UserAccount {
      */
     public String getPassword() { return this.password; }
 
-    /** Returns teh unique ID of the account
+    /** Returns the unique ID of the account
      *
      * @return uniqueID; the unique ID of the account
      */
