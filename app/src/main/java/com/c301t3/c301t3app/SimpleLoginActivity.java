@@ -1,5 +1,6 @@
 package com.c301t3.c301t3app;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -36,7 +37,7 @@ public class SimpleLoginActivity extends AppCompatActivity {
         // go to main activity
         bSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //TODO: add ES
 
 //                UserAccount u = j.loadUser();
 
@@ -49,6 +50,7 @@ public class SimpleLoginActivity extends AppCompatActivity {
 //                }
 
                 Intent mainIntent = new Intent(SimpleLoginActivity.this, MainMenuActivity.class);
+                ApplicationController.setUser(new UserAccount()); //TODO: replace for ES
                 SimpleLoginActivity.this.startActivity(mainIntent);
             }
         });
