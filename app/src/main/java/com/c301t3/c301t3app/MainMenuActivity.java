@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
@@ -175,6 +176,8 @@ public class MainMenuActivity extends AppCompatActivity{
         taskListView = findViewById(R.id.tasksView);
 
         // hardcoded test for elasticsearch
+        UserAccount u = new UserAccount();
+        ApplicationController.setUser(u);
         Task t1 = new Task();
         t1.setName("Carry me to diamond");
 
@@ -200,6 +203,16 @@ public class MainMenuActivity extends AppCompatActivity{
         ElasticsearchController.taskToServer(t2); // send it to server
 
         ArrayList<Task> results = ElasticsearchController.serverTaskQuery("cake"); // retrieve from server
+        Log.i("query", results.toString());
+
+        // deleting test
+        Task t3 = new Task();
+        t3.setName("Hitler did nothing wrong");
+        ElasticsearchController.taskToServer(t3);
+
+        ElasticsearchController.deleteTaskByID(t3.getId());
+
+        results = ElasticsearchController.serverTaskQuery("hitler");
         Log.i("query", results.toString());
 
 
