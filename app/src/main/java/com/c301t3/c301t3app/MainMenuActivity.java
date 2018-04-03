@@ -207,12 +207,12 @@ public class MainMenuActivity extends AppCompatActivity{
 
         // deleting test
         Task t3 = new Task();
-        t3.setName("Hitler did nothing wrong");
+        t3.setName("death is a sweet sleep");
         ElasticsearchController.taskToServer(t3);
 
-        ElasticsearchController.deleteTaskByID(t3.getId());
+        Boolean b = ElasticsearchController.deleteTaskByID(t3.getId());
 
-        results = ElasticsearchController.serverTaskQuery("hitler");
+        results = ElasticsearchController.serverTaskQuery("death");
         Log.i("query", results.toString());
 
 
