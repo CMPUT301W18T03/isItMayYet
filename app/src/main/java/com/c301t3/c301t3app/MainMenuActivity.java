@@ -202,6 +202,8 @@ public class MainMenuActivity extends AppCompatActivity{
         ArrayList<Task> results = ElasticsearchController.serverTaskQuery("cake"); // retrieve from server
         Log.i("query", results.toString());
 
+        // deleting test
+
 
         // hardcoded test for user elasticsearch
 //        UserAccount u1 = new UserAccount();

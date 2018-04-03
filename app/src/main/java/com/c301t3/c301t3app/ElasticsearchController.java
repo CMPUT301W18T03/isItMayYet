@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import io.searchbox.client.JestResult;
+import io.searchbox.core.Delete;
+import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
@@ -55,10 +58,34 @@ public class ElasticsearchController {
         }
     }
 
+    public static class DeleteTaskByOwner extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... ids) {
+            verifySettings();
+            Boolean result = true;
+
+            for (String s : ids) {
+                String query = "{\"owner\":\"" + s + "\"}";
+                DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301w18t03").addType("task").build();
+
+                try {
+                    JestResult j = client.execute(delete);
+                    result = result && j.isSucceeded();
+                }
+                catch (Exception e) {
+                    Log.i("Error", e.getMessage().toString());
+                }
+
+            }
+            return result;
+        }
+    }
+
     public static class GetTask extends AsyncTask<String, Void, ArrayList<Task>> {
         @Override
         protected ArrayList<Task> doInBackground(String... search_parameters) {
-//            verifySettings();
+            verifySettings();
 
             ArrayList<Task> tasks = new ArrayList<Task>();
 
