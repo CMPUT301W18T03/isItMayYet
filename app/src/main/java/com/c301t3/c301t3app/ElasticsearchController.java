@@ -81,6 +81,8 @@ public class ElasticsearchController {
     }
 
     public static Boolean deleteTaskByID(String... ids) {
+        if (!checkOnline()) return false;
+
         ElasticsearchController.DeleteTask deleteTask = new ElasticsearchController.DeleteTask();
         deleteTask.execute(ids);
         Boolean success;
@@ -132,13 +134,17 @@ public class ElasticsearchController {
         }
     }
 
-    public static void taskToServer(Task t) {
-        if (!checkOnline())
+    public static boolean taskToServer(Task t) {
+        if (!checkOnline()) return false; //check if connected to network
+
         ElasticsearchController.AddTask addTask = new ElasticsearchController.AddTask();
         addTask.execute(t);
+        return true;
     }
 
     public static ArrayList<Task> serverTaskQuery(String... params) {
+        if (!checkOnline()) return null; //check if connected to network
+
         ElasticsearchController.GetTask getTask = new ElasticsearchController.GetTask();
         try {
             getTask.execute(params);
@@ -219,14 +225,17 @@ public class ElasticsearchController {
 //        }
 //    }
 //
-    public static void userToServer(UserAccount u) throws ExecutionException, InterruptedException {
+    public static boolean userToServer(UserAccount u) throws ExecutionException, InterruptedException {
+        if (!checkOnline()) return false;
+
         ElasticsearchController.AddUser addUser = new ElasticsearchController.AddUser();
         addUser.execute(u);
         u.setID(addUser.get());
-
+        return true;
     }
 
 //    public static ArrayList<Task> serverUserQuery(String... params) {
+
 //        ElasticsearchController.GetUser getTask = new ElasticsearchController.GetUser();
 //        try {
 //            getUser.execute(params);
@@ -258,15 +267,8 @@ public class ElasticsearchController {
      * @return
      */
     public static boolean checkOnline() {
-        if (!ApplicationController.isOnline(ApplicationController.c)) {
-            return false;
-        } else { return true; }
+        return (ApplicationController.isOnline(ApplicationController.c));
     }
-//    else if (!ApplicationController.isOnline(getApplicationContext())){
-//        Toast.makeText(RegisterActivity.this,
-//                "Internet Connection Unavailable: Registration unsuccessful.",
-//                Toast.LENGTH_LONG).show();
-//    }
 
     //TODO: catch offline flag here?
     public static void verifySettings() {
