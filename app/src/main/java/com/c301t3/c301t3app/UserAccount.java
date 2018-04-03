@@ -200,7 +200,7 @@ public class UserAccount {
      */
     public String getPassword() { return this.password; }
 
-    /** Returns teh unique ID of the account
+    /** Returns the unique ID of the account
      *
      * @return uniqueID; the unique ID of the account
      */

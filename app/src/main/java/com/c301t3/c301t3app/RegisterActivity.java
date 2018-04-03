@@ -46,18 +46,10 @@ public class RegisterActivity extends AppCompatActivity {
                             "Please fill in all the fields",Toast.LENGTH_LONG).show();
                 }
 
-<<<<<<< HEAD
-                //TODO: I encountered an error here, same pw, threw error. Check logic.
-//                else if (etPassword.getText().toString() != etConfirmPassword.getText().toString()) {
-//                    Toast.makeText(RegisterActivity.this,
-//                            "Password does not match",Toast.LENGTH_LONG).show();
-//                }
-=======
                 else if (!(etPassword.getText().toString().equals(etConfirmPassword.getText().toString()))) {
                     Toast.makeText(RegisterActivity.this,
                             "Password does not match",Toast.LENGTH_LONG).show();
                 }
->>>>>>> f49e37c498725b1c0d8f9c885bc91dc6468c50b2
 
                 else {
                     account.setUsername(etUsername.getText().toString());
@@ -87,7 +79,6 @@ public class RegisterActivity extends AppCompatActivity {
                     Intent loginIntent = new Intent(RegisterActivity.this, SimpleLoginActivity.class);
                     RegisterActivity.this.startActivity(loginIntent);
                 }
-
 
             }
         });
