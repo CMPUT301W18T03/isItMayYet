@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import io.searchbox.client.JestResult;
-import io.searchbox.core.Delete;
 import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
@@ -58,7 +57,7 @@ public class ElasticsearchController {
         }
     }
 
-    public static class DeleteTaskByOwner extends AsyncTask<String, Void, Boolean> {
+    public static class DeleteTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(String... ids) {
@@ -66,7 +65,7 @@ public class ElasticsearchController {
             Boolean result = true;
 
             for (String s : ids) {
-                String query = "{\"owner\":\"" + s + "\"}";
+                String query = "{\"_id\":\"" + s + "\"}";
                 DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301w18t03").addType("task").build();
 
                 try {
@@ -80,6 +79,22 @@ public class ElasticsearchController {
             }
             return result;
         }
+    }
+
+    public static Boolean deleteTaskByID(String... ids) {
+        ElasticsearchController.DeleteTask deleteTask = new ElasticsearchController.DeleteTask();
+        deleteTask.execute(ids);
+        Boolean success;
+        try {
+            success = deleteTask.get();
+        } catch (InterruptedException e) {
+            Log.e("Error", e.getMessage().toString());
+            success = false;
+        } catch (ExecutionException e) {
+            Log.e("Error", e.getMessage().toString());
+            success = false;
+        }
+        return success;
     }
 
     public static class GetTask extends AsyncTask<String, Void, ArrayList<Task>> {
