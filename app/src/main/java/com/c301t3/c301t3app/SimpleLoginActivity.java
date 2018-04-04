@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -48,10 +49,16 @@ public class SimpleLoginActivity extends AppCompatActivity {
 //                else{
 //
 //                }
-
-                Intent mainIntent = new Intent(SimpleLoginActivity.this, MainMenuActivity.class);
-                ApplicationController.setUser(new UserAccount()); //TODO: replace for ES
-                SimpleLoginActivity.this.startActivity(mainIntent);
+                if (!ApplicationController.isOnline(getApplicationContext())){
+                    Toast.makeText(SimpleLoginActivity.this,
+                            "Internet Connection Unavailable: Login unsuccessful.",
+                            Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Intent mainIntent = new Intent(SimpleLoginActivity.this, MainMenuActivity.class);
+                    ApplicationController.setUser(new UserAccount()); //TODO: replace for ES
+                    SimpleLoginActivity.this.startActivity(mainIntent);
+                }
             }
         });
 

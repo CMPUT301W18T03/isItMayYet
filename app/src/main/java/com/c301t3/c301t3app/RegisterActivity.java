@@ -48,6 +48,12 @@ public class RegisterActivity extends AppCompatActivity {
                             "Password does not match",Toast.LENGTH_LONG).show();
                 }
 
+                else if (!ApplicationController.isOnline(getApplicationContext())){
+                    Toast.makeText(RegisterActivity.this,
+                            "Internet Connection Unavailable: Registration unsuccessful.",
+                            Toast.LENGTH_LONG).show();
+                }
+
                 else {
                     account.setUsername(etUsername.getText().toString());
                     account.setFirstName(etFirstName.getText().toString());
