@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TaskIt</string>
+    <string name="app_name">C301T3app</string>
     <string name="title_activity_my_tasks">myTasksActivity</string>
     <string name="enter_password">Enter Password</string>
     <string name="enter_username">Enter Username</string>
