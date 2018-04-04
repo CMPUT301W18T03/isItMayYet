@@ -210,46 +210,52 @@ public class ElasticsearchController {
         protected UserAccount doInBackground(String... search_parameters) {
             verifySettings();
 
-            UserAccount user = new UserAccount();
+//            ArrayList<UserAccount> user = new ArrayList<UserAccount>();
+
+            new UserAccount();
+            UserAccount user;
             // TODO Build the query
-            String query = "{\"query\": {\"match\": {\"username\": " + search_parameters[0] + "}}}";
-//            String result = String.format(query, search_parameters);
+            String query = "{\"query\": {\"match\": {\"username\": \"" + search_parameters[0] + "\" }}}";
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w18t03")
-                    .addType("task")
+                    .addType("user")
                     .build();
 
             try {
                 // TODO get the results of the query
                 SearchResult result = client.execute(search);
                 if (result.isSucceeded()){
-                    List<Task> returnTask = result.getSourceAsObjectList(Task.class);
-                    tasks.addAll(returnTask);
+                    user = result.getSourceAsObject(UserAccount.class);
+                    Log.i("Error", "User found!");
+//                    List<UserAccount> returnUser = result.getSourceAsObjectList(UserAccount.class);
+//                    user.addAll(returnUser);
+                    return user;
+                }
+                else {
+                    Log.i("Error", "User query not matched to any results in server");
+                    return null;
                 }
             }
             catch (Exception e) {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+                return null;
             }
-
-            return tasks;
         }
     }
 
     // TODO: edit for query on users
-//    public static ArrayList<Task> serverUserQuery(String... params) {
-
-//        ElasticsearchController.GetUser getTask = new ElasticsearchController.GetUser();
-//        try {
-//            getUser.execute(params);
-//            return getUser.get();
-//        } catch (InterruptedException e) {
-//            Log.e("E", "Server access interrupted");
-//        } catch (ExecutionException e) {
-//            Log.e("E", e.getMessage().toString());
-//        }
-//        return null;
-//    }
-
+    public static UserAccount serverUserQuery(String username) {
+        ElasticsearchController.GetUserByUsername getUser = new ElasticsearchController.GetUserByUsername();
+        try {
+            getUser.execute(username);
+            return getUser.get();
+        } catch (InterruptedException e) {
+            Log.e("E", "Server access interrupted");
+        } catch (ExecutionException e) {
+            Log.e("E", e.getMessage().toString());
+        }
+        return null;
+    }
 
 
     /**

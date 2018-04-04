@@ -62,6 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
                     // send user to Elasticsearch server
                     try {
                         ElasticsearchController.userToServer(account);
+                        ElasticsearchController.userUpdateServer(account);
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {

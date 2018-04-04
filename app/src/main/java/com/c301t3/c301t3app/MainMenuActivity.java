@@ -218,19 +218,23 @@ public class MainMenuActivity extends AppCompatActivity{
 
         // hardcoded test for user elasticsearch
         UserAccount u1 = new UserAccount();
-        u1.setFirstName("Julius");
-
-        try {
-            ElasticsearchController.userToServer(u1);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        u1.setFirstName("Chad");
+//
+//        try {
+//            ElasticsearchController.userToServer(u1);
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         // edit user u1 to elasticsearch
-        u1.setAddress("12345");
-        ElasticsearchController.userUpdateServer(u1);
+//        u1.setUsername("Chaddy123");
+//        ElasticsearchController.userUpdateServer(u1);
+
+        // search user by username
+//        u1 = ElasticsearchController.serverUserQuery("Chaddy123");
+//        Log.i("Retrieved User----", u1.getUsername());
 
         // end test for elastic search
 
