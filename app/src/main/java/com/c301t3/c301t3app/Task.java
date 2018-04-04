@@ -22,7 +22,7 @@ public class Task implements Serializable {
     private int price;
     private ArrayList<Bid> bids;
     @JestId
-    private String id;
+    private String taskID;
     // TODO Finish JestId here, whatever that may entail
 
     // Photo photo;     // Commented out from not knowing how/what to represent photo with.
@@ -257,19 +257,19 @@ public class Task implements Serializable {
     public void remBid(int i) { this.bids.remove(i); }
     
     /**
-     * Setter for id
-     * @param i: new id
+     * Setter for taskID
+     * @param i: new taskID
      */
     public void setId(String i) {
-        id = i;
+        taskID = i;
     }
 
     /**
-     * Getter for id
-     * @return: String id
+     * Getter for taskID
+     * @return: String taskID
      */
     public String getId() {
-        return id;
+        return taskID;
     }
 }
 
