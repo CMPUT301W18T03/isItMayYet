@@ -21,6 +21,9 @@ public class Task implements Serializable {
     private TaskStatus status;
     private int price;
     private ArrayList<Bid> bids;
+    private float longitude;
+    private float latitude;
+    @JestId
     private String id;
 
     // Photo photo;     // Commented out from not knowing how/what to represent photo with.
@@ -151,6 +154,24 @@ public class Task implements Serializable {
     }
 
     /**
+     * Method that sets/edits longitude of Tasks.
+     *
+     * @param longitude: the longitude of the Task that's taking place.
+     */
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
+
+    /**
+     * Method tat sets/edits latitude of Tasks.
+     *
+     * @param latitude: the latitude of the Task that's taking place.
+     */
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    /**
      * Method that returns the name of Tasks.
      *
      * @return: name of the Task.
@@ -175,6 +196,24 @@ public class Task implements Serializable {
      */
     public TaskStatus getStatus() {
         return this.status;
+    }
+
+    /**
+     * Method that returns the latitude of Task.
+     *
+     * @return: latitude of the Task
+     */
+    public float getLatitude() {
+        return this.latitude;
+    }
+
+    /**
+     * Method that returns the longitude of Task.
+     *
+     * @return: longitude of the Task
+     */
+    public float getLongitude() {
+        return this.longitude;
     }
 
     /**
