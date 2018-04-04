@@ -190,6 +190,49 @@ public class ElasticsearchController {
         }
     }
 
+    public static class GetTaskByOwner extends AsyncTask<String, Void, ArrayList<Task>> {
+        @Override
+        protected ArrayList<Task> doInBackground(String... ids) {
+            verifySettings();
+            ArrayList<Task> results = new ArrayList<>();
+
+            for (String s : ids) {
+                String query = "{\"query\": {\"match\" : { \"owner\" : \"" + s + "\" }}}";
+                Search search = new Search.Builder(query)
+                        .addIndex("cmput301w18t03")
+                        .addType("task")
+                        .build();
+                try {
+                    // TODO get the results of the query
+                    SearchResult result = client.execute(search);
+                    if (result.isSucceeded()) {
+                        List<Task> returnTask = result.getSourceAsObjectList(Task.class);
+                        results.addAll(returnTask);
+                    }
+                } catch (Exception e) {
+                    Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+                }
+            }
+            return results;
+        }
+    }
+
+    public static ArrayList<Task> serverTasksByOwner(String... params) {
+        if (!checkOnline()) return null; //check if connected to network
+
+        ElasticsearchController.GetTaskByOwner getTask = new ElasticsearchController.GetTaskByOwner();
+        try {
+            getTask.execute(params);
+            return getTask.get();
+        } catch (InterruptedException e) {
+            Log.e("E", e.getMessage().toString());
+        } catch (ExecutionException e) {
+            Log.e("E", e.getMessage().toString());
+        }
+        return null;
+
+    }
+
 
     //TODO: MODIFY THIS FOR GetUser
 //    public static class GetUser extends AsyncTask<String, Void, Void> {
