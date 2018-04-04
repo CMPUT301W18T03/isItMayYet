@@ -22,7 +22,7 @@
         -->
         <activity
             android:name=".SelectedTaskActivity"
-            android:label="selected_task_activity"
+            android:label="Selected Task Activity"
             android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -30,7 +30,7 @@
         </activity>
         <activity
             android:name=".BiddingScreen"
-            android:label="bidding_screen"
+            android:label="Biddings"
             android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -38,7 +38,7 @@
         </activity>
         <activity
             android:name=".MyTasksActivity"
-            android:label="my_tasks"
+            android:label="My Tasks"
             android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -48,10 +48,10 @@
         <activity android:name=".RegisterActivity" />
         <activity
             android:name=".MainMenuActivity"
-            android:label="main_menu_activity" />
+            android:label="Main Menu" />
         <activity
             android:name=".NewTaskActivity"
-            android:label="New task"
+            android:label="New Task"
             android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -59,7 +59,7 @@
         </activity>
         <activity
             android:name=".ViewBidsActivity"
-            android:label="activity_view_bids"
+            android:label="Activity View Bids"
             android:parentActivityName=".ViewBidsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
