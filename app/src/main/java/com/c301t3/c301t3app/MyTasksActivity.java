@@ -145,19 +145,19 @@ public class MyTasksActivity extends AppCompatActivity {
     }
 
     private void loadInfo() {
-        ElasticsearchController.GetTask test = new ElasticsearchController.GetTask();
-        test.execute("John");
-        Object t = null;
-        try {
-            t = test.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        if (t == null) {
-            Toast.makeText(getApplicationContext(), "t is null", Toast.LENGTH_SHORT).show();
-        }
+//        ElasticsearchController.GetTask test = new ElasticsearchController.GetTask();
+//        test.execute("John");
+//        Object t = null;
+//        try {
+//            t = test.get();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
+//        if (t == null) {
+//            Toast.makeText(getApplicationContext(), "t is null", Toast.LENGTH_SHORT).show();
+//        }
 //        Task task = (Task) t;
 //        requestedTaskList = new ArrayList<Task>();
 //        requestedTaskList.add(task);
