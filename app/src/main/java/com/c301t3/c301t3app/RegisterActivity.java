@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 /**
  * Created by kiefer on 2018-03-08.
- * Class for Register
+ * Class for Registering a new user.
  */
 
 public class RegisterActivity extends AppCompatActivity {
@@ -43,7 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
                             "Please fill in all the fields",Toast.LENGTH_LONG).show();
                 }
 
-                else if (etPassword.getText().toString() != etConfirmPassword.getText().toString()) {
+                else if (!(etPassword.getText().toString().equals(etConfirmPassword.getText().toString()))) {
                     Toast.makeText(RegisterActivity.this,
                             "Password does not match",Toast.LENGTH_LONG).show();
                 }
@@ -55,11 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
                     account.setEmailAdd(etEmail.getText().toString());
                     account.setPhoneNum(etPhone.getText().toString());
                     account.setPassword(etPassword.getText().toString());
-                    account.setID(UserAccount.userCount++);
-
-
-                    //handle user.id here. needs to increment based on existing count of users.
-
+//                    account.setID(UserAccount.userCount++);
 
                     // send user account to jsonHandler.
                     j.dumpUser(account);
@@ -74,15 +70,17 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Check if field is empty, prevents crashes
+     * @param editField
+     * @return boolean
+     */
+
     private boolean isEmpty(EditText editField) {
         if (editField.getText().toString().trim().length() > 0) {
             return false;
         }
         return true;
     }
-
-    // Refer to select_task_activity for
-    // taskStat.setText(currentTask.getStatus());
-    // taskPrice.setText(currentTask.getPrice());
-    // except for editing user profile, via register view.
+    
 }

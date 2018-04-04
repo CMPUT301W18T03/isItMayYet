@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Henry on 2018-03-03.
+ * Adapter to user for list views
  */
 
 public class TaskList implements Serializable {

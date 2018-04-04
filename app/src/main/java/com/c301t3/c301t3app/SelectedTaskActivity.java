@@ -50,9 +50,9 @@ public class SelectedTaskActivity extends AppCompatActivity {
         /**
          * This Grabs any extras from other activities and applies the changes we want. Which is to show only task detials but not to bid on it.
          */
-//        Task task = new Task();
+//        Task task = new Task();--- garbage
 //        Bundle bundle1 = infoInstance.getInfo();
-//        task =  bundle1.getData("assignedTask");
+//        task = (Task) bundle1.getSerilizable("assignedTask");
         //Log.i("the passed String is:", extraString);
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();

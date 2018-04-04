@@ -3,6 +3,7 @@ package com.c301t3.c301t3app;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import io.searchbox.annotations.JestId;
 
 /**
  * Created by Henry on 23/02/18.
@@ -20,6 +21,7 @@ public class Task implements Serializable {
     private TaskStatus status;
     private int price;
     private ArrayList<Bid> bids;
+    private String id;
 
     // Photo photo;     // Commented out from not knowing how/what to represent photo with.
     // GeoLoc location;     // Commented out from not knowing how/what to represent location with.
@@ -44,7 +46,7 @@ public class Task implements Serializable {
         this();
         if (name.length() == 0) {
             throw new IllegalArgumentException("Error: Name cannot be set with no characters");
-        } else if (name.length() > 30 ) {
+        } else if (name.length() > ApplicationController.MAX_TASK_NAME_LENGTH ) {
             throw new IllegalArgumentException("Error: Name cannot go over 30 characters in length");
         }
         this.name = name;
@@ -61,7 +63,7 @@ public class Task implements Serializable {
         this(name);
         if (description.length() == 0) {
             throw new IllegalArgumentException("Error: Description cannot be set with no characters");
-        } else if (description.length() > 300) {
+        } else if (description.length() > ApplicationController.MAX_TASK_DESC_LENGTH) {
             throw new IllegalArgumentException("Error: Description cannot go over 300 characters in length");
         }
         this.description = description;
@@ -118,7 +120,7 @@ public class Task implements Serializable {
     public void setName(String name) throws IllegalArgumentException {
         if (name.length() == 0) {
             throw new IllegalArgumentException("Error: Name cannot be set with no characters");
-        } else if (name.length() > 30 ) {
+        } else if (name.length() > ApplicationController.MAX_TASK_NAME_LENGTH ) {
             throw new IllegalArgumentException("Error: Name cannot go over 30 characters in length");
         }
         this.name = name;
@@ -133,7 +135,7 @@ public class Task implements Serializable {
     public void setDescription(String description) throws IllegalArgumentException {
         if (description.length() == 0) {
             throw new IllegalArgumentException("Error: Description cannot be set with no characters");
-        } else if (description.length() > 300) {
+        } else if (description.length() > ApplicationController.MAX_TASK_DESC_LENGTH) {
             throw new IllegalArgumentException("Error: Description cannot go over 300 characters in length");
         }
         this.description = description;
@@ -251,6 +253,21 @@ public class Task implements Serializable {
      * @param i: the bid from the given index of the ArrayList that will be removed.
      */
     public void remBid(int i) { this.bids.remove(i); }
+    
+    /**
+     * Setter for id
+     * @param i: new id
+     */
+    public void setId(String i) {
+        id = i;
+    }
 
+    /**
+     * Getter for id
+     * @return: String id
+     */
+    public String getId() {
+        return id;
+    }
 }
 

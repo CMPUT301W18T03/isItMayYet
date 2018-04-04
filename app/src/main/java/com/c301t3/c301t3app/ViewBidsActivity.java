@@ -15,6 +15,12 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+/**
+ * @author Henry
+ * Displays all bids, and userIDs for the given task selected.
+ * Handles accepting or denying a bid.
+ */
+
 public class ViewBidsActivity extends AppCompatActivity {
     private Task task;
     private int taskIndex;

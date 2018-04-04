@@ -15,7 +15,7 @@ public class UserAccountTest {
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
-        int id1 = 19;
+        String id1 = "19";
         UserAccount test = new UserAccount();
         test.setUsername(user1);
 
@@ -32,7 +32,7 @@ public class UserAccountTest {
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
-        int id1 = 19;
+        String id1 = "19";
         UserAccount test = new UserAccount();
 
         try { // exception expected
@@ -55,7 +55,7 @@ public class UserAccountTest {
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
-        int id1 = 19;
+        String id1 = "19";
         UserAccount test = new UserAccount();
         test.setFirstName(first1);
 
@@ -71,7 +71,7 @@ public class UserAccountTest {
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
-        int id1 = 19;
+        String id1 = "19";
         UserAccount test = new UserAccount();
         test.setFirstName(last1);
 
@@ -87,7 +87,7 @@ public class UserAccountTest {
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
-        int id1 = 19;
+        String id1 = "19";
         UserAccount test = new UserAccount();
         test.setEmailAdd(eAdd1);
 
@@ -103,7 +103,7 @@ public class UserAccountTest {
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
-        int id1 = 19;
+        String id1 = "19";
         UserAccount test = new UserAccount();
         test.setAddress(addr1);
 
@@ -119,7 +119,7 @@ public class UserAccountTest {
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
-        int id1 = 19;
+        String id1 = "19";
         UserAccount test = new UserAccount();
         test.setPhoneNum(pNum1);
 
@@ -135,7 +135,7 @@ public class UserAccountTest {
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
-        int id1 = 19;
+        String id1 = "19";
         UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
 
         assertTrue(test.getID() == id1);
@@ -150,7 +150,7 @@ public class UserAccountTest {
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
-        int id1 = 19;
+        String id1 = "19";
         UserAccount test = new UserAccount(user1, first1, last1, eAdd1, addr1, pNum1, pw1, id1);
 
         assertTrue(test.getPassword().equals(pw1));
@@ -165,7 +165,7 @@ public class UserAccountTest {
         String addr1 = "Show Me Da Wae";
         String pNum1 = "780-780-7800";
         String pw1 = "noob";
-        int id1 = 19;
+        String id1 = "19";
 
         UserAccount test = new UserAccount(user1,first1,last1, eAdd1,addr1,pNum1, pw1, id1);
 

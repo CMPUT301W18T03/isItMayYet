@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Jonah on 2018-03-09.
+ * Class that handles that creation of a new task, with appropriate fields and buttons
  */
 
 public class NewTaskActivity extends AppCompatActivity {
