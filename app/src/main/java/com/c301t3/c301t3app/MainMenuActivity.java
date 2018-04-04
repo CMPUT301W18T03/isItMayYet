@@ -237,6 +237,21 @@ public class MainMenuActivity extends AppCompatActivity{
         Task task3 = new Task("Task3","Some fluff text here for task 3", TaskStatus.BIDDED,22);
         Task task4 = new Task("Task4","Some fluff text here for task 4",TaskStatus.REQUESTED,12);
 
+        task0.setLongitude(45.4332287);
+        task0.setLatitude(-75.861889);
+
+        task1.setLongitude(31.3702227);
+        task1.setLatitude(79.7353802);
+
+        task2.setLongitude(42.3528795);
+        task2.setLatitude(-83.2392911);
+
+        task3.setLongitude(0);
+        task3.setLatitude(0);
+
+        task4.setLongitude(53.4987748);
+        task4.setLatitude(-113.4927989);
+
         taskList.addTask(task0);
         taskList.addTask(task1);
         taskList.addTask(task2);
@@ -290,7 +305,7 @@ public class MainMenuActivity extends AppCompatActivity{
 //                Log.i("Info", selTask.getName());
 //                Log.i("desc", selTask.getDescription());
 //                Log.i("price", String.valueOf(selTask.getPrice()));
-                String strname = selTask.getName() + "/" + selTask.getDescription() + "/" + selTask.getStatus().toString() + "/" + String.valueOf(selTask.getPrice());
+                String strname = selTask.getName() + "/" + selTask.getDescription() + "/" + selTask.getStatus().toString() + "/" + String.valueOf(selTask.getPrice()) + "/" + String.valueOf(selTask.getLongitude()) + "/" + String.valueOf(selTask.getLatitude());
                 selectedIntent.putExtra("SelectedTask", strname);
                 startActivity(selectedIntent);
             }
