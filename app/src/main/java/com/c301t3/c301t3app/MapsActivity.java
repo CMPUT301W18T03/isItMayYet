@@ -1,8 +1,11 @@
 package com.c301t3.c301t3app;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -12,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,6 +24,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -61,6 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -70,7 +79,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onLocationChanged(Location location) {
 
-                Toast.makeText(MapsActivity.this, location.toString(), Toast.LENGTH_LONG).show();
+                // Updates the location when location moves.
+                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                mMap.clear(); // clears unwanted markers.
+                mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+
+                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.CANADA);
+
+                try {
+                    List<Address> listAddress = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                    if (listAddress != null && listAddress.size() > 0) {
+                        Log.i("Place Info <----", listAddress.get(0).toString());
+                        String address = "";
+                        int i = 0;
+                        int maxLen = listAddress.get(0).getMaxAddressLineIndex();
+
+                        while (i != maxLen) {
+                            if (listAddress.get(0).getAddressLine(0) != null) {
+                                address += listAddress.get(0).getAddressLine(i);
+                                i++;
+                                address += ", ";
+                            }
+                        }
+                        address = address.substring(0, address.length() - 2); // This will give you forthrought, city area, postal code. If has those options.
+
+                        Toast.makeText(getApplicationContext(), address, Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             }
 
@@ -98,13 +137,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             } else {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //0 second, 0 meters
+
+                //getting last known location.
+
+                Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                mMap.clear(); //clears unwanted markers.
+
+                LatLng userLocation = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+
+
+
             }
 
         }
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
