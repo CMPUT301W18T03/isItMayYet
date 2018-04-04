@@ -21,9 +21,8 @@ public class Task implements Serializable {
     private TaskStatus status;
     private int price;
     private ArrayList<Bid> bids;
-    @JestId
-    private String taskID;
-    // TODO Finish JestId here, whatever that may entail
+    private String id;
+    private String owner;
 
     // Photo photo;     // Commented out from not knowing how/what to represent photo with.
     // GeoLoc location;     // Commented out from not knowing how/what to represent location with.
@@ -37,6 +36,8 @@ public class Task implements Serializable {
         this.status = TaskStatus.REQUESTED;
         this.price = 0;
         this.bids = new ArrayList<Bid>();
+        UserAccount u = ApplicationController.getCurrUser();
+        this.owner = u.getID();
     }
 
     /**
@@ -255,21 +256,26 @@ public class Task implements Serializable {
      * @param i: the bid from the given index of the ArrayList that will be removed.
      */
     public void remBid(int i) { this.bids.remove(i); }
-    
+
     /**
-     * Setter for taskID
-     * @param i: new taskID
+     * Setter for id
+     * @param i: new id
      */
     public void setId(String i) {
-        taskID = i;
+        id = i;
     }
 
     /**
-     * Getter for taskID
-     * @return: String taskID
+     * Getter for id
+     * @return: String id
      */
     public String getId() {
-        return taskID;
+        return id;
     }
-}
 
+    /**
+     * Getter for owner
+     * @return: String owner
+     */
+    public String getOwner() { return owner; }
+}

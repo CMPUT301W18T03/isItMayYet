@@ -1,7 +1,9 @@
 package com.c301t3.c301t3app;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
@@ -10,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import io.searchbox.client.JestResult;
+import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
@@ -17,13 +21,16 @@ import io.searchbox.core.SearchResult;
 
 
 /**
- * Created by Kvongaza on 2018-03-23.
+ * Created by Kvongaza and Jquist on 2018-03-23.
  */
 
 public class ElasticsearchController {
     private static JestDroidClient client;
 
-    //
+    /**
+     * Task methods for Elasticsearch
+     */
+
     public static class AddTask extends AsyncTask<Task, Void, Void> {
 
         @Override
@@ -36,59 +43,71 @@ public class ElasticsearchController {
                 try {
                     // where is the client?
                     DocumentResult documentresult = client.execute(index);
-                    if (documentresult.isSucceeded()){
+                    if (documentresult.isSucceeded()) {
                         t.setId(documentresult.getId());
-                    }else{
+                    } else {
                         Log.e("Error", "Failed to get a result");
                     }
 
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     Log.i("Error", "The application failed to build and send the tasks");
                 }
-
             }
             return null;
         }
     }
 
-//    public static class AddUser extends AsyncTask<UserAccount, Void, Void> {
-//
-//        @Override
-//        protected Void doInBackground(UserAccount user) {
-//            verifySettings();
-//
-//            Index index = new Index.Builder(user).index("cmput301w18t03").type("user").build();
-//
-//            try {
-//                // where is the client?
-//                DocumentResult documentresult = client.execute(index);
-//                if (documentresult.isSucceeded()){
-//                    user.setID(documentresult.getId()); //TODO: fix the setID.. ?
-//                }else{
-//                    Log.e("Error", "Failed to get a result");
-//                }
-//
-//            }
-//            catch (Exception e) {
-//                Log.i("Error", "The application failed to build and send the user");
-//            }
-//
-//            return null;
-//        }
-//    }
+    public static class DeleteTask extends AsyncTask<String, Void, Boolean> {
 
+        @Override
+        protected Boolean doInBackground(String... ids) {
+            verifySettings();
+            Boolean result = true;
+
+            for (String s : ids) {
+                String query = "{\"query\": {\"match\": {\"_id\":\"" + s + "\"}}}";
+                DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301w18t03").addType("task").build();
+
+                try {
+                    JestResult j = client.execute(delete);
+                    result = result && j.isSucceeded();
+                } catch (Exception e) {
+                    Log.i("Error", e.getMessage().toString());
+                }
+
+            }
+            return result;
+        }
+    }
+
+    public static Boolean deleteTaskByID(String... ids) {
+        if (!checkOnline()) return false;
+
+        ElasticsearchController.DeleteTask deleteTask = new ElasticsearchController.DeleteTask();
+        deleteTask.execute(ids);
+        Boolean success;
+        try {
+            success = deleteTask.get();
+        } catch (InterruptedException e) {
+            Log.e("Error", e.getMessage().toString());
+            success = false;
+        } catch (ExecutionException e) {
+            Log.e("Error", e.getMessage().toString());
+            success = false;
+        }
+        return success;
+    }
 
     public static class GetTask extends AsyncTask<String, Void, ArrayList<Task>> {
         @Override
         protected ArrayList<Task> doInBackground(String... search_parameters) {
-            //verifySettings();
+            verifySettings();
 
             ArrayList<Task> tasks = new ArrayList<Task>();
 
 //          TODO: Make an actual query parser.
             String query = "{\"query\": {\"bool\": {\"must\": [";
-            for (String s: search_parameters) {
+            for (String s : search_parameters) {
                 query += "{ \"match\": { \"name\": \"";
                 query += s;
                 query += "\" } }, ";
@@ -103,12 +122,11 @@ public class ElasticsearchController {
             try {
                 // TODO get the results of the query
                 SearchResult result = client.execute(search);
-                if (result.isSucceeded()){
+                if (result.isSucceeded()) {
                     List<Task> returnTask = result.getSourceAsObjectList(Task.class);
                     tasks.addAll(returnTask);
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
             }
 
@@ -116,12 +134,17 @@ public class ElasticsearchController {
         }
     }
 
-    public static void taskToServer(Task t) {
+    public static boolean taskToServer(Task t) {
+        if (!checkOnline()) return false; //check if connected to network
+
         ElasticsearchController.AddTask addTask = new ElasticsearchController.AddTask();
         addTask.execute(t);
+        return true;
     }
 
     public static ArrayList<Task> serverTaskQuery(String... params) {
+        if (!checkOnline()) return null; //check if connected to network
+
         ElasticsearchController.GetTask getTask = new ElasticsearchController.GetTask();
         try {
             getTask.execute(params);
@@ -133,6 +156,40 @@ public class ElasticsearchController {
         }
         return null;
     }
+
+    /**
+     * User methods for Elasticsearch
+     */
+
+    public static class AddUser extends AsyncTask<UserAccount, Void, String> {
+
+        @Override
+        protected String doInBackground(UserAccount... user) {
+            verifySettings();
+            String userID = new String();
+
+            for (UserAccount u : user) {
+                Index index = new Index.Builder(u).index("cmput301w18t03").type("user").build();
+
+                try {
+                    // where is the client?
+                    DocumentResult documentresult = client.execute(index);
+                    if (documentresult.isSucceeded()) {
+                        u.setID(documentresult.getId());
+                        Log.i("UserID", u.getID());
+                        userID = documentresult.getId();
+                    } else {
+                        Log.e("Error", "Failed to get a result");
+                    }
+                } catch (Exception e) {
+//                    Log.i("Error", "The application failed to build and send the user");
+                    Log.i("Error", e.getMessage());
+                }
+            }
+            return userID;
+        }
+    }
+
 
     //TODO: MODIFY THIS FOR GetUser
 //    public static class GetUser extends AsyncTask<String, Void, Void> {
@@ -168,7 +225,51 @@ public class ElasticsearchController {
 //        }
 //    }
 //
+    public static boolean userToServer(UserAccount u) throws ExecutionException, InterruptedException {
+        if (!checkOnline()) return false;
+
+        ElasticsearchController.AddUser addUser = new ElasticsearchController.AddUser();
+        addUser.execute(u);
+        u.setID(addUser.get());
+        return true;
+    }
+
+//    public static ArrayList<Task> serverUserQuery(String... params) {
+
+//        ElasticsearchController.GetUser getTask = new ElasticsearchController.GetUser();
+//        try {
+//            getUser.execute(params);
+//            return getUser.get();
+//        } catch (InterruptedException e) {
+//            Log.e("E", "Server access interrupted");
+//        } catch (ExecutionException e) {
+//            Log.e("E", e.getMessage().toString());
+//        }
+//        return null;
+//    }
+
+
+//    public static class UpdateUser extends AsyncTask<UserAccount, Void, Boolean> {
 //
+//    }
+
+//    public static void userUpdateServer(UserAccount u) {
+//
+//    }
+
+
+    /**
+     * Other methods for Elasticsearch
+     */
+
+    /**
+     * method checks if online connection exists.
+     * @return
+     */
+    public static boolean checkOnline() {
+        return (ApplicationController.isOnline(ApplicationController.c));
+    }
+
     //TODO: catch offline flag here?
     public static void verifySettings() {
         if (client == null) {

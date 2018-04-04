@@ -29,6 +29,8 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ApplicationController createContext = new ApplicationController(getApplicationContext());
+
         taskPasser = new TaskPasser();
 
         Button mainButton = findViewById(R.id.button_GoToMainMenu);

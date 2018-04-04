@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
@@ -175,9 +176,10 @@ public class MainMenuActivity extends AppCompatActivity{
         taskListView = findViewById(R.id.tasksView);
 
         // hardcoded test for elasticsearch
+        UserAccount u = new UserAccount();
+        ApplicationController.setUser(u);
         Task t1 = new Task();
         t1.setName("Carry me to diamond");
-
 
         ElasticsearchController.AddTask addTask = new ElasticsearchController.AddTask();
         addTask.execute(t1);
@@ -203,10 +205,22 @@ public class MainMenuActivity extends AppCompatActivity{
         ArrayList<Task> results = ElasticsearchController.serverTaskQuery("cake"); // retrieve from server
         Log.i("query", results.toString());
 
+        // deleting test
+        Task t3 = new Task();
+        t3.setName("death is a sweet sleep");
+        ElasticsearchController.taskToServer(t3);
 
-//        Log.i("execute", o.toString());
-//        Task t2 = r1.get(0);
-//        assertTrue(t1.getName().equals(t2.getName()));
+        Boolean b = ElasticsearchController.deleteTaskByID(t3.getId());
+
+        results = ElasticsearchController.serverTaskQuery("death");
+        Log.i("query", results.toString());
+
+
+        // hardcoded test for user elasticsearch
+//        UserAccount u1 = new UserAccount();
+//        u1.setFirstName("Chad");
+
+//        ElasticsearchController.userToServer(u1);
 
         // end test for elastic search
 
