@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.c301t3.c301t3app">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -14,13 +15,7 @@
         android:roundIcon="@mipmap/ic_planet"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WelcomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".WelcomeActivity"></activity>
         <!--
          Here is how we are going to add a parent via the XML portion. Gonna use the like this
          Also need to change Main Activity to view 2 name. Implement this when there are  actual java  classes for each screen.
@@ -50,14 +45,10 @@
                 android:value="com.c301t3.c301t3app.MainMenuActivity" />
         </activity>
         <activity android:name=".SimpleLoginActivity" />
-        <activity android:name=".RegisterActivity">
-
-        </activity>
+        <activity android:name=".RegisterActivity" />
         <activity
             android:name=".MainMenuActivity"
-            android:label="main_menu_activity">
-        </activity>
-
+            android:label="main_menu_activity" />
         <activity
             android:name=".NewTaskActivity"
             android:label="New task"
@@ -73,6 +64,13 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.c301t3.c301t3app.MyTasksActivity" />
+        </activity>
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

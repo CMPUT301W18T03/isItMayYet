@@ -1,6 +1,8 @@
 package com.c301t3.c301t3app;
 
 
+import static com.c301t3.c301t3app.ApplicationController.MAX_USERNAME_LENGTH;
+
 /**
  * An account class to be used by the user, including username, firstName, lastName,
  * emailAddress, address, and phoneNumber.
@@ -15,8 +17,6 @@ package com.c301t3.c301t3app;
  * EditLog: 2018-03-12; 3:00 PM by John
  */
 public class UserAccount {
-    // Maximum length for a username is currently 32
-    private final static int MAX_USERNAME_LENGTH = 32;
     // Number of registered users
     public static int userCount = 0; // used for setting userID of new user to userID + 1
     //TODO: Once Elasticsearch, query the database for a count of users to create uniqueID
