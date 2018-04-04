@@ -1,10 +1,9 @@
 package com.c301t3.c301t3app;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
@@ -26,6 +25,9 @@ import io.searchbox.core.SearchResult;
 
 public class ElasticsearchController {
     private static JestDroidClient client;
+
+    //############################################################################################
+    //############################################################################################
 
     /**
      * Task methods for Elasticsearch
@@ -157,6 +159,9 @@ public class ElasticsearchController {
         return null;
     }
 
+    //############################################################################################
+    //############################################################################################
+
     /**
      * User methods for Elasticsearch
      */
@@ -267,7 +272,7 @@ public class ElasticsearchController {
 //            return tasks;
 //        }
 //    }
-//
+
     public static boolean userToServer(UserAccount u) throws ExecutionException, InterruptedException {
         if (!checkOnline()) return false;
 
@@ -277,6 +282,7 @@ public class ElasticsearchController {
         return true;
     }
 
+    // TODO: edit for query on users
 //    public static ArrayList<Task> serverUserQuery(String... params) {
 
 //        ElasticsearchController.GetUser getTask = new ElasticsearchController.GetUser();
@@ -291,14 +297,59 @@ public class ElasticsearchController {
 //        return null;
 //    }
 
+    /**
+     * Sync a user to elasticsearch server
+     */
+    public static class UpdateUser extends AsyncTask<UserAccount, Void, Boolean> {
 
-//    public static class UpdateUser extends AsyncTask<UserAccount, Void, Boolean> {
-//
-//    }
+        /**
+         * Sync a user to Elasticsearch
+         * @param user the user being synced
+         * @return true if user synced
+         */
+        @Override
+        protected Boolean doInBackground(UserAccount... user) {
+            verifySettings();
+            Boolean userSynced = Boolean.FALSE;
+            for (UserAccount u : user) {
+                try {
+                    String userID = u.getID();
+                    Index index = new Index.Builder(u).index("cmput301w18t03").type("user").id(userID).build();
+                    DocumentResult documentresult = client.execute(index);
+                    userSynced = documentresult.isSucceeded();
+                    if (!userSynced) {
+                        Log.i("Error", "Failed to sync user to Elasticsearch");
+                    }
+                    return userSynced;
+                }
+                catch (Exception e) {
+                    Log.i("Error", "Application failed to sync the user");
+                    return false;
+                }
+            }
+            return userSynced;
+        }
+    }
 
-//    public static void userUpdateServer(UserAccount u) {
-//
-//    }
+    /**
+     * Update an existing user in Elasticsearch
+     * @param u the user being updated.
+     */
+    public boolean userUpdateServer(UserAccount u) {
+        ElasticsearchController.UpdateUser user = new ElasticsearchController.UpdateUser();
+        Boolean userUpdated;
+        user.execute(u);
+        try {
+            userUpdated = user.get();
+            //Do Gson stuff here.
+            Gson gson = new Gson();
+            Log.i("User Synced", gson.toJson(u));
+            return userUpdated;
+        } catch (Exception e) {
+            Log.i("Error", "User failed to sync");
+            return false;
+        }
+    }
 
 
     /**
