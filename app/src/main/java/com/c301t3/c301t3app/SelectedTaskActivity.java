@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,6 +46,7 @@ public class SelectedTaskActivity extends AppCompatActivity {
         TextView taskPrice = findViewById(R.id.textViewPrice);
         EditText taskBid = findViewById(R.id.editTextBid);
         Button taskBidBtn = findViewById(R.id.bidBtn);
+        ImageButton mapBtn = findViewById(R.id.imageMapButton);
 
 
         /**
@@ -67,7 +69,7 @@ public class SelectedTaskActivity extends AppCompatActivity {
                 taskName.setText(tokens.nextToken());
                 taskDesc.setText(tokens.nextToken());
                 taskStat.setText(tokens.nextToken());
-                taskPrice.setText(tokens.nextToken());
+                taskPrice.setText("$" + tokens.nextToken());
 //                taskBid.setVisibility(View.GONE);
 //                taskBidBtn.setVisibility(View.GONE);
             }
@@ -103,5 +105,11 @@ public class SelectedTaskActivity extends AppCompatActivity {
         Intent mainMenuIntent = new Intent(this, MainMenuActivity.class);
         startActivity(mainMenuIntent);
 
+    }
+
+
+    public void goToMap(View view) {
+        Intent mapIntent = new Intent(this, MapsActivity.class);
+        startActivity(mapIntent);
     }
 }
