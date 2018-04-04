@@ -291,7 +291,7 @@ public class MainMenuActivity extends AppCompatActivity{
 //                Log.i("Info", selTask.getName());
 //                Log.i("desc", selTask.getDescription());
 //                Log.i("price", String.valueOf(selTask.getPrice()));
-                String strname = selTask.getName() + "/" + selTask.getDescription() + "/" + selTask.getStatus().toString() + "/" + String.valueOf(selTask.getPrice());
+                String strname = selTask.getName() + "/" + selTask.getDescription() + "/" + selTask.getStatus().toString() + "/" + String.valueOf(selTask.getPrice()) + "/" + String.valueOf(selTask.getLongitude()) + "/" + String.valueOf(selTask.getLatitude());
                 selectedIntent.putExtra("SelectedTask", strname);
                 startActivity(selectedIntent);
             }
