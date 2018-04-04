@@ -177,6 +177,7 @@ public class MainMenuActivity extends AppCompatActivity{
 
         // hardcoded test for elasticsearch
         UserAccount u = new UserAccount();
+        u.setID("memelord");
         ApplicationController.setUser(u);
         Task t1 = new Task();
         t1.setName("Carry me to diamond");
@@ -215,6 +216,9 @@ public class MainMenuActivity extends AppCompatActivity{
         results = ElasticsearchController.serverTaskQuery("death");
         Log.i("query", results.toString());
 
+        String id = ApplicationController.getCurrUser().getID();
+        results = ElasticsearchController.serverTasksByOwner(id);
+        Log.i("query", results.toString());
 
         // hardcoded test for user elasticsearch
         UserAccount u1 = new UserAccount();
