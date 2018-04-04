@@ -21,7 +21,9 @@ public class Task implements Serializable {
     private TaskStatus status;
     private int price;
     private ArrayList<Bid> bids;
+    @JestId
     private String id;
+    // TODO Finish JestId here, whatever that may entail
 
     // Photo photo;     // Commented out from not knowing how/what to represent photo with.
     // GeoLoc location;     // Commented out from not knowing how/what to represent location with.

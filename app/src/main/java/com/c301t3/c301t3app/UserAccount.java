@@ -1,6 +1,8 @@
 package com.c301t3.c301t3app;
 
 
+import io.searchbox.annotations.JestId;
+
 import static com.c301t3.c301t3app.ApplicationController.MAX_USERNAME_LENGTH;
 
 /**
@@ -19,7 +21,7 @@ import static com.c301t3.c301t3app.ApplicationController.MAX_USERNAME_LENGTH;
 public class UserAccount {
     // Number of registered users
     public static int userCount = 0; // used for setting userID of new user to userID + 1
-    //TODO: Once Elasticsearch, query the database for a count of users to create uniqueID
+    //TODO: Once Elasticsearch, query the database for a count of users to create userID
     // All the variables that hold data
     private String username;
     private String firstName;
@@ -28,7 +30,8 @@ public class UserAccount {
     private String address;
     private String phoneNum;
     private String password;
-    private String uniqueID;
+    @JestId
+    private String userID;
 
 
     // default constructor
@@ -40,7 +43,7 @@ public class UserAccount {
         this.address = "";
         this.phoneNum = "";
         this.password = "";
-        this.uniqueID = "";
+        this.userID = "";
     }
     /**
      * Creating a new UserAccount includes all the following parameters
@@ -64,7 +67,7 @@ public class UserAccount {
         this.setAddress(address);
         this.setPhoneNum(phoneNum);
         this.setPassword(password);
-        this.uniqueID = id;
+        this.userID = id;
     }
 
     /**  Set the username of the user
@@ -136,12 +139,12 @@ public class UserAccount {
         this.password = password;
     }
 
-    /** Set the uniqueID of the user
+    /** Set the userID of the user
      *
-     * @param uniqueID; ID of the user
+     * @param userID; ID of the user
      */
-    public void setID(String uniqueID) {
-        this.uniqueID = uniqueID;
+    public void setID(String userID) {
+        this.userID = userID;
     }
 
 
@@ -202,10 +205,10 @@ public class UserAccount {
 
     /** Returns teh unique ID of the account
      *
-     * @return uniqueID; the unique ID of the account
+     * @return userID; the unique ID of the account
      */
     public String getID() {
-        return this.uniqueID;
+        return this.userID;
     }
 
 }
