@@ -218,7 +218,7 @@ public class MainMenuActivity extends AppCompatActivity{
 
         // hardcoded test for user elasticsearch
         UserAccount u1 = new UserAccount();
-        u1.setFirstName("Chad");
+        u1.setFirstName("Julius");
 
         try {
             ElasticsearchController.userToServer(u1);
@@ -227,6 +227,10 @@ public class MainMenuActivity extends AppCompatActivity{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        // edit user u1 to elasticsearch
+        u1.setAddress("12345");
+        ElasticsearchController.userUpdateServer(u1);
 
         // end test for elastic search
 

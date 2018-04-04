@@ -195,41 +195,6 @@ public class ElasticsearchController {
         }
     }
 
-
-    //TODO: MODIFY THIS FOR GetUser
-//    public static class GetUser extends AsyncTask<String, Void, Void> {
-//        @Override
-//        protected UserAccount doInBackground(String... search_parameters) {
-//            //verifySettings();
-//
-//            ArrayList<Task> tasks = new ArrayList<Task>();
-//
-//            // TODO Build the query
-////            Search search = new Search.Builder(search_parameters[0]).addIndex("cmput301w18t03").addType("task").build(); // default
-//
-//            String query = "{\"query\": {\"term\": {\"name\": %s}}}";
-////            String result = String.format(query, search_parameters);
-//            Search search = new Search.Builder(query)
-//                    .addIndex("cmput301w18t03")
-//                    .addType("task")
-//                    .build();
-//
-//            try {
-//                // TODO get the results of the query
-//                SearchResult result = client.execute(search);
-//                if (result.isSucceeded()){
-//                    List<Task> returnTask = result.getSourceAsObjectList(Task.class);
-//                    tasks.addAll(returnTask);
-//                }
-//            }
-//            catch (Exception e) {
-//                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
-//            }
-//
-//            return tasks;
-//        }
-//    }
-
     public static boolean userToServer(UserAccount u) throws ExecutionException, InterruptedException {
         if (!checkOnline()) return false;
 
@@ -237,6 +202,37 @@ public class ElasticsearchController {
         addUser.execute(u);
         u.setID(addUser.get());
         return true;
+    }
+
+    //TODO: MODIFY THIS FOR GetUser
+    public static class GetUserByUsername extends AsyncTask<String, Void, UserAccount> {
+        @Override
+        protected UserAccount doInBackground(String... search_parameters) {
+            verifySettings();
+
+            UserAccount user = new UserAccount();
+            // TODO Build the query
+            String query = "{\"query\": {\"match\": {\"username\": " + search_parameters[0] + "}}}";
+//            String result = String.format(query, search_parameters);
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301w18t03")
+                    .addType("task")
+                    .build();
+
+            try {
+                // TODO get the results of the query
+                SearchResult result = client.execute(search);
+                if (result.isSucceeded()){
+                    List<Task> returnTask = result.getSourceAsObjectList(Task.class);
+                    tasks.addAll(returnTask);
+                }
+            }
+            catch (Exception e) {
+                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            }
+
+            return tasks;
+        }
     }
 
     // TODO: edit for query on users
@@ -253,6 +249,8 @@ public class ElasticsearchController {
 //        }
 //        return null;
 //    }
+
+
 
     /**
      * Sync a user to elasticsearch server
@@ -292,7 +290,8 @@ public class ElasticsearchController {
      * Update an existing user in Elasticsearch
      * @param u the user being updated.
      */
-    public boolean userUpdateServer(UserAccount u) {
+    public static boolean userUpdateServer(UserAccount u) {
+        if (!checkOnline()) return false;
         ElasticsearchController.UpdateUser user = new ElasticsearchController.UpdateUser();
         Boolean userUpdated;
         user.execute(u);
