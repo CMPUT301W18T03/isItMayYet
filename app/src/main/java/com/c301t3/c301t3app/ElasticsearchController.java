@@ -19,7 +19,7 @@ import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
 
-/**a1
+/**
  * Created by Kvongaza and Jquist on 2018-03-23.
  */
 
