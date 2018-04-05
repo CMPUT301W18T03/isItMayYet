@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Henry on 07/03/18.
@@ -101,8 +102,8 @@ public class MyTasksActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-         loadFromInfoPasser();
-        // loadInfo();
+        loadFromInfoPasser();
+        loadInfo();
 
         assignedAdapter = new ArrayAdapter<Task>(this, R.layout.my_tasks_assigned, assignedTaskList);
         requestedAdapter = new ArrayAdapter<Task>(this, R.layout.my_tasks_requested, requestedTaskList);
@@ -141,6 +142,29 @@ public class MyTasksActivity extends AppCompatActivity {
             requestedTaskList.set(taskIndex, task);
             j.dumpUserTasks(requestedTaskList);
         }
+    }
+
+    private void loadInfo() {
+//        ElasticsearchController.GetTask test = new ElasticsearchController.GetTask();
+//        test.execute("John");
+//        Object t = null;
+//        try {
+//            t = test.get();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
+//        if (t == null) {
+//            Toast.makeText(getApplicationContext(), "t is null", Toast.LENGTH_SHORT).show();
+//        }
+//        Task task = (Task) t;
+//        requestedTaskList = new ArrayList<Task>();
+//        requestedTaskList.add(task);
+
+//        Toast.makeText(getApplicationContext(), "Remove bid selected", Toast.LENGTH_SHORT).show();
+
+        return;
     }
 
 }

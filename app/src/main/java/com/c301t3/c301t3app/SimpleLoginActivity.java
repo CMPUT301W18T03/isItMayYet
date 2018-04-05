@@ -41,7 +41,6 @@ public class SimpleLoginActivity extends AppCompatActivity {
             public void onClick(View v) { //TODO: add ES
 
 //                UserAccount u = j.loadUser();
-
 //                // login confirmation logic
 //                if (etUsername.getText().toString() == u.getUsername()){
 //

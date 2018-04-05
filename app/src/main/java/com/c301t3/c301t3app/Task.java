@@ -21,7 +21,11 @@ public class Task implements Serializable {
     private TaskStatus status;
     private int price;
     private ArrayList<Bid> bids;
+    private double longitude;
+    private double latitude;
+    @JestId
     private String id;
+    private String owner;
 
     // Photo photo;     // Commented out from not knowing how/what to represent photo with.
     // GeoLoc location;     // Commented out from not knowing how/what to represent location with.
@@ -35,6 +39,8 @@ public class Task implements Serializable {
         this.status = TaskStatus.REQUESTED;
         this.price = 0;
         this.bids = new ArrayList<Bid>();
+        UserAccount u = ApplicationController.getCurrUser();
+        this.owner = u.getID();
     }
 
     /**
@@ -151,6 +157,24 @@ public class Task implements Serializable {
     }
 
     /**
+     * Method that sets/edits longitude of Tasks.
+     *
+     * @param longitude: the longitude of the Task that's taking place.
+     */
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    /**
+     * Method tat sets/edits latitude of Tasks.
+     *
+     * @param latitude: the latitude of the Task that's taking place.
+     */
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    /**
      * Method that returns the name of Tasks.
      *
      * @return: name of the Task.
@@ -175,6 +199,24 @@ public class Task implements Serializable {
      */
     public TaskStatus getStatus() {
         return this.status;
+    }
+
+    /**
+     * Method that returns the latitude of Task.
+     *
+     * @return: latitude of the Task
+     */
+    public double getLatitude() {
+        return this.latitude;
+    }
+
+    /**
+     * Method that returns the longitude of Task.
+     *
+     * @return: longitude of the Task
+     */
+    public double getLongitude() {
+        return this.longitude;
     }
 
     /**
@@ -269,5 +311,11 @@ public class Task implements Serializable {
     public String getId() {
         return id;
     }
+
+    /**
+     * Getter for owner
+     * @return: String owner
+     */
+    public String getOwner() { return owner; }
 }
 

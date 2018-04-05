@@ -15,9 +15,18 @@ public class ApplicationController {
     public final static int MAX_PHOTO_BYTESIZE = 65536; //TODO: update as necessary
     public final static int ES_NUM_OF_RESULTS = 50; //TODO: update as necessary
     public final static int USER_NUM_OF_RESULTS = 900; //TODO: update as necessary
+    public static Context c;
 
 
     static UserAccount currUser;
+
+    /**
+     * default constructor
+     * @param context creates context for the application.
+     */
+    public ApplicationController(Context context) {
+        c = context;
+    }
 
     /**
      * Gets the current user account logged in

@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
@@ -175,9 +176,11 @@ public class MainMenuActivity extends AppCompatActivity{
         taskListView = findViewById(R.id.tasksView);
 
         // hardcoded test for elasticsearch
+        UserAccount u = new UserAccount();
+        u.setID("memelord");
+        ApplicationController.setUser(u);
         Task t1 = new Task();
         t1.setName("Carry me to diamond");
-
 
         ElasticsearchController.AddTask addTask = new ElasticsearchController.AddTask();
         addTask.execute(t1);
@@ -203,10 +206,47 @@ public class MainMenuActivity extends AppCompatActivity{
         ArrayList<Task> results = ElasticsearchController.serverTaskQuery("cake"); // retrieve from server
         Log.i("query", results.toString());
 
+        // deleting test
+        Task t3 = new Task();
+        t3.setName("death is a sweet sleep");
+        ElasticsearchController.taskToServer(t3);
 
-//        Log.i("execute", o.toString());
-//        Task t2 = r1.get(0);
-//        assertTrue(t1.getName().equals(t2.getName()));
+        Boolean b = ElasticsearchController.deleteTaskByID(t3.getId());
+
+        results = ElasticsearchController.serverTaskQuery("death");
+        Log.i("query", results.toString());
+
+        String id = ApplicationController.getCurrUser().getID();
+        results = ElasticsearchController.serverTasksByOwner(id);
+        Log.i("query", results.toString());
+
+
+        // hardcoded test for USER elasticsearch
+        UserAccount u1 = new UserAccount();
+        u1.setFirstName("JesusG");
+        ElasticsearchController.userToServer(u1);
+
+//         edit user u1 to elasticsearch
+        u1.setUsername("IamJESUSG");
+        ElasticsearchController.userUpdateServer(u1);
+
+        // search user by username
+        UserAccount u2 = new UserAccount();
+
+        u1 = ElasticsearchController.serverUserQuery("IamJESUSD");
+        Log.i("Retrieved User----", u1 != null ? u1.getUsername() : null);
+
+//         search user by ID
+        UserAccount u3;
+//        ApplicationController.setUser(u3);
+//        String userId = ApplicationController.getCurrUser().getID();
+//        Log.i("CURRID", userId);
+        u3 = ElasticsearchController.serverUserQueryByID("AWKUXLLLGjLoXk81quUX");
+        if (u3 != null) {
+            Log.i("Retrieved User BY ID", u3.getUsername());
+        } else {
+            Log.i("ERROR", "null user return");
+        }
 
         // end test for elastic search
 
@@ -222,6 +262,21 @@ public class MainMenuActivity extends AppCompatActivity{
         Task task2 = new Task("Task2","Desc2",TaskStatus.ASSIGNED,20);
         Task task3 = new Task("Task3","Some fluff text here for task 3", TaskStatus.BIDDED,22);
         Task task4 = new Task("Task4","Some fluff text here for task 4",TaskStatus.REQUESTED,12);
+
+        task0.setLongitude(45.4332287);
+        task0.setLatitude(-75.861889);
+
+        task1.setLongitude(31.3702227);
+        task1.setLatitude(79.7353802);
+
+        task2.setLongitude(42.3528795);
+        task2.setLatitude(-83.2392911);
+
+        task3.setLongitude(0);
+        task3.setLatitude(0);
+
+        task4.setLongitude(53.4987748);
+        task4.setLatitude(-113.4927989);
 
         taskList.addTask(task0);
         taskList.addTask(task1);
@@ -276,7 +331,7 @@ public class MainMenuActivity extends AppCompatActivity{
 //                Log.i("Info", selTask.getName());
 //                Log.i("desc", selTask.getDescription());
 //                Log.i("price", String.valueOf(selTask.getPrice()));
-                String strname = selTask.getName() + "/" + selTask.getDescription() + "/" + selTask.getStatus().toString() + "/" + String.valueOf(selTask.getPrice());
+                String strname = selTask.getName() + "/" + selTask.getDescription() + "/" + selTask.getStatus().toString() + "/" + String.valueOf(selTask.getPrice()) + "/" + String.valueOf(selTask.getLongitude()) + "/" + String.valueOf(selTask.getLatitude());
                 selectedIntent.putExtra("SelectedTask", strname);
                 startActivity(selectedIntent);
             }
