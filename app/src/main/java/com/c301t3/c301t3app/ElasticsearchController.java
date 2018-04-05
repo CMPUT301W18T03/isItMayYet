@@ -19,7 +19,7 @@ import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
 
-/**
+/**a1
  * Created by Kvongaza and Jquist on 2018-03-23.
  */
 
@@ -238,15 +238,29 @@ public class ElasticsearchController {
 
     }
 
-    public static boolean userToServer(UserAccount u) throws ExecutionException, InterruptedException {
+    /**
+     * Given the registration of a new user, use this method to send the user to the server.
+     * NOTE: must then call userUpdateServer on the user if you want to sync uniqueID to the server.
+     * @param u the user
+     * @return boolean
+     */
+    public static boolean userToServer(UserAccount u) {
         if (!checkOnline()) return false;
-
         ElasticsearchController.AddUser addUser = new ElasticsearchController.AddUser();
         addUser.execute(u);
-        u.setID(addUser.get());
+        try {
+            u.setID(addUser.get());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
+    /**
+     * Class that queries the server for a user by username.
+     */
     public static class GetUserByUsername extends AsyncTask<String, Void, UserAccount> {
         @Override
         protected UserAccount doInBackground(String... search_parameters) {
@@ -268,7 +282,7 @@ public class ElasticsearchController {
                 SearchResult result = client.execute(search);
                 if (result.isSucceeded()){
                     user = result.getSourceAsObject(UserAccount.class);
-                    Log.i("Error", "User found!");
+                    Log.i("Success", "User found!");
 //                    List<UserAccount> returnUser = result.getSourceAsObjectList(UserAccount.class);
 //                    user.addAll(returnUser);
                     return user;
@@ -286,11 +300,52 @@ public class ElasticsearchController {
     }
 
     /**
+     * Class that queries the server for a user by ID.
+     */
+    public static class GetUserByID extends AsyncTask<String, Void, UserAccount> {
+        @Override
+        protected UserAccount doInBackground(String... id) {
+            verifySettings();
+
+            new UserAccount();
+            UserAccount user;
+            String query = "{\"query\": {\"match\": {\"uniqueID\": \"" + id[0] + "\" }}}";
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301w18t03")
+                    .addType("user")
+                    .build();
+            try {
+                // TODO get the results of the query
+//                Index index = new Index.Builder(user).index("cmput301w18t03").type("user").id(id[0]).build();
+//                DocumentResult result = client.execute(index);
+//                Log.i("ES ID", result.getId());
+                SearchResult result = client.execute(search);
+                if (result.isSucceeded()) {
+                    user = result.getSourceAsObject(UserAccount.class);
+                    Log.i("Success", "User found by ID!");
+//                    Log.i("THE ID", user.getID());
+                    return user;
+                }
+                else {
+                    Log.i("Error", "User query by ID not matched to any results in server");
+                    return null;
+                }
+            }
+            catch (Exception e) {
+                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server THIS ONE!");
+                return null;
+            }
+        }
+    }
+
+
+    /**
      * Send username query into here to return the user if it exists in server
      * @param username unique username
      * @return user object
      */
     public static UserAccount serverUserQuery(String username) {
+        if (!checkOnline()) return null;
         ElasticsearchController.GetUserByUsername getUser = new ElasticsearchController.GetUserByUsername();
         try {
             getUser.execute(username);
@@ -303,6 +358,24 @@ public class ElasticsearchController {
         return null;
     }
 
+    /**
+     * Send the id into here to return the user if it exists on the server
+     * @param id
+     * @return user object
+     */
+    public static UserAccount serverUserQueryByID(String id) {
+        if (!checkOnline()) return null;
+        ElasticsearchController.GetUserByID getUser = new ElasticsearchController.GetUserByID();
+        try {
+            getUser.execute(id);
+            return getUser.get();
+        } catch (InterruptedException e) {
+            Log.e("E", "Server access interrupted");
+        } catch (ExecutionException e) {
+            Log.e("E", e.getMessage().toString());
+        }
+        return null;
+    }
 
     /**
      * Sync a user to elasticsearch server

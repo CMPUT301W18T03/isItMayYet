@@ -220,25 +220,33 @@ public class MainMenuActivity extends AppCompatActivity{
         results = ElasticsearchController.serverTasksByOwner(id);
         Log.i("query", results.toString());
 
-        // hardcoded test for user elasticsearch
-        UserAccount u1 = new UserAccount();
-//        u1.setFirstName("Chad");
-//
-//        try {
-//            ElasticsearchController.userToServer(u1);
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
 
-        // edit user u1 to elasticsearch
-//        u1.setUsername("Chaddy123");
-//        ElasticsearchController.userUpdateServer(u1);
+        // hardcoded test for USER elasticsearch
+        UserAccount u1 = new UserAccount();
+        u1.setFirstName("JesusG");
+        ElasticsearchController.userToServer(u1);
+
+//         edit user u1 to elasticsearch
+        u1.setUsername("IamJESUSG");
+        ElasticsearchController.userUpdateServer(u1);
 
         // search user by username
-//        u1 = ElasticsearchController.serverUserQuery("Chaddy123");
-//        Log.i("Retrieved User----", u1.getUsername());
+        UserAccount u2 = new UserAccount();
+
+        u1 = ElasticsearchController.serverUserQuery("IamJESUSD");
+        Log.i("Retrieved User----", u1 != null ? u1.getUsername() : null);
+
+//         search user by ID
+        UserAccount u3;
+//        ApplicationController.setUser(u3);
+//        String userId = ApplicationController.getCurrUser().getID();
+//        Log.i("CURRID", userId);
+        u3 = ElasticsearchController.serverUserQueryByID("AWKUXLLLGjLoXk81quUX");
+        if (u3 != null) {
+            Log.i("Retrieved User BY ID", u3.getUsername());
+        } else {
+            Log.i("ERROR", "null user return");
+        }
 
         // end test for elastic search
 

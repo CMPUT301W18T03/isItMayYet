@@ -60,14 +60,8 @@ public class RegisterActivity extends AppCompatActivity {
                     account.setPassword(etPassword.getText().toString());
 
                     // send user to Elasticsearch server
-                    try {
-                        ElasticsearchController.userToServer(account);
-                        ElasticsearchController.userUpdateServer(account);
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    ElasticsearchController.userToServer(account);
+                    ElasticsearchController.userUpdateServer(account);
 
                     // check to see if the uniqueID matches. ofc it does.
                     Log.i("uniqueID", account.getID());
