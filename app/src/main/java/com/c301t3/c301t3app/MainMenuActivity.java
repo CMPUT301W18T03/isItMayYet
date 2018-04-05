@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
@@ -175,9 +176,11 @@ public class MainMenuActivity extends AppCompatActivity{
         taskListView = findViewById(R.id.tasksView);
 
         // hardcoded test for elasticsearch
+        UserAccount u = new UserAccount();
+        u.setID("memelord");
+        ApplicationController.setUser(u);
         Task t1 = new Task();
         t1.setName("Carry me to diamond");
-
 
         ElasticsearchController.AddTask addTask = new ElasticsearchController.AddTask();
         addTask.execute(t1);
@@ -203,10 +206,47 @@ public class MainMenuActivity extends AppCompatActivity{
         ArrayList<Task> results = ElasticsearchController.serverTaskQuery("cake"); // retrieve from server
         Log.i("query", results.toString());
 
+        // deleting test
+        Task t3 = new Task();
+        t3.setName("death is a sweet sleep");
+        ElasticsearchController.taskToServer(t3);
 
-//        Log.i("execute", o.toString());
-//        Task t2 = r1.get(0);
-//        assertTrue(t1.getName().equals(t2.getName()));
+        Boolean b = ElasticsearchController.deleteTaskByID(t3.getId());
+
+        results = ElasticsearchController.serverTaskQuery("death");
+        Log.i("query", results.toString());
+
+        String id = ApplicationController.getCurrUser().getID();
+        results = ElasticsearchController.serverTasksByOwner(id);
+        Log.i("query", results.toString());
+
+
+        // hardcoded test for USER elasticsearch
+        UserAccount u1 = new UserAccount();
+        u1.setFirstName("JesusG");
+        ElasticsearchController.userToServer(u1);
+
+//         edit user u1 to elasticsearch
+        u1.setUsername("IamJESUSG");
+        ElasticsearchController.userUpdateServer(u1);
+
+        // search user by username
+        UserAccount u2 = new UserAccount();
+
+        u1 = ElasticsearchController.serverUserQuery("IamJESUSD");
+        Log.i("Retrieved User----", u1 != null ? u1.getUsername() : null);
+
+//         search user by ID
+        UserAccount u3;
+//        ApplicationController.setUser(u3);
+//        String userId = ApplicationController.getCurrUser().getID();
+//        Log.i("CURRID", userId);
+        u3 = ElasticsearchController.serverUserQueryByID("AWKUXLLLGjLoXk81quUX");
+        if (u3 != null) {
+            Log.i("Retrieved User BY ID", u3.getUsername());
+        } else {
+            Log.i("ERROR", "null user return");
+        }
 
         // end test for elastic search
 
