@@ -332,7 +332,7 @@ public class ElasticsearchController {
                 }
             }
             catch (Exception e) {
-                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server THIS ONE!");
+                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
                 return null;
             }
         }
