@@ -51,6 +51,18 @@ public class RegisterActivity extends AppCompatActivity {
                             "Password does not match",Toast.LENGTH_LONG).show();
                 }
 
+                else if (!ApplicationController.isOnline(getApplicationContext())){
+                    Toast.makeText(RegisterActivity.this,
+                            "Internet Connection Unavailable: Registration unsuccessful.",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                else if (ElasticsearchController.serverUserQuery(etUsername.getText().toString())!=null) {
+                    Toast.makeText(RegisterActivity.this,
+                            "Username is taken. Please choose a different username.",
+                            Toast.LENGTH_LONG).show();
+                }
+
                 else {
                     account.setUsername(etUsername.getText().toString());
                     account.setFirstName(etFirstName.getText().toString());
