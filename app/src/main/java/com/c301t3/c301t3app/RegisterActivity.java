@@ -57,6 +57,12 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
 
+                else if (ElasticsearchController.serverUserQuery(etUsername.getText().toString())!=null) {
+                    Toast.makeText(RegisterActivity.this,
+                            "Username is taken. Please choose a different username.",
+                            Toast.LENGTH_LONG).show();
+                }
+
                 else {
                     account.setUsername(etUsername.getText().toString());
                     account.setFirstName(etFirstName.getText().toString());

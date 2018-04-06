@@ -39,24 +39,43 @@ public class SimpleLoginActivity extends AppCompatActivity {
         bSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //TODO: add ES
+                String loginName = etUsername.getText().toString().trim();
+                String inputPassword = etPassword.getText().toString().trim();
+                UserAccount user;
 
-//                UserAccount u = j.loadUser();
-//                // login confirmation logic
-//                if (etUsername.getText().toString() == u.getUsername()){
-//
-//                }
-//                else{
-//
-//                }
                 if (!ApplicationController.isOnline(getApplicationContext())){
                     Toast.makeText(SimpleLoginActivity.this,
                             "Internet Connection Unavailable: Login unsuccessful.",
                             Toast.LENGTH_LONG).show();
                 }
+                else if (loginName.isEmpty()) {
+                    Toast.makeText(SimpleLoginActivity.this,
+                            "No username input. Please fill in a username.",
+                            Toast.LENGTH_LONG).show();
+                }
+                else if (inputPassword.isEmpty()) {
+                    Toast.makeText(SimpleLoginActivity.this,
+                            "Please provide a password.",
+                            Toast.LENGTH_LONG).show();
+                }
                 else {
-                    Intent mainIntent = new Intent(SimpleLoginActivity.this, MainMenuActivity.class);
-                    ApplicationController.setUser(new UserAccount()); //TODO: replace for ES
-                    SimpleLoginActivity.this.startActivity(mainIntent);
+                    user = ElasticsearchController.serverUserQuery(loginName);
+                    if(user==null) {
+                        Toast.makeText(SimpleLoginActivity.this,
+                                "User not found. Perhaps you would like to register?",
+                                Toast.LENGTH_LONG).show();
+                    }
+                    else if(!inputPassword.equals(user.getPassword())) {
+                        Toast.makeText(SimpleLoginActivity.this,
+                                "Login failed. Password is incorrect.",
+                                Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        ApplicationController.setUser(user);
+                        Intent mainIntent = new Intent(SimpleLoginActivity.this,
+                                MainMenuActivity.class);
+                        SimpleLoginActivity.this.startActivity(mainIntent);
+                    }
                 }
             }
         });
