@@ -26,6 +26,7 @@ import io.searchbox.core.SearchResult;
 public class ElasticsearchController {
     private static JestDroidClient client;
     private static Boolean desynced = false;
+    public static final int MAX_RESULTS = 25;
 
     //############################################################################################
     //############################################################################################
@@ -135,6 +136,48 @@ public class ElasticsearchController {
 
             return tasks;
         }
+    }
+
+    public static class GetAllTask extends AsyncTask<Void, Void, ArrayList<Task>> {
+        @Override
+        protected ArrayList<Task> doInBackground(Void... params) {
+            verifySettings();
+
+            ArrayList<Task> tasks = new ArrayList<Task>();
+
+//          TODO: Make an actual query parser.
+            String query = "{\"query\": { \"match_all\": {}}, \"size\" : " + ElasticsearchController.MAX_RESULTS + "}";
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301w18t03")
+                    .addType("task")
+                    .build();
+            try {
+                // TODO get the results of the query
+                SearchResult result = client.execute(search);
+                if (result.isSucceeded()) {
+                    List<Task> returnTask = result.getSourceAsObjectList(Task.class);
+                    tasks.addAll(returnTask);
+                }
+            } catch (Exception e) {
+                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            }
+
+            return tasks;
+        }
+    }
+
+    public static ArrayList<Task> serverGetAllTasks() {
+        ElasticsearchController.GetAllTask getTask = new ElasticsearchController.GetAllTask();
+        getTask.execute();
+        ArrayList<Task> returns = null;
+        try {
+            returns = getTask.get();
+        } catch (InterruptedException e) {
+            Log.e("Error", e.getMessage().toString());
+        } catch (ExecutionException e) {
+            Log.e("Error", e.getMessage().toString());
+        }
+        return returns;
     }
 
     public static boolean taskToServer(Task t) {
