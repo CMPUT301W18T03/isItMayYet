@@ -25,7 +25,7 @@ import io.searchbox.core.SearchResult;
 
 public class ElasticsearchController {
     private static JestDroidClient client;
-    private static Boolean desynced;
+    private static Boolean desynced = false;
 
     //############################################################################################
     //############################################################################################
@@ -138,10 +138,24 @@ public class ElasticsearchController {
     }
 
     public static boolean taskToServer(Task t) {
-        if (!checkOnline()) return false; //check if connected to network
+        if (!checkOnline()) {
+            JsonHandler j = new JsonHandler(ApplicationController.c);
+            desynced = true;
+            j.dumpTaskToQueue(t);
+            return false; //check if connected to network
+        }
+
+        ArrayList<Task> q = new ArrayList<>();
+
+        if (desynced) {
+            JsonHandler j = new JsonHandler(ApplicationController.c);
+            q = j.loadTaskQueue();
+        }
+
+        q.add(t);
 
         ElasticsearchController.AddTask addTask = new ElasticsearchController.AddTask();
-        addTask.execute(t);
+        addTask.execute(q.toArray(new Task[q.size()]));
         return true;
     }
 
