@@ -25,6 +25,7 @@ import io.searchbox.core.SearchResult;
 
 public class ElasticsearchController {
     private static JestDroidClient client;
+    private static Boolean desynced;
 
     //############################################################################################
     //############################################################################################
@@ -110,7 +111,7 @@ public class ElasticsearchController {
 //          TODO: Make an actual query parser.
             String query = "{\"query\": {\"bool\": {\"must\": [";
             for (String s : search_parameters) {
-                query += "{ \"match\": { \"name\": \"";
+                query += "{ \"match\": { \"description\": \"";
                 query += s;
                 query += "\" } }, ";
             }
