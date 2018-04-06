@@ -25,6 +25,7 @@ public class Task implements Serializable {
     private double latitude;
     @JestId
     private String id;
+    private String owner;
 
     // Photo photo;     // Commented out from not knowing how/what to represent photo with.
     // GeoLoc location;     // Commented out from not knowing how/what to represent location with.
@@ -38,6 +39,12 @@ public class Task implements Serializable {
         this.status = TaskStatus.REQUESTED;
         this.price = 0;
         this.bids = new ArrayList<Bid>();
+        UserAccount u = ApplicationController.getCurrUser();
+        if(u != null) {
+            this.owner = u.getID();
+        } else {
+            this.owner = "NO_ONE";
+        }
     }
 
     /**
@@ -308,5 +315,11 @@ public class Task implements Serializable {
     public String getId() {
         return id;
     }
+
+    /**
+     * Getter for owner
+     * @return: String owner
+     */
+    public String getOwner() { return owner; }
 }
 

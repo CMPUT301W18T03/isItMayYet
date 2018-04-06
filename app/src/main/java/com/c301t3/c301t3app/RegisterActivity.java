@@ -3,10 +3,13 @@ package com.c301t3.c301t3app;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by kiefer on 2018-03-08.
@@ -48,6 +51,18 @@ public class RegisterActivity extends AppCompatActivity {
                             "Password does not match",Toast.LENGTH_LONG).show();
                 }
 
+                else if (!ApplicationController.isOnline(getApplicationContext())){
+                    Toast.makeText(RegisterActivity.this,
+                            "Internet Connection Unavailable: Registration unsuccessful.",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                else if (ElasticsearchController.serverUserQuery(etUsername.getText().toString())!=null) {
+                    Toast.makeText(RegisterActivity.this,
+                            "Username is taken. Please choose a different username.",
+                            Toast.LENGTH_LONG).show();
+                }
+
                 else {
                     account.setUsername(etUsername.getText().toString());
                     account.setFirstName(etFirstName.getText().toString());
@@ -55,7 +70,15 @@ public class RegisterActivity extends AppCompatActivity {
                     account.setEmailAdd(etEmail.getText().toString());
                     account.setPhoneNum(etPhone.getText().toString());
                     account.setPassword(etPassword.getText().toString());
-//                    account.setID(UserAccount.userCount++);
+
+                    // send user to Elasticsearch server
+                    ElasticsearchController.userToServer(account);
+                    ElasticsearchController.userUpdateServer(account);
+
+                    // check to see if the uniqueID matches. ofc it does.
+                    Log.i("uniqueID", account.getID());
+
+                    //TODO: update user in database now after having set the uniqueID
 
                     // send user account to jsonHandler.
                     j.dumpUser(account);
@@ -63,7 +86,6 @@ public class RegisterActivity extends AppCompatActivity {
                     Intent loginIntent = new Intent(RegisterActivity.this, SimpleLoginActivity.class);
                     RegisterActivity.this.startActivity(loginIntent);
                 }
-
 
             }
         });

@@ -64,6 +64,7 @@ public class NewTaskActivity extends AppCompatActivity {
                 ArrayList<Task> t = new ArrayList<>();
                 t.add(newTask);
                 passer.setTasks(t);
+                ElasticsearchController.taskToServer(newTask);
                 if(end) {
                     finish();
                 }
