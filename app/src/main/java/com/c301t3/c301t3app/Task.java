@@ -40,7 +40,11 @@ public class Task implements Serializable {
         this.price = 0;
         this.bids = new ArrayList<Bid>();
         UserAccount u = ApplicationController.getCurrUser();
-        this.owner = u.getID();
+        if(u != null) {
+            this.owner = u.getID();
+        } else {
+            this.owner = "NO_ONE";
+        }
     }
 
     /**
