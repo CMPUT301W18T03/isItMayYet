@@ -182,7 +182,13 @@ public class MainMenuActivity extends AppCompatActivity{
 
                 ArrayList<Task> searchMatch = new ArrayList<Task>();
                 String searchWord = searchInput.getText().toString().toLowerCase(Locale.getDefault());
-                if (searchWord.isEmpty()) {
+                if (!ApplicationController.isOnline(getApplicationContext())){
+                    Toast.makeText(MainMenuActivity.this,
+                            "Search failed: No connection to server",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                else if (searchWord.isEmpty()) {
                     taskList = ElasticsearchController.serverGetAllTasks();
                     for (i=0;i<taskList.size();i++) {
                         if ((taskList.get(i).getStatus()==TaskStatus.REQUESTED)
