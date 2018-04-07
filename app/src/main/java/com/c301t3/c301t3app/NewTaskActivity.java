@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
@@ -33,6 +34,7 @@ public class NewTaskActivity extends AppCompatActivity {
 
     private TaskPasser passer;
     private Task newTask;
+    private Bitmap picture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,12 @@ public class NewTaskActivity extends AppCompatActivity {
         Button saveButton = findViewById(R.id.createButton);
         Button addImageButton = findViewById(R.id.Button_addImage);
         userPicture = findViewById(R.id.ImageView_userPicture);
+
+        if (picture == null) {
+             picture = BitmapFactory.decodeResource(getBaseContext().getResources(), R.drawable.logo_big);
+             picture = processImage(picture);
+        }
+        userPicture.setImageBitmap(picture);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +80,8 @@ public class NewTaskActivity extends AppCompatActivity {
                 ArrayList<Task> t = new ArrayList<>();
                 t.add(newTask);
                 passer.setTasks(t);
+
+                ElasticsearchController.taskToServer(newTask);
 
                 if(end) {
                     finish();
@@ -114,97 +124,44 @@ public class NewTaskActivity extends AppCompatActivity {
             }
 
             if (bitmap != null) {
-
-
-//                int bytes_original = bitmap.getByteCount();
-
-//                ByteArrayOutputStream out = new ByteArrayOutputStream();
-//                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, out);
-//                Bitmap compressed = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
-//
-//                int bytes_compressed = compressed.getByteCount();
-//
-//                Toast.makeText(getApplicationContext(), "Original: " + String.valueOf(bytes_original), Toast.LENGTH_LONG).show();
-//                Toast.makeText(getApplicationContext(), "Compressed: " + String.valueOf(bytes_compressed), Toast.LENGTH_LONG).show();
-
-                String message = "";
-
-                int bitmap_width = bitmap.getWidth();
-                int bitmap_height = bitmap.getHeight();
-
-                message = String.format("Width: %d\nHeight: %d", bitmap_width, bitmap_height);
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-
-                int scaled_width = bitmap.getScaledWidth(bitmap_width);
-                int scaled_height = bitmap.getScaledHeight(bitmap_height);
-
-                message = String.format("ScaledW: %d\nScaledH: %d", scaled_width, scaled_height);
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-
-                int byte_count = bitmap.getByteCount();
-
-                message = String.format("byte_count unsized: %d", byte_count);
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-
-//                Bitmap new_bitmap = cleanBitmap(bitmap);
-//
-//                int byte_count_new = new_bitmap.getByteCount();
-//
-//                message = String.format("byte_count_new sized: %d", byte_count_new);
-//                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-
-
-                // --- //
-
-//                Bitmap background = Bitmap.createBitmap((int)width, (int)height, Config.ARGB_8888);
-
-//                float originalWidth = originalImage.getWidth();
-//                float originalHeight = originalImage.getHeight();
-
-//                Canvas canvas = new Canvas(background);
-
-//                float scale = width / originalWidth;
-
-//                float xTranslation = 0.0f;
-//                float yTranslation = (height - originalHeight * scale) / 2.0f;
-
-//                Matrix transformation = new Matrix();
-//                transformation.postTranslate(xTranslation, yTranslation);
-//                transformation.preScale(scale, scale);
-
-//                Paint paint = new Paint();
-//                paint.setFilterBitmap(true);
-
-//                canvas.drawBitmap(originalImage, transformation, paint);
-
-//                return background;
-
-                // --- //
-
-
-                userPicture.setImageBitmap(bitmap);
+                picture = processImage(bitmap);
+//                picture = scaleDown(bitmap, 200, true);
+                userPicture.setImageBitmap(picture);
             }
 
         }
 
     }
 
-    private Bitmap cleanBitmap(Bitmap picture) {
-        int num_bytes = picture.getByteCount();
-        int width = picture.getWidth();
-        int height = picture.getHeight();
-        if (width > 4096) {
-            picture.setWidth(4096);
-        }
-        if (height > 4096) {
-            picture.setHeight(4096);
-        }
-        if (num_bytes >= 65536 ) {
-            picture.setWidth(2048);
-            picture.setHeight(2048);
+    private Bitmap processImage(Bitmap picture) {
+        Bitmap newPicture = picture;
+        float span = Math.max(newPicture.getHeight(), newPicture.getWidth());
+
+        if (span > 4096) { span = 4096; }
+        while (true) {
+            newPicture = scaleDown(newPicture, span, true);
+            if (newPicture.getByteCount() > 65536) {
+                span = (span / 4) * 3;
+            } else {
+                break;
+            }
         }
 
-        return picture;
+        return newPicture;
+    }
+
+    // Method below is from a StackOverFlow post by the link: https://stackoverflow.com/questions/8471226/how-to-resize-image-bitmap-to-a-given-size
+    private static Bitmap scaleDown(Bitmap realImage, float maxImageSize,
+                                   boolean filter) {
+        float ratio = Math.min(
+                (float) maxImageSize / realImage.getWidth(),
+                (float) maxImageSize / realImage.getHeight());
+        int width = Math.round((float) ratio * realImage.getWidth());
+        int height = Math.round((float) ratio * realImage.getHeight());
+
+        Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width,
+                height, filter);
+        return newBitmap;
     }
 
 }
