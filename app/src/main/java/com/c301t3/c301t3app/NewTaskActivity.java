@@ -60,19 +60,23 @@ public class NewTaskActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean end = true;
+                boolean end = false;
                 String price;
+
                 try {
                     newTask.setName(nameText.getText().toString());
                     newTask.setDescription(descText.getText().toString());
                     price = priceText.getText().toString().replaceAll("[.]", "");
+                    newTask.setPicture(picture);
+                    end = true;
                 } catch (java.lang.IllegalArgumentException e) {
                     Snackbar errorMsg = Snackbar.make(findViewById(R.id.mainConstraint),
                             R.string.name_error,
                             Snackbar.LENGTH_SHORT);
-                    end = false;
                     price = "0";
                     errorMsg.show();
+                    picture = BitmapFactory.decodeResource(getBaseContext().getResources(), R.drawable.logo_big);
+                    picture = processImage(picture);
                 }
                 newTask.setPrice(Integer.parseInt(price));
                 newTask.setStatus(TaskStatus.REQUESTED);
@@ -125,7 +129,6 @@ public class NewTaskActivity extends AppCompatActivity {
 
             if (bitmap != null) {
                 picture = processImage(bitmap);
-//                picture = scaleDown(bitmap, 200, true);
                 userPicture.setImageBitmap(picture);
             }
 
@@ -137,11 +140,15 @@ public class NewTaskActivity extends AppCompatActivity {
         Bitmap newPicture = picture;
         float span = Math.max(newPicture.getHeight(), newPicture.getWidth());
 
-        if (span > 4096) { span = 4096; }
+        Toast.makeText(getApplicationContext(), newPicture.toString(), Toast.LENGTH_SHORT).show();
+
         while (true) {
-            newPicture = scaleDown(newPicture, span, true);
             if (newPicture.getByteCount() > 65536) {
                 span = (span / 4) * 3;
+                newPicture = scaleDown(newPicture, span, true);
+            } else if (span > 4096) {
+                span = 4096;
+                newPicture = scaleDown(newPicture, span, true);
             } else {
                 break;
             }
