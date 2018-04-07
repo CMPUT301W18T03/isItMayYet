@@ -66,7 +66,7 @@ public class NewTaskActivity extends AppCompatActivity {
                 try {
                     newTask.setName(nameText.getText().toString());
                     newTask.setDescription(descText.getText().toString());
-                    price = priceText.getText().toString().replaceAll("[.]", "");
+                    price = priceText.getText().toString();
                     newTask.setPicture(picture);
                     end = true;
                 } catch (java.lang.IllegalArgumentException e) {
@@ -78,7 +78,7 @@ public class NewTaskActivity extends AppCompatActivity {
                     picture = BitmapFactory.decodeResource(getBaseContext().getResources(), R.drawable.logo_big);
                     picture = processImage(picture);
                 }
-                newTask.setPrice(Integer.parseInt(price));
+                newTask.setPrice(Float.valueOf(price));
                 newTask.setStatus(TaskStatus.REQUESTED);
 
                 ArrayList<Task> t = new ArrayList<>();

@@ -26,7 +26,6 @@ import io.searchbox.core.SearchResult;
 public class ElasticsearchController {
     private static JestDroidClient client;
     private static Boolean desynced = false;
-    public static final int MAX_RESULTS = 25;
 
     //############################################################################################
     //############################################################################################
@@ -146,7 +145,7 @@ public class ElasticsearchController {
             ArrayList<Task> tasks = new ArrayList<Task>();
 
 //          TODO: Make an actual query parser.
-            String query = "{\"query\": { \"match_all\": {}}, \"size\" : " + ElasticsearchController.MAX_RESULTS + "}";
+            String query = "{\"query\": { \"match_all\": {}}, \"size\" : " + ApplicationController.ES_NUM_OF_RESULTS + "}";
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w18t03")
                     .addType("task")
