@@ -1,6 +1,8 @@
 
 package com.c301t3.c301t3app;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import io.searchbox.annotations.JestId;
@@ -21,6 +23,7 @@ public class Task implements Serializable {
     private TaskStatus status;
     private int price;
     private ArrayList<Bid> bids;
+    private Bitmap picture;
     private double longitude;
     private double latitude;
     @JestId
@@ -40,7 +43,11 @@ public class Task implements Serializable {
         this.price = 0;
         this.bids = new ArrayList<Bid>();
         UserAccount u = ApplicationController.getCurrUser();
-        this.owner = u.getID();
+        if(u != null) {
+            this.owner = u.getID();
+        } else {
+            this.owner = "NO_ONE";
+        }
     }
 
     /**
@@ -166,12 +173,26 @@ public class Task implements Serializable {
     }
 
     /**
-     * Method tat sets/edits latitude of Tasks.
+     * Method that sets/edits latitude of Tasks.
      *
      * @param latitude: the latitude of the Task that's taking place.
      */
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    /**
+     * Method that sets/edits picture of Tasks.
+     *
+     * @param picture: the picture of the Task.
+     */
+    public void setPicture(Bitmap picture) throws IllegalArgumentException {
+        int num_bytes = picture.getByteCount();
+        if (num_bytes < 65536) {
+            this.picture = picture;
+        } else {
+            throw new IllegalArgumentException("Error: Picture cannot go over 65536 bytes");
+        }
     }
 
     /**
@@ -217,6 +238,15 @@ public class Task implements Serializable {
      */
     public double getLongitude() {
         return this.longitude;
+    }
+
+    /**
+     * Method that reuturns the picture of Task.
+     *
+     * @return: picture of the Task
+     */
+    public Bitmap getPicture() {
+        return this.picture;
     }
 
     /**

@@ -198,12 +198,7 @@ public class MainMenuActivity extends AppCompatActivity{
 //        } catch (ExecutionException e) {
 //            e.printStackTrace();
 //        }
-//
-//        // 2nd test
-        Task t2 = new Task();
-        t2.setName("I like cake");
-        ElasticsearchController.taskToServer(t2); // send it to server
-//
+//?
 //        ArrayList<Task> results = ElasticsearchController.serverTaskQuery("cake"); // retrieve from server
 //        Log.i("query", results.toString());
 //

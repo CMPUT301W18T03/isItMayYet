@@ -25,6 +25,8 @@ import io.searchbox.core.SearchResult;
 
 public class ElasticsearchController {
     private static JestDroidClient client;
+    private static Boolean desynced = false;
+    public static final int MAX_RESULTS = 25;
 
     //############################################################################################
     //############################################################################################
@@ -110,7 +112,7 @@ public class ElasticsearchController {
 //          TODO: Make an actual query parser.
             String query = "{\"query\": {\"bool\": {\"must\": [";
             for (String s : search_parameters) {
-                query += "{ \"match\": { \"name\": \"";
+                query += "{ \"match\": { \"description\": \"";
                 query += s;
                 query += "\" } }, ";
             }
@@ -136,11 +138,67 @@ public class ElasticsearchController {
         }
     }
 
+    public static class GetAllTask extends AsyncTask<Void, Void, ArrayList<Task>> {
+        @Override
+        protected ArrayList<Task> doInBackground(Void... params) {
+            verifySettings();
+
+            ArrayList<Task> tasks = new ArrayList<Task>();
+
+//          TODO: Make an actual query parser.
+            String query = "{\"query\": { \"match_all\": {}}, \"size\" : " + ElasticsearchController.MAX_RESULTS + "}";
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301w18t03")
+                    .addType("task")
+                    .build();
+            try {
+                // TODO get the results of the query
+                SearchResult result = client.execute(search);
+                if (result.isSucceeded()) {
+                    List<Task> returnTask = result.getSourceAsObjectList(Task.class);
+                    tasks.addAll(returnTask);
+                }
+            } catch (Exception e) {
+                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            }
+
+            return tasks;
+        }
+    }
+
+    public static ArrayList<Task> serverGetAllTasks() {
+        ElasticsearchController.GetAllTask getTask = new ElasticsearchController.GetAllTask();
+        getTask.execute();
+        ArrayList<Task> returns = null;
+        try {
+            returns = getTask.get();
+        } catch (InterruptedException e) {
+            Log.e("Error", e.getMessage().toString());
+        } catch (ExecutionException e) {
+            Log.e("Error", e.getMessage().toString());
+        }
+        return returns;
+    }
+
     public static boolean taskToServer(Task t) {
-        if (!checkOnline()) return false; //check if connected to network
+        if (!checkOnline()) {
+            JsonHandler j = new JsonHandler(ApplicationController.c);
+            desynced = true;
+            j.dumpTaskToQueue(t);
+            return false; //check if connected to network
+        }
+
+        ArrayList<Task> q = new ArrayList<>();
+
+        if (desynced) {
+            JsonHandler j = new JsonHandler(ApplicationController.c);
+            q = j.loadTaskQueue();
+        }
+
+        q.add(t);
 
         ElasticsearchController.AddTask addTask = new ElasticsearchController.AddTask();
-        addTask.execute(t);
+        addTask.execute(q.toArray(new Task[q.size()]));
         return true;
     }
 
