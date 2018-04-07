@@ -21,11 +21,12 @@ public class Task implements Serializable {
     private String name;
     private String description;
     private TaskStatus status;
-    private int price;
+    private float price;
     private ArrayList<Bid> bids;
     private Bitmap picture;
     private double longitude;
     private double latitude;
+    private String ownerName;
     @JestId
     private String id;
     private String owner;
@@ -45,6 +46,7 @@ public class Task implements Serializable {
         UserAccount u = ApplicationController.getCurrUser();
         if(u != null) {
             this.owner = u.getID();
+            this.ownerName = u.getUsername();
         } else {
             this.owner = "NO_ONE";
         }
@@ -269,7 +271,7 @@ public class Task implements Serializable {
      *
      * @return: price of the Task
      */
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
@@ -279,7 +281,7 @@ public class Task implements Serializable {
      * @param price: the new price of Task.
      * @throws IllegalArgumentException: if the new price is lower that 0.
      */
-    public void setPrice(int price) throws IllegalArgumentException {
+    public void setPrice(float price) throws IllegalArgumentException {
         if (price < 0) {
             throw new IllegalArgumentException("Error: Price cannot be lower than 0");
         } else {
@@ -347,5 +349,11 @@ public class Task implements Serializable {
      * @return: String owner
      */
     public String getOwner() { return owner; }
+
+    /**
+     * Getter for owner's username
+     * @return String ownerName
+     */
+    public String getOwnerName() {return ownerName;}
 }
 

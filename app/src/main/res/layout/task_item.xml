@@ -14,6 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Task name"
+        android:textColor="@color/colorPrimary"
         android:textSize="16sp"
         android:textStyle="bold"/>
 
@@ -21,7 +22,7 @@
         android:id="@+id/task_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/task_price"
+        android:layout_below="@+id/task_owner"
         android:text="Task desc here..."
         android:layout_marginTop="5dp" />
 
@@ -42,6 +43,16 @@
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/task_status"
         android:textSize="12sp"
+        android:text="Task price"/>
+
+    <TextView
+        android:id="@+id/task_owner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/task_price"
+        android:textSize="12sp"
+        android:textColor="@color/colorAccent"
         android:text="Task price"/>
 
 

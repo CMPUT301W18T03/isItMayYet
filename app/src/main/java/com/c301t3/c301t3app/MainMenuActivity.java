@@ -90,68 +90,7 @@ public class MainMenuActivity extends AppCompatActivity{
             case R.id.myTasks:
                 Toast.makeText(getApplicationContext(), "MyTasks selected", Toast.LENGTH_SHORT).show();
                 Intent myTaskIntent = new Intent(activity, MyTasksActivity.class);
-
-                //---------------------------------------------------------------------------------///
-                /* Henry's code, seems to assign test shit. */
-                ArrayList<Task> assignedTaskList = new ArrayList<Task>();
-                ArrayList<Task> requestedTaskList = new ArrayList<Task>();
-
-                Task assignedTask0 = new Task("assignedTask0",
-                        "assignedTask description0",
-                        TaskStatus.ASSIGNED, 10);
-
-                Task assignedTask1 = new Task("assignedTask1",
-                        "assignedTask description1",
-                        TaskStatus.COMPLETED, 15);
-
-                assignedTaskList.add(assignedTask0);
-                assignedTaskList.add(assignedTask1);
-
-                Bid bid0 = new Bid(1920, 12345);
-                Bid bid1 = new Bid(1254, 54321);
-                Bid bidx = new Bid(420, 99999);
-                Bid bidy = new Bid(720, 33333);
-
-                ArrayList<Bid> bids0 = new ArrayList<Bid>();
-                bids0.add(bid0);
-                bids0.add(bid1);
-
-                ArrayList<Bid> bids1 = new ArrayList<Bid>();
-                bids1.add(bidx);
-                bids1.add(bidy);
-
-                Task requestedTask0 = new Task("requestedTask0",
-                        "requestedTask description0",
-                        TaskStatus.REQUESTED, 11, bids0);
-
-                Task requestedTask1 = new Task("requestedTask1",
-                        "requestedTask description1",
-                        TaskStatus.BIDDED, 19, bids1);
-
-                requestedTaskList.add(requestedTask0);
-                requestedTaskList.add(requestedTask1);
-
-                final InfoPasser info = InfoPasser.getInstance();
-                Bundle bundle = new Bundle();
-
-                TaskList adaptedAssignedList = new TaskList(assignedTaskList);
-                TaskList adaptedRequestedList = new TaskList(requestedTaskList);
-
-                bundle.putSerializable("assignedTaskList", adaptedAssignedList);
-                // bundle.putSerializable("requestedTaskList", adaptedRequestedList);
-
-                info.setInfo(bundle);
-
-                final JsonHandler j = new JsonHandler(this);
-                ArrayList<Task> test = j.loadUserTasks();
-                if (test == null) {
-                    j.dumpUserTasks(requestedTaskList);
-                }
-                //---------------------------------------------------------------------------------///
-
                 activity.startActivity(myTaskIntent);
-
-
                 break;
 
             case R.id.MyBids:
@@ -176,109 +115,6 @@ public class MainMenuActivity extends AppCompatActivity{
         addTaskButton = findViewById(R.id.addTaskButton);
         taskListView = findViewById(R.id.tasksView);
 
-//        // hardcoded test for elasticsearch
-//        UserAccount u = new UserAccount();
-//        u.setID("memelord");
-//        ApplicationController.setUser(u);
-//        Task t1 = new Task();
-//        t1.setName("Carry me to diamond");
-//
-//        ElasticsearchController.AddTask addTask = new ElasticsearchController.AddTask();
-//        addTask.execute(t1);
-//
-//        ElasticsearchController.GetTask getTask = new ElasticsearchController.GetTask();
-//
-////        ArrayList<Task> r1;
-//        getTask.execute("john"); // "john" was manually inserted into the server.
-//        Object o = null;
-//        try {
-//            o = getTask.get();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
-//?
-//        ArrayList<Task> results = ElasticsearchController.serverTaskQuery("cake"); // retrieve from server
-//        Log.i("query", results.toString());
-//
-//        // deleting test
-//        Task t3 = new Task();
-//        t3.setName("death is a sweet sleep");
-//        ElasticsearchController.taskToServer(t3);
-//
-//        Boolean b = ElasticsearchController.deleteTaskByID(t3.getId());
-//
-//        results = ElasticsearchController.serverTaskQuery("death");
-//        Log.i("query", results.toString());
-//
-//        String id = ApplicationController.getCurrUser().getID();
-//        results = ElasticsearchController.serverTasksByOwner(id);
-//        Log.i("query", results.toString());
-//
-//
-//        // hardcoded test for USER elasticsearch
-//        UserAccount u1 = new UserAccount();
-//        u1.setFirstName("JesusG");
-//        ElasticsearchController.userToServer(u1);
-//
-////         edit user u1 to elasticsearch
-//        u1.setUsername("IamJESUSG");
-//        ElasticsearchController.userUpdateServer(u1);
-//
-//        // search user by username
-//        UserAccount u2 = new UserAccount();
-//
-//        u1 = ElasticsearchController.serverUserQuery("IamJESUSD");
-//        Log.i("Retrieved User----", u1 != null ? u1.getUsername() : null);
-//
-////         search user by ID
-//        UserAccount u3;
-////        ApplicationController.setUser(u3);
-////        String userId = ApplicationController.getCurrUser().getID();
-////        Log.i("CURRID", userId);
-//        u3 = ElasticsearchController.serverUserQueryByID("AWKUXLLLGjLoXk81quUX");
-//        if (u3 != null) {
-//            Log.i("Retrieved User BY ID", u3.getUsername());
-//        } else {
-//            Log.i("ERROR", "null user return");
-//        }
-//
-//        // end test for elastic search
-//
-//
-//
-//        //debug
-//        /**
-//         * Test Cases
-//         */
-//
-//        Task task0 = new Task("Task0","Description for task0",TaskStatus.REQUESTED,15);
-//        Task task1 = new Task("Task1","There isn't really any reason to describe this",TaskStatus.BIDDED,20);
-//        Task task2 = new Task("Task2","Desc2",TaskStatus.ASSIGNED,20);
-//        Task task3 = new Task("Task3","Some fluff text here for task 3", TaskStatus.BIDDED,22);
-//        Task task4 = new Task("Task4","Some fluff text here for task 4",TaskStatus.REQUESTED,12);
-//
-//        task0.setLongitude(45.4332287);
-//        task0.setLatitude(-75.861889);
-//
-//        task1.setLongitude(31.3702227);
-//        task1.setLatitude(79.7353802);
-//
-//        task2.setLongitude(42.3528795);
-//        task2.setLatitude(-83.2392911);
-//
-//        task3.setLongitude(0);
-//        task3.setLatitude(0);
-//
-//        task4.setLongitude(53.4987748);
-//        task4.setLatitude(-113.4927989);
-//
-//        taskList.addTask(task0);
-//        taskList.addTask(task1);
-//        taskList.addTask(task2);
-//        taskList.addTask(task3);
-//        taskList.addTask(task4);
 
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -347,7 +183,7 @@ public class MainMenuActivity extends AppCompatActivity{
                 ArrayList<Task> searchMatch = new ArrayList<Task>();
                 String searchWord = searchInput.getText().toString().toLowerCase(Locale.getDefault());
                 if (searchWord.isEmpty()) {
-                    taskList = ElasticsearchController.serverTaskQuery("");
+                    taskList = ElasticsearchController.serverGetAllTasks();
                     for (i=0;i<taskList.size();i++) {
                         if ((taskList.get(i).getStatus()==TaskStatus.REQUESTED)
                                 || (taskList.get(i).getStatus()==TaskStatus.BIDDED)) {

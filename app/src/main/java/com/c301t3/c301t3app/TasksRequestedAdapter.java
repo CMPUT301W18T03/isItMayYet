@@ -100,6 +100,7 @@ public class TasksRequestedAdapter extends RecyclerView.Adapter<TasksRequestedAd
         private final TextView taskStatusView;
         private final TextView taskDescriptionView;
         private final TextView taskPriceView;
+        private final TextView taskOwnerView;
 
         private Task task;
         private Context context;
@@ -119,8 +120,9 @@ public class TasksRequestedAdapter extends RecyclerView.Adapter<TasksRequestedAd
             this.taskStatusView = itemView.findViewById(R.id.task_status);
             this.taskDescriptionView = itemView.findViewById(R.id.task_desc);
             this.taskPriceView = itemView.findViewById(R.id.task_price);
+            this.taskOwnerView = itemView.findViewById(R.id.task_owner);
 
-            itemView.setOnLongClickListener(this);
+            itemView.setOnLongClickListener(this); //currently no function
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -133,10 +135,17 @@ public class TasksRequestedAdapter extends RecyclerView.Adapter<TasksRequestedAd
                     }
                 }
             });
+
+            taskOwnerView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO: bring user to owner profile
+                }
+            });
         }
 
         @Override
-        public boolean onLongClick(View v) {
+        public boolean onLongClick(View v) { //TODO: add function
             longClickListener.onLongClick(v);
             return false;
         }
@@ -150,13 +159,16 @@ public class TasksRequestedAdapter extends RecyclerView.Adapter<TasksRequestedAd
             String taskName = task.getName();
             String taskStatus = task.getStatus().toString();
             String taskDescription = task.getDescription();
-            int taskPrice = task.getPrice();
-            String taskPriceFormat = String.format("$%d.00",taskPrice);
+            float taskPrice = task.getPrice();
+            String taskPriceFormat = String.format("$%.2f",taskPrice);
+            String taskOwner = task.getOwnerName();
+
 
             this.taskNameView.setText(taskName);
             this.taskStatusView.setText(taskStatus);
             this.taskDescriptionView.setText(taskDescription);
             this.taskPriceView.setText(taskPriceFormat);
+            this.taskOwnerView.setText(taskOwner);
         }
 
     }
