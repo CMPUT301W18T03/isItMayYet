@@ -77,7 +77,6 @@ public class ElasticsearchController {
                 } catch (Exception e) {
                     Log.i("Error", e.getMessage().toString());
                 }
-
             }
             return result;
         }
@@ -163,6 +162,49 @@ public class ElasticsearchController {
 
             return tasks;
         }
+    }
+
+    public static class GetTaskByOwner extends AsyncTask<String, Void, ArrayList<Task>> {
+        @Override
+        protected ArrayList<Task> doInBackground(String... ids) {
+            verifySettings();
+            ArrayList<Task> results = new ArrayList<>();
+
+            for (String s : ids) {
+                String query = "{\"query\": {\"match\" : { \"owner\" : \"" + s + "\" }}}";
+                Search search = new Search.Builder(query)
+                        .addIndex("cmput301w18t03")
+                        .addType("task")
+                        .build();
+                try {
+                    // TODO get the results of the query
+                    SearchResult result = client.execute(search);
+                    if (result.isSucceeded()) {
+                        List<Task> returnTask = result.getSourceAsObjectList(Task.class);
+                        results.addAll(returnTask);
+                    }
+                } catch (Exception e) {
+                    Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+                }
+            }
+            return results;
+        }
+    }
+
+    public static ArrayList<Task> serverTasksByOwner(String... params) {
+        if (!checkOnline()) return null; //check if connected to network
+
+        ElasticsearchController.GetTaskByOwner getTask = new ElasticsearchController.GetTaskByOwner();
+        try {
+            getTask.execute(params);
+            return getTask.get();
+        } catch (InterruptedException e) {
+            Log.e("E", e.getMessage().toString());
+        } catch (ExecutionException e) {
+            Log.e("E", e.getMessage().toString());
+        }
+        return null;
+
     }
 
     public static ArrayList<Task> serverGetAllTasks() {
@@ -252,67 +294,68 @@ public class ElasticsearchController {
         }
     }
 
-    public static class GetTaskByOwner extends AsyncTask<String, Void, ArrayList<Task>> {
-        @Override
-        protected ArrayList<Task> doInBackground(String... ids) {
-            verifySettings();
-            ArrayList<Task> results = new ArrayList<>();
+    /**
+     * Sync a user to elasticsearch server
+     */
+    public static class UpdateUser extends AsyncTask<UserAccount, Void, Boolean> {
 
-            for (String s : ids) {
-                String query = "{\"query\": {\"match\" : { \"owner\" : \"" + s + "\" }}}";
-                Search search = new Search.Builder(query)
-                        .addIndex("cmput301w18t03")
-                        .addType("task")
-                        .build();
+        /**
+         * Sync a user to Elasticsearch
+         * @param user the user being synced
+         * @return true if user synced
+         */
+        @Override
+        protected Boolean doInBackground(UserAccount... user) {
+            verifySettings();
+            Boolean userSynced = Boolean.FALSE;
+            for (UserAccount u : user) {
                 try {
-                    // TODO get the results of the query
-                    SearchResult result = client.execute(search);
-                    if (result.isSucceeded()) {
-                        List<Task> returnTask = result.getSourceAsObjectList(Task.class);
-                        results.addAll(returnTask);
+                    String userID = u.getID();
+                    Index index = new Index.Builder(u).index("cmput301w18t03").type("user").id(userID).build();
+                    DocumentResult documentresult = client.execute(index);
+                    userSynced = documentresult.isSucceeded();
+                    if (!userSynced) {
+                        Log.i("Error", "Failed to sync user to Elasticsearch");
                     }
-                } catch (Exception e) {
-                    Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+                    return userSynced;
+                }
+                catch (Exception e) {
+                    Log.i("Error", "Application failed to sync the user");
+                    return false;
                 }
             }
-            return results;
+            return userSynced;
         }
-    }
-
-    public static ArrayList<Task> serverTasksByOwner(String... params) {
-        if (!checkOnline()) return null; //check if connected to network
-
-        ElasticsearchController.GetTaskByOwner getTask = new ElasticsearchController.GetTaskByOwner();
-        try {
-            getTask.execute(params);
-            return getTask.get();
-        } catch (InterruptedException e) {
-            Log.e("E", e.getMessage().toString());
-        } catch (ExecutionException e) {
-            Log.e("E", e.getMessage().toString());
-        }
-        return null;
-
     }
 
     /**
-     * Given the registration of a new user, use this method to send the user to the server.
-     * NOTE: must then call userUpdateServer on the user if you want to sync uniqueID to the server.
-     * @param u the user
-     * @return boolean
+     * Deletes a user from elasticsearch server
      */
-    public static boolean userToServer(UserAccount u) {
-        if (!checkOnline()) return false;
-        ElasticsearchController.AddUser addUser = new ElasticsearchController.AddUser();
-        addUser.execute(u);
-        try {
-            u.setID(addUser.get());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+    public static class DeleteUser extends AsyncTask<String, Void, Boolean> {
+
+        /**
+         * Delete a user from elasticsearch
+         * @param user the user being deleted
+         * @return true if user deleted
+         */
+        @Override
+        protected Boolean doInBackground(String... user) {
+            verifySettings();
+            Boolean result = true;
+
+            for (String u : user) {
+                String query = "{\"query\": {\"match\": {\"username\":\"" + u + "\"}}}";
+                DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301w18t03").addType("user").build();
+
+                try {
+                    JestResult j = client.execute(delete);
+                    result = result && j.isSucceeded();
+                } catch (Exception e) {
+                    Log.i("Error", e.getMessage().toString());
+                }
+            }
+            return result;
         }
-        return true;
     }
 
     /**
@@ -395,6 +438,44 @@ public class ElasticsearchController {
         }
     }
 
+    /**
+     * Given the registration of a new user, use this method to send the user to the server.
+     * NOTE: must then call userUpdateServer on the user if you want to sync uniqueID to the server.
+     * @param u the user
+     * @return boolean
+     */
+    public static boolean userToServer(UserAccount u) {
+        if (!checkOnline()) return false;
+        ElasticsearchController.AddUser addUser = new ElasticsearchController.AddUser();
+        addUser.execute(u);
+        try {
+            u.setID(addUser.get());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    /**
+     * Deletes the user out of server.
+     * @param username the user
+     * @return true if deleted.
+     */
+    public static boolean deleteUser(String username) {
+        if (!checkOnline()) return false;
+        ElasticsearchController.DeleteUser delUser = new ElasticsearchController.DeleteUser();
+        delUser.execute(username);
+        Boolean success;
+        try {
+            success = delUser.get();
+        } catch (InterruptedException | ExecutionException e) {
+            Log.e("Error", e.getMessage());
+            success = false;
+        }
+        return success;
+    }
 
     /**
      * Send username query into here to return the user if it exists in server
@@ -432,40 +513,6 @@ public class ElasticsearchController {
             Log.e("E", e.getMessage().toString());
         }
         return null;
-    }
-
-    /**
-     * Sync a user to elasticsearch server
-     */
-    public static class UpdateUser extends AsyncTask<UserAccount, Void, Boolean> {
-
-        /**
-         * Sync a user to Elasticsearch
-         * @param user the user being synced
-         * @return true if user synced
-         */
-        @Override
-        protected Boolean doInBackground(UserAccount... user) {
-            verifySettings();
-            Boolean userSynced = Boolean.FALSE;
-            for (UserAccount u : user) {
-                try {
-                    String userID = u.getID();
-                    Index index = new Index.Builder(u).index("cmput301w18t03").type("user").id(userID).build();
-                    DocumentResult documentresult = client.execute(index);
-                    userSynced = documentresult.isSucceeded();
-                    if (!userSynced) {
-                        Log.i("Error", "Failed to sync user to Elasticsearch");
-                    }
-                    return userSynced;
-                }
-                catch (Exception e) {
-                    Log.i("Error", "Application failed to sync the user");
-                    return false;
-                }
-            }
-            return userSynced;
-        }
     }
 
     /**
