@@ -90,6 +90,7 @@ public class UserProfile extends AppCompatActivity {
                                             new ElasticsearchController.DeleteUser();
                                     delUser.execute(ApplicationController.getCurrUser().getUsername());
                                     dialog.dismiss();
+                                    ApplicationController.clearUser();
                                     Intent welcomeIntent =
                                             new Intent(UserProfile.this,
                                                     WelcomeActivity.class);
