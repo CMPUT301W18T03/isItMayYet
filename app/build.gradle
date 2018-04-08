@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.c301t3.c301t3app"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -17,6 +17,9 @@ android {
         }
     }
     buildToolsVersion '26.0.2'
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 

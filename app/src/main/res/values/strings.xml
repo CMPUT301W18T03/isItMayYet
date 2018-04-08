@@ -38,5 +38,18 @@
     <string name="AIzaSyDcZkIhHRSyTvvTuDH9pUEHbt9wxaXICO8">google_maps_key</string>
     <string name="search_maps">Search</string>
     <string name="title_activity_adding_task_local">Map</string>
+    <string name="selected_task_activity">Selected Task</string>
+    <string name="bidding_screen">Biddings</string>
+    <string name="main_menu_activity">Main Menu</string>
+    <string name="new_task">New Task</string>
+    <string name="activity_view_bids">Bids</string>
+    <string name="enter_first_name">Enter First Name</string>
+    <string name="enter_last_name">Enter Last Name</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="enter_phone">Enter Phone</string>
+    <string name="enter_address">Enter Address</string>
+    <string name="username">username:</string>
+    <string name="Save">Save</string>
+    <string name="Delete">Delete Account</string>
 
 </resources>

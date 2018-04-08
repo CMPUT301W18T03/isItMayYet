@@ -15,40 +15,57 @@ public class MainMenuActivityTests extends ActivityInstrumentationTestCase2{
         Activity activity = getActivity();
     }
 
-    public void testSearch() { //tests on hardcoded sample tasks TODO: update for ES implementation
+    public void testSearch() {
+
+        ElasticsearchController.AddTask addTask =
+                new ElasticsearchController.AddTask();
+
+        Task task1 = new Task();
+        task1.setName("Test this");
+        task1.setDescription("Help me pass this project");
+        task1.setId("test");
+        task1.setOwnerName("ownerHere");
+
+        addTask.execute(task1);
+
         solo = new Solo(getInstrumentation(),getActivity());
         solo.assertCurrentActivity("Wrong activity", MainMenuActivity.class);
         solo.clickOnView(solo.getView(R.id.searchBar));
-        solo.enterText(0, "Description for");
+        solo.enterText(0, "help");
         solo.pressSoftKeyboardDoneButton();
-        solo.waitForText("Task0");
+        solo.waitForText("Test");
 
-        solo.clearEditText(0);
-        solo.clickOnView(solo.getView(R.id.searchBar));
-        solo.enterText(0,"desc");
-        solo.pressSoftKeyboardDoneButton();
-        solo.waitForText("Task0");
-        solo.waitForText("Task1");
-
-        solo.clearEditText(0);
-        solo.clickOnView(solo.getView(R.id.searchBar));
-        solo.enterText(0,"fluff");
-        solo.pressSoftKeyboardDoneButton();
-        solo.waitForText("Task3");
-        solo.waitForText("Task4");
+        ElasticsearchController.DeleteTask delTask =
+                new ElasticsearchController.DeleteTask();
+        delTask.execute("test");
     }
 
     public void testSelectedTask() {
+        ElasticsearchController.AddTask addTask =
+                new ElasticsearchController.AddTask();
+
+        Task task1 = new Task();
+        task1.setName("Test this");
+        task1.setDescription("Help me pass this project");
+        task1.setId("test");
+        task1.setOwnerName("ownerHere");
+
+        addTask.execute(task1);
+
         solo = new Solo(getInstrumentation(),getActivity());
         solo.assertCurrentActivity("Wrong activity", MainMenuActivity.class);
         solo.clickOnView(solo.getView(R.id.searchBar));
-        solo.enterText(0, "Description for");
+        solo.enterText(0, "help");
         solo.pressSoftKeyboardDoneButton();
-        solo.waitForText("Task0");
-        solo.clickOnText("Task0");
+        solo.waitForText("Test");
+        solo.clickOnText("Test");
 
         solo.assertCurrentActivity("Wrong activity", SelectedTaskActivity.class);
+        solo.waitForText("help");
 
+        ElasticsearchController.DeleteTask delTask =
+                new ElasticsearchController.DeleteTask();
+        delTask.execute("test");
     }
 
     public void testAddTask() {

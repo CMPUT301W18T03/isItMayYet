@@ -29,6 +29,8 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ApplicationController createContext = new ApplicationController(getApplicationContext());
+
         taskPasser = new TaskPasser();
 
         Button mainButton = findViewById(R.id.button_GoToMainMenu);
@@ -56,8 +58,14 @@ public class WelcomeActivity extends AppCompatActivity {
      */
     public void loginClick(View view) {
         //Toast.makeText(getApplicationContext(), "Login clicked",Toast.LENGTH_SHORT).show();
-        loginIntent = new Intent(activity, SimpleLoginActivity.class);
-        startActivity(loginIntent);
+        if (ApplicationController.getCurrUser()==null){
+            loginIntent = new Intent(activity, SimpleLoginActivity.class);
+            startActivity(loginIntent);
+        }
+
+        else {
+            startActivity(mainMenuIntent);
+        }
 
     }
 

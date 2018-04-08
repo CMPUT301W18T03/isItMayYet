@@ -6,8 +6,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -16,20 +14,14 @@
         android:roundIcon="@mipmap/ic_planet"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WelcomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".WelcomeActivity" />
         <!--
          Here is how we are going to add a parent via the XML portion. Gonna use the like this
          Also need to change Main Activity to view 2 name. Implement this when there are  actual java  classes for each screen.
         -->
         <activity
             android:name=".SelectedTaskActivity"
-            android:label="selected_task_activity"
+            android:label="@string/selected_task_activity"
             android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -37,7 +29,7 @@
         </activity>
         <activity
             android:name=".BiddingScreen"
-            android:label="bidding_screen"
+            android:label="@string/bidding_screen"
             android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -45,7 +37,7 @@
         </activity>
         <activity
             android:name=".MyTasksActivity"
-            android:label="my_tasks"
+            android:label="@string/my_tasks"
             android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -53,12 +45,13 @@
         </activity>
         <activity android:name=".SimpleLoginActivity" />
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".UserProfile" />
         <activity
             android:name=".MainMenuActivity"
-            android:label="main_menu_activity" />
+            android:label="@string/main_menu_activity" />
         <activity
             android:name=".NewTaskActivity"
-            android:label="New task"
+            android:label="@string/new_task"
             android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -66,7 +59,7 @@
         </activity>
         <activity
             android:name=".ViewBidsActivity"
-            android:label="activity_view_bids"
+            android:label="@string/activity_view_bids"
             android:parentActivityName=".ViewBidsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -78,7 +71,7 @@
              Note that the API key is linked to the encryption key used to sign the APK.
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -98,6 +91,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.c301t3.c301t3app.NewTaskActivity" />
         </activity>
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".TaskOwnerProfile"></activity>
     </application>
 
 </manifest>

@@ -1,8 +1,13 @@
 
 package com.c301t3.c301t3app;
 
+import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import io.searchbox.annotations.JestId;
 
 /**
  * Created by Henry on 23/02/18.
@@ -18,9 +23,15 @@ public class Task implements Serializable {
     private String name;
     private String description;
     private TaskStatus status;
-    private int price;
+    private float price;
     private ArrayList<Bid> bids;
+    private Bitmap picture;
+    private double longitude;
+    private double latitude;
+    private String ownerName;
+    @JestId
     private String id;
+    private String owner;
 
     // Photo photo;     // Commented out from not knowing how/what to represent photo with.
     // GeoLoc location;     // Commented out from not knowing how/what to represent location with.
@@ -34,6 +45,13 @@ public class Task implements Serializable {
         this.status = TaskStatus.REQUESTED;
         this.price = 0;
         this.bids = new ArrayList<Bid>();
+        UserAccount u = ApplicationController.getCurrUser();
+        if(u != null) {
+            this.owner = u.getID();
+            this.ownerName = u.getUsername();
+        } else {
+            this.owner = "NO_ONE";
+        }
     }
 
     /**
@@ -45,7 +63,7 @@ public class Task implements Serializable {
         this();
         if (name.length() == 0) {
             throw new IllegalArgumentException("Error: Name cannot be set with no characters");
-        } else if (name.length() > 30 ) {
+        } else if (name.length() > ApplicationController.MAX_TASK_NAME_LENGTH ) {
             throw new IllegalArgumentException("Error: Name cannot go over 30 characters in length");
         }
         this.name = name;
@@ -62,7 +80,7 @@ public class Task implements Serializable {
         this(name);
         if (description.length() == 0) {
             throw new IllegalArgumentException("Error: Description cannot be set with no characters");
-        } else if (description.length() > 300) {
+        } else if (description.length() > ApplicationController.MAX_TASK_DESC_LENGTH) {
             throw new IllegalArgumentException("Error: Description cannot go over 300 characters in length");
         }
         this.description = description;
@@ -119,7 +137,7 @@ public class Task implements Serializable {
     public void setName(String name) throws IllegalArgumentException {
         if (name.length() == 0) {
             throw new IllegalArgumentException("Error: Name cannot be set with no characters");
-        } else if (name.length() > 30 ) {
+        } else if (name.length() > ApplicationController.MAX_TASK_NAME_LENGTH ) {
             throw new IllegalArgumentException("Error: Name cannot go over 30 characters in length");
         }
         this.name = name;
@@ -134,7 +152,7 @@ public class Task implements Serializable {
     public void setDescription(String description) throws IllegalArgumentException {
         if (description.length() == 0) {
             throw new IllegalArgumentException("Error: Description cannot be set with no characters");
-        } else if (description.length() > 300) {
+        } else if (description.length() > ApplicationController.MAX_TASK_DESC_LENGTH) {
             throw new IllegalArgumentException("Error: Description cannot go over 300 characters in length");
         }
         this.description = description;
@@ -147,6 +165,38 @@ public class Task implements Serializable {
      */
     public void setStatus(TaskStatus status) {
         this.status = status;
+    }
+
+    /**
+     * Method that sets/edits longitude of Tasks.
+     *
+     * @param longitude: the longitude of the Task that's taking place.
+     */
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    /**
+     * Method that sets/edits latitude of Tasks.
+     *
+     * @param latitude: the latitude of the Task that's taking place.
+     */
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    /**
+     * Method that sets/edits picture of Tasks.
+     *
+     * @param picture: the picture of the Task.
+     */
+    public void setPicture(Bitmap picture) throws IllegalArgumentException {
+        int num_bytes = picture.getByteCount();
+        if (num_bytes < 65536) {
+            this.picture = picture;
+        } else {
+            throw new IllegalArgumentException("Error: Picture cannot go over 65536 bytes");
+        }
     }
 
     /**
@@ -177,6 +227,33 @@ public class Task implements Serializable {
     }
 
     /**
+     * Method that returns the latitude of Task.
+     *
+     * @return: latitude of the Task
+     */
+    public double getLatitude() {
+        return this.latitude;
+    }
+
+    /**
+     * Method that returns the longitude of Task.
+     *
+     * @return: longitude of the Task
+     */
+    public double getLongitude() {
+        return this.longitude;
+    }
+
+    /**
+     * Method that reuturns the picture of Task.
+     *
+     * @return: picture of the Task
+     */
+    public Bitmap getPicture() {
+        return this.picture;
+    }
+
+    /**
      * Override for the toString() Method to work with the adapter class of MyTasks.
      *
      * @return: message of summarizing the information of the Task.
@@ -196,7 +273,7 @@ public class Task implements Serializable {
      *
      * @return: price of the Task
      */
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
@@ -206,7 +283,7 @@ public class Task implements Serializable {
      * @param price: the new price of Task.
      * @throws IllegalArgumentException: if the new price is lower that 0.
      */
-    public void setPrice(int price) throws IllegalArgumentException {
+    public void setPrice(float price) throws IllegalArgumentException {
         if (price < 0) {
             throw new IllegalArgumentException("Error: Price cannot be lower than 0");
         } else {
@@ -268,5 +345,30 @@ public class Task implements Serializable {
     public String getId() {
         return id;
     }
+
+    /**
+     * Getter for owner
+     * @return: String owner
+     */
+    public String getOwner() { return owner; }
+
+    /**
+     * Getter for owner's username
+     * @return String ownerName
+     */
+    public String getOwnerName() {return ownerName;}
+
+
+    /**
+     * Setter for owner ID
+     */
+    public void setOwner(String id) {
+        this.owner = id;
+    }
+
+    public void setOwnerName(String name) {
+        this.ownerName = name;
+    }
+
 }
 

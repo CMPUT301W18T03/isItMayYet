@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Henry on 07/03/18.
@@ -101,8 +102,8 @@ public class MyTasksActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-         loadFromInfoPasser();
-        // loadInfo();
+        loadFromInfoPasser();
+        loadInfo();
 
         assignedAdapter = new ArrayAdapter<Task>(this, R.layout.my_tasks_assigned, assignedTaskList);
         requestedAdapter = new ArrayAdapter<Task>(this, R.layout.my_tasks_requested, requestedTaskList);
@@ -141,6 +142,12 @@ public class MyTasksActivity extends AppCompatActivity {
             requestedTaskList.set(taskIndex, task);
             j.dumpUserTasks(requestedTaskList);
         }
+    }
+
+    private void loadInfo() {
+        requestedTaskList = ElasticsearchController.serverTasksByOwner(ApplicationController.getCurrUser().getID());
+
+        return;
     }
 
 }

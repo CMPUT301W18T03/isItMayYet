@@ -1,7 +1,10 @@
 package com.c301t3.c301t3app;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +19,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -27,7 +32,7 @@ import java.util.Locale;
 public class MainMenuActivity extends AppCompatActivity{
     private MainMenuActivity activity = this;
     private final TaskPasser taskPasser = new TaskPasser();
-    public TaskList taskList = new TaskList(); //sample list TODO: remove, maybe
+    public ArrayList<Task> taskList = new ArrayList<Task>();
     private final Context context = MainMenuActivity.this;
 
     private RecyclerView taskListView;
@@ -62,8 +67,13 @@ public class MainMenuActivity extends AppCompatActivity{
 
             case R.id.Profile:
                 Toast.makeText(getApplicationContext(), "Profile selected", Toast.LENGTH_SHORT).show();
-
-                //TODO: set up Profile activity.
+                if (ApplicationController.getCurrUser() == null) {
+                    Intent loginIntent = new Intent(activity, SimpleLoginActivity.class);
+                    activity.startActivity(loginIntent);
+                } else {
+                    Intent profileIntent = new Intent(activity, UserProfile.class);
+                    activity.startActivity(profileIntent);
+                }
 
                 break;
 
@@ -78,7 +88,7 @@ public class MainMenuActivity extends AppCompatActivity{
             case R.id.Logout:
                 Toast.makeText(getApplicationContext(), "Logout selected", Toast.LENGTH_SHORT).show();
 
-                //TODO: actually log the user out.
+                ApplicationController.clearUser();
 
                 // go to login activity
                 Intent logoutIntent = new Intent(activity, SimpleLoginActivity.class);
@@ -89,68 +99,7 @@ public class MainMenuActivity extends AppCompatActivity{
             case R.id.myTasks:
                 Toast.makeText(getApplicationContext(), "MyTasks selected", Toast.LENGTH_SHORT).show();
                 Intent myTaskIntent = new Intent(activity, MyTasksActivity.class);
-
-                //---------------------------------------------------------------------------------///
-                /* Henry's code, seems to assign test shit. */
-                ArrayList<Task> assignedTaskList = new ArrayList<Task>();
-                ArrayList<Task> requestedTaskList = new ArrayList<Task>();
-
-                Task assignedTask0 = new Task("assignedTask0",
-                        "assignedTask description0",
-                        TaskStatus.ASSIGNED, 10);
-
-                Task assignedTask1 = new Task("assignedTask1",
-                        "assignedTask description1",
-                        TaskStatus.COMPLETED, 15);
-
-                assignedTaskList.add(assignedTask0);
-                assignedTaskList.add(assignedTask1);
-
-                Bid bid0 = new Bid(1920, 12345);
-                Bid bid1 = new Bid(1254, 54321);
-                Bid bidx = new Bid(420, 99999);
-                Bid bidy = new Bid(720, 33333);
-
-                ArrayList<Bid> bids0 = new ArrayList<Bid>();
-                bids0.add(bid0);
-                bids0.add(bid1);
-
-                ArrayList<Bid> bids1 = new ArrayList<Bid>();
-                bids1.add(bidx);
-                bids1.add(bidy);
-
-                Task requestedTask0 = new Task("requestedTask0",
-                        "requestedTask description0",
-                        TaskStatus.REQUESTED, 11, bids0);
-
-                Task requestedTask1 = new Task("requestedTask1",
-                        "requestedTask description1",
-                        TaskStatus.BIDDED, 19, bids1);
-
-                requestedTaskList.add(requestedTask0);
-                requestedTaskList.add(requestedTask1);
-
-                final InfoPasser info = InfoPasser.getInstance();
-                Bundle bundle = new Bundle();
-
-                TaskList adaptedAssignedList = new TaskList(assignedTaskList);
-                TaskList adaptedRequestedList = new TaskList(requestedTaskList);
-
-                bundle.putSerializable("assignedTaskList", adaptedAssignedList);
-                // bundle.putSerializable("requestedTaskList", adaptedRequestedList);
-
-                info.setInfo(bundle);
-
-                final JsonHandler j = new JsonHandler(this);
-                ArrayList<Task> test = j.loadUserTasks();
-                if (test == null) {
-                    j.dumpUserTasks(requestedTaskList);
-                }
-                //---------------------------------------------------------------------------------///
-
                 activity.startActivity(myTaskIntent);
-
-
                 break;
 
             case R.id.MyBids:
@@ -174,23 +123,6 @@ public class MainMenuActivity extends AppCompatActivity{
 
         addTaskButton = findViewById(R.id.addTaskButton);
         taskListView = findViewById(R.id.tasksView);
-
-        //debug
-        /**
-         * Test Cases
-         */
-
-        Task task0 = new Task("Task0","Description for task0",TaskStatus.REQUESTED,15);
-        Task task1 = new Task("Task1","There isn't really any reason to describe this",TaskStatus.BIDDED,20);
-        Task task2 = new Task("Task2","Desc2",TaskStatus.ASSIGNED,20);
-        Task task3 = new Task("Task3","Some fluff text here for task 3", TaskStatus.BIDDED,22);
-        Task task4 = new Task("Task4","Some fluff text here for task 4",TaskStatus.REQUESTED,12);
-
-        taskList.addTask(task0);
-        taskList.addTask(task1);
-        taskList.addTask(task2);
-        taskList.addTask(task3);
-        taskList.addTask(task4);
 
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,8 +171,27 @@ public class MainMenuActivity extends AppCompatActivity{
 //                Log.i("Info", selTask.getName());
 //                Log.i("desc", selTask.getDescription());
 //                Log.i("price", String.valueOf(selTask.getPrice()));
-                String strname = selTask.getName() + "/" + selTask.getDescription() + "/" + selTask.getStatus().toString() + "/" + String.valueOf(selTask.getPrice());
+                String strname = selTask.getName() + "/" + selTask.getDescription() + "/" + selTask.getStatus().toString() + "/" + String.valueOf(selTask.getPrice()) + "/" + String.valueOf(selTask.getLongitude()) + "/" + String.valueOf(selTask.getLatitude());
                 selectedIntent.putExtra("SelectedTask", strname);
+
+                // This is the chunk of code to send the whole task as an object straight to
+                // SelectedTaskActivity without the use of a string, which is a must when it comes to Bitmap.
+
+                Bitmap original_picture = BitmapFactory.decodeResource(getBaseContext().getResources(), R.drawable.logo_big);
+                int pic_height = Math.round((float) original_picture.getHeight() / 2);
+                int pic_width = Math.round((float) original_picture.getWidth() / 2);
+                Bitmap selPicture = Bitmap.createScaledBitmap(original_picture, pic_width, pic_height, true);
+
+
+                final InfoPasser info = InfoPasser.getInstance();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("selectedTask", selTask);
+
+                // bundle.putSerializable("selectedPicture", selPicture);
+                // Bitmap selPicture  = selTask.getPicture();
+                bundle.putParcelable("selectedPicture", selPicture);
+                info.setInfo(bundle);
+
                 startActivity(selectedIntent);
             }
         });
@@ -258,29 +209,56 @@ public class MainMenuActivity extends AppCompatActivity{
 
                 ArrayList<Task> searchMatch = new ArrayList<Task>();
                 String searchWord = searchInput.getText().toString().toLowerCase(Locale.getDefault());
-                if (searchWord.isEmpty()) {
-                    for (i=0;i<taskList.getTaskList().size();i++) {
-                        if ((taskList.getTask(i).getStatus()==TaskStatus.REQUESTED)
-                                || (taskList.getTask(i).getStatus()==TaskStatus.BIDDED)) {
-                            searchMatch.add(taskList.getTask(i));
+                if (!ApplicationController.isOnline(getApplicationContext())){
+                    Toast.makeText(MainMenuActivity.this,
+                            "Search failed: No connection to server",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                else if (searchWord.isEmpty()) {
+                    ElasticsearchController.GetAllTask getAllTask =
+                            new ElasticsearchController.GetAllTask();
+                    getAllTask.execute();
+                    try {
+                    taskList = getAllTask.get();
+                    for (i=0;i<taskList.size();i++) {
+                        if ((taskList.get(i).getStatus()==TaskStatus.REQUESTED)
+                                || (taskList.get(i).getStatus()==TaskStatus.BIDDED)) {
+                            searchMatch.add(taskList.get(i));
                         }
                     }
-
                     tasks.clear();
                     tasks.addAll(searchMatch);
+                    }
+                    catch (Exception e) {
+                        Log.i("E","No tasks");
+                    }
+                    if(searchMatch.isEmpty()){Toast.makeText(MainMenuActivity.this,
+                            "No task fits the description searched.",Toast.LENGTH_LONG).show();
+                    }
                     adapter.notifyDataSetChanged();
                 }
 
                 else {
-                    for (i=0;i<taskList.getTaskList().size();i++) { // works for hardcoded short list of tasks.. takes long for more content
-                        if ((taskList.getTask(i).getDescription().toLowerCase().contains(searchWord))
-                                && ((taskList.getTask(i).getStatus()==TaskStatus.REQUESTED)
-                                || (taskList.getTask(i).getStatus()==TaskStatus.BIDDED))) {
-                            searchMatch.add(taskList.getTask(i));
+                    ElasticsearchController.GetTask getTask =
+                            new ElasticsearchController.GetTask();
+                    getTask.execute(searchWord);
+                    try {
+                    taskList = getTask.get();
+                    for (i=0;i<taskList.size();i++) {
+                        if (((taskList.get(i).getStatus()==TaskStatus.REQUESTED)
+                                || (taskList.get(i).getStatus()==TaskStatus.BIDDED))) {
+                            searchMatch.add(taskList.get(i));
                         }
                     }
                     tasks.clear();
-                    tasks.addAll(searchMatch);
+                    tasks.addAll(searchMatch);}
+                    catch (Exception e) {
+                        Log.i("E","No tasks");
+                    }
+                    if(searchMatch.isEmpty()){Toast.makeText(MainMenuActivity.this,
+                            "No task fits the description searched.",Toast.LENGTH_LONG).show();
+                    }
                     adapter.notifyDataSetChanged();
                 }
             }

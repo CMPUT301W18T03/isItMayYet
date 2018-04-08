@@ -8,16 +8,16 @@ package com.c301t3.c301t3app;
  */
 
 public class Bid {
-    private int value;
-    private int userId;
+    private float value;
+    private String userId;
 
     /**
      * Creates a bid with a value and user
      *
-     * @param v: value of bid in cents
+     * @param v: value of bid
      * @param i: id of user placing bid
      */
-    public Bid(int v, int i) {
+    public Bid(float v, String i) {
         value = v;
         userId = i;
     }
@@ -25,9 +25,9 @@ public class Bid {
     /**
      * Return the value of the bid
      *
-     * @return: value of bid in cents
+     * @return: value of bid
      */
-    public int getValue() {
+    public float getValue() {
         return value;
     }
 
@@ -36,13 +36,13 @@ public class Bid {
      *
      * @return: id of bidder
      */
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
     @Override
     public String toString() {
-        String message = Integer.toString(userId) + "      " + Integer.toString(value);
+        String message = userId + "      " + String.valueOf(value);
         return message;
     }
 }
