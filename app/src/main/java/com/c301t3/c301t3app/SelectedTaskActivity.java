@@ -34,7 +34,6 @@ public class SelectedTaskActivity extends AppCompatActivity {
 
     private TaskPasser passer;
     private Task currentTask;
-    private Bitmap currentPicture;
     private String extraString;
     //final InfoPasser infoInstance = InfoPasser.getInstance();
     /**
@@ -114,23 +113,21 @@ public class SelectedTaskActivity extends AppCompatActivity {
         String desc = currentTask.getDescription();
         TaskStatus stat = currentTask.getStatus();
         float price = currentTask.getPrice();
+        Bitmap picture = currentTask.getPicture();
 
-        if (currentPicture == null) {
+        if (picture == null) {
             Bitmap original_picture = BitmapFactory.decodeResource(getBaseContext().getResources(), R.drawable.logo_big);
-            int pic_height = Math.round((float) currentPicture.getHeight() / 2);
-            int pic_width = Math.round((float) currentPicture.getWidth() / 2);
-            currentPicture = Bitmap.createScaledBitmap(original_picture, pic_width, pic_height, true);
+            currentTask.setPicture(original_picture);
+            picture = currentTask.getPicture();
         }
-
-        Toast.makeText(getApplicationContext(), currentPicture.toString(), Toast.LENGTH_SHORT).show();
 
         try {
             taskName.setText(name);
             taskDesc.setText(desc);
             taskStat.setText(stat.toString());
             taskPrice.setText(String.valueOf(price));
-//            test.setImageBitmap(picture);
-            taskImages.setImageBitmap(currentPicture);
+//            taskImages.setImageBitmap(jk);
+            taskImages.setImageBitmap(picture);
         } catch (Exception e) {}
 
     }
@@ -162,9 +159,6 @@ public class SelectedTaskActivity extends AppCompatActivity {
         if (bundle != null) {
             if (bundle.containsKey("selectedTask")) {
                 currentTask = (Task) bundle.getSerializable("selectedTask");
-            }
-            if (bundle.containsKey("selectedPicture")) {
-                currentPicture = (Bitmap) bundle.getParcelable("selectedPicture");
             }
         }
 
