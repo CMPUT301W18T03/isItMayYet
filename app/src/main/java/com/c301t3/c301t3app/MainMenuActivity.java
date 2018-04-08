@@ -66,8 +66,13 @@ public class MainMenuActivity extends AppCompatActivity{
 
             case R.id.Profile:
                 Toast.makeText(getApplicationContext(), "Profile selected", Toast.LENGTH_SHORT).show();
-
-                //TODO: set up Profile activity.
+                if (ApplicationController.getCurrUser() == null) {
+                    Intent loginIntent = new Intent(activity, SimpleLoginActivity.class);
+                    activity.startActivity(loginIntent);
+                } else {
+                    Intent profileIntent = new Intent(activity, UserProfile.class);
+                    activity.startActivity(profileIntent);
+                }
 
                 break;
 
@@ -203,16 +208,23 @@ public class MainMenuActivity extends AppCompatActivity{
                 }
 
                 else if (searchWord.isEmpty()) {
-                    taskList = ElasticsearchController.serverGetAllTasks();
+                    ElasticsearchController.GetAllTask getAllTask =
+                            new ElasticsearchController.GetAllTask();
+                    getAllTask.execute();
+                    try {
+                    taskList = getAllTask.get();
                     for (i=0;i<taskList.size();i++) {
                         if ((taskList.get(i).getStatus()==TaskStatus.REQUESTED)
                                 || (taskList.get(i).getStatus()==TaskStatus.BIDDED)) {
                             searchMatch.add(taskList.get(i));
                         }
                     }
-
                     tasks.clear();
                     tasks.addAll(searchMatch);
+                    }
+                    catch (Exception e) {
+                        Log.i("E","No tasks");
+                    }
                     if(searchMatch.isEmpty()){Toast.makeText(MainMenuActivity.this,
                             "No task fits the description searched.",Toast.LENGTH_LONG).show();
                     }
@@ -220,15 +232,22 @@ public class MainMenuActivity extends AppCompatActivity{
                 }
 
                 else {
-                    taskList = ElasticsearchController.serverTaskQuery(searchWord);
-                    for (i=0;i<taskList.size();i++) { // works for hardcoded short list of tasks.. takes long for more content
+                    ElasticsearchController.GetTask getTask =
+                            new ElasticsearchController.GetTask();
+                    getTask.execute(searchWord);
+                    try {
+                    taskList = getTask.get();
+                    for (i=0;i<taskList.size();i++) {
                         if (((taskList.get(i).getStatus()==TaskStatus.REQUESTED)
                                 || (taskList.get(i).getStatus()==TaskStatus.BIDDED))) {
                             searchMatch.add(taskList.get(i));
                         }
                     }
                     tasks.clear();
-                    tasks.addAll(searchMatch);
+                    tasks.addAll(searchMatch);}
+                    catch (Exception e) {
+                        Log.i("E","No tasks");
+                    }
                     if(searchMatch.isEmpty()){Toast.makeText(MainMenuActivity.this,
                             "No task fits the description searched.",Toast.LENGTH_LONG).show();
                     }

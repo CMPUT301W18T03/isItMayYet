@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_planet"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WelcomeActivity"></activity>
+        <activity android:name=".WelcomeActivity" />
         <!--
          Here is how we are going to add a parent via the XML portion. Gonna use the like this
          Also need to change Main Activity to view 2 name. Implement this when there are  actual java  classes for each screen.
@@ -46,6 +46,7 @@
         </activity>
         <activity android:name=".SimpleLoginActivity" />
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".UserProfile" />
         <activity
             android:name=".MainMenuActivity"
             android:label="@string/main_menu_activity" />
@@ -72,6 +73,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".TaskOwnerProfile"></activity>
     </application>
 
 </manifest>
