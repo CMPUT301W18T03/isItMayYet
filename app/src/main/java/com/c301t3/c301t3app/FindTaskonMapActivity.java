@@ -16,7 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-public class MapsActivity extends FragmentActivity
+public class FindTaskonMapActivity extends FragmentActivity
         implements GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
         OnMapReadyCallback {
@@ -42,6 +43,8 @@ public class MapsActivity extends FragmentActivity
     private String taskCoords;
     private float longi;
     private float lati;
+    private float zoomLvl;
+    public TextView details;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -85,6 +88,7 @@ public class MapsActivity extends FragmentActivity
             Toast.makeText(getApplicationContext(), "savedInstanceState not NULL", Toast.LENGTH_SHORT).show();
 
         }
+
     }
 
     /**
@@ -100,7 +104,6 @@ public class MapsActivity extends FragmentActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         // TODO: Before enabling the My Location layer, you must request
         // location permission from the user. This sample does not include
@@ -108,58 +111,67 @@ public class MapsActivity extends FragmentActivity
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
-        locationListener = new LocationListener() {
+        details = findViewById(R.id.detailsView);
+
+        zoomLvl = 15.0f;
+        LatLng userLocation = new LatLng(lati, longi);
+        mMap.clear(); // clears unwanted markers.
+        mMap.addMarker(new MarkerOptions().position(userLocation).title("Task Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, zoomLvl));
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
-            public void onLocationChanged(Location location) {
-
-                // Updates the location when location moves.
-                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                mMap.clear(); // clears unwanted markers.
-                mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
-
+            public boolean onMarkerClick(Marker marker) {
                 Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.CANADA);
-
                 try {
-                    List<Address> listAddress = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                    List<Address> listAddress = geocoder.getFromLocation(lati, longi, 1);
                     if (listAddress != null && listAddress.size() > 0) {
                         Log.i("Place Info <----", listAddress.get(0).toString());
-                        String address = "";
+                        StringBuilder address = new StringBuilder();
                         int i = 0;
                         int maxLen = listAddress.get(0).getMaxAddressLineIndex();
 
                         while (i != maxLen) {
                             if (listAddress.get(0).getAddressLine(0) != null) {
-                                address += listAddress.get(0).getAddressLine(i);
+                                address.append(listAddress.get(0).getAddressLine(i));
                                 i++;
-                                address += ", ";
+                                address.append(", ");
                             }
                         }
-                        address = address.substring(0, address.length() - 2); // This will give you forthrought, city area, postal code. If has those options.
-                        Toast.makeText(getApplicationContext(), address, Toast.LENGTH_SHORT).show();
+                        address = new StringBuilder(address.substring(0, address.length() - 2)); // This will give you forthrought, city area, postal code. If has those options.
+//                Toast.makeText(getApplicationContext(), address.toString(), Toast.LENGTH_SHORT).show();
+                        details.setText(address);
                     }
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
+                return false;
             }
+        });
 
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-
-            }
-        };
+//        locationListener = new LocationListener() {
+//            @Override
+//            public void onLocationChanged(Location location) {
+//
+//                // Updates the location when location moves.
+//
+//            }
+//
+//            @Override
+//            public void onStatusChanged(String s, int i, Bundle bundle) {
+//
+//            }
+//
+//            @Override
+//            public void onProviderEnabled(String s) {
+//
+//            }
+//
+//            @Override
+//            public void onProviderDisabled(String s) {
+//
+//            }
+//        };
 
         if (Build.VERSION.SDK_INT < 23) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //0 second, 0 meters
@@ -167,16 +179,16 @@ public class MapsActivity extends FragmentActivity
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            } else {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //0 second, 0 meters
-                //getting last known location.
-
-                Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                mMap.clear(); //clears unwanted markers.
-
-                LatLng userLocation = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+//            } else {
+//                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //0 second, 0 meters
+//                //getting last known location.
+//
+//                Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//                mMap.clear(); //clears unwanted markers.
+//
+//                LatLng userLocation = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+//                mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
+//                mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
 
 
             }
@@ -190,16 +202,14 @@ public class MapsActivity extends FragmentActivity
         Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
-        float zoomLevel = 15.0f;
+
+
         LatLng userLocation = new LatLng(lati, longi);
         mMap.clear(); // clears unwanted markers.
         mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, zoomLevel));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+
         return false;
-    }
-
-    public void searchAddress(View view) {
-
     }
 
     @Override
