@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,10 +39,10 @@ public class SimpleLoginActivity extends AppCompatActivity {
         // go to main activity
         bSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { //TODO: add ES
+            public void onClick(View v) {
                 String loginName = etUsername.getText().toString().trim();
                 String inputPassword = etPassword.getText().toString().trim();
-                UserAccount user;
+                UserAccount user = new UserAccount();
 
                 if (!ApplicationController.isOnline(getApplicationContext())){
                     Toast.makeText(SimpleLoginActivity.this,
@@ -59,7 +60,16 @@ public class SimpleLoginActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
                 else {
-                    user = ElasticsearchController.serverUserQuery(loginName);
+
+                    ElasticsearchController.GetUserByUsername getUserByName =
+                            new ElasticsearchController.GetUserByUsername();
+                    getUserByName.execute(loginName);
+                    try{
+                    user = getUserByName.get();}
+                    catch (Exception e) {
+                        Log.i("E","User not found");
+                    }
+
                     if(user==null) {
                         Toast.makeText(SimpleLoginActivity.this,
                                 "User not found. Perhaps you would like to register?",

@@ -358,5 +358,17 @@ public class Task implements Serializable {
      */
     public String getOwnerName() {return ownerName;}
 
+
+    /**
+     * Setter for owner ID
+     */
+    public void setOwner(String id) {
+        this.owner = id;
+    }
+
+    public void setOwnerName(String name) {
+        this.ownerName = name;
+    }
+
 }
 

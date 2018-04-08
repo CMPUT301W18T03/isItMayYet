@@ -38,7 +38,7 @@ public class RegisterActivityTests extends ActivityInstrumentationTestCase2{
         solo.waitForText("Password does not match"); // message from toast on non-matching pw
     }
 
-    public void testAccountRegisterSuccess() { //TODO: implement ES
+    public void testAccountRegisterSuccess() {
         solo = new Solo(getInstrumentation(),getActivity());
         solo.assertCurrentActivity("Wrong activity", RegisterActivity.class);
         solo.enterText(0,"username");
@@ -51,7 +51,31 @@ public class RegisterActivityTests extends ActivityInstrumentationTestCase2{
         solo.clickOnView(solo.getView(R.id.bCreate));
 
         solo.assertCurrentActivity("Wrong activity", SimpleLoginActivity.class);
+        ElasticsearchController.DeleteUser delUser = new ElasticsearchController.DeleteUser();
+        delUser.execute("username");
     }
 
-    //TODO: test on registering
+    public void testAccountRegisterExistsError() {
+
+        ElasticsearchController.AddUser addUser = new ElasticsearchController.AddUser();
+        UserAccount existing1 = new UserAccount();
+        existing1.setUsername("username");
+        addUser.execute(existing1);
+
+        solo = new Solo(getInstrumentation(),getActivity());
+        solo.assertCurrentActivity("Wrong activity", RegisterActivity.class);
+        solo.enterText(0,"username");
+        solo.enterText(1,"email");
+        solo.enterText(2,"7807800000");
+        solo.enterText(3,"password1");
+        solo.enterText(4,"password1");
+        solo.enterText(5,"firstname");
+        solo.enterText(6,"lastname");
+        solo.clickOnView(solo.getView(R.id.bCreate));
+        assertTrue(solo.waitForText("taken"));
+
+        ElasticsearchController.DeleteUser delUser = new ElasticsearchController.DeleteUser();
+        delUser.execute("username");
+    }
+
 }
