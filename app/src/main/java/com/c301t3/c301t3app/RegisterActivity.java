@@ -23,7 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        final UserAccount account = new UserAccount(); // move below, to spot after you get details from user
+        final UserAccount account = new UserAccount();
 
         final EditText etUsername = (EditText) findViewById(R.id.etUsername);
         final EditText etFirstName = (EditText) findViewById(R.id.etLastName);
@@ -77,8 +77,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                     // check to see if the uniqueID matches. ofc it does.
                     Log.i("uniqueID", account.getID());
-
-                    //TODO: update user in database now after having set the uniqueID
 
                     // send user account to jsonHandler.
                     j.dumpUser(account);
