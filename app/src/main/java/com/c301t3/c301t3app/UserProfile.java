@@ -33,8 +33,8 @@ public class UserProfile extends AppCompatActivity {
         try {
             UserAccount user = getUserByName.get();
             final TextView tvUsername = (TextView) findViewById(R.id.tvUsername);
-            final EditText etFirstName = (EditText) findViewById(R.id.etLastName);
-            final EditText etLastName = (EditText) findViewById(R.id.etFirstName);
+            final EditText etFirstName = (EditText) findViewById(R.id.etFirstName);
+            final EditText etLastName = (EditText) findViewById(R.id.etLastName);
             final EditText etEmail = (EditText) findViewById(R.id.etEmail);
             final EditText etPhone = (EditText) findViewById(R.id.etPhone);
             final EditText etAddress = (EditText) findViewById(R.id.etAddress);

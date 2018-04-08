@@ -26,8 +26,8 @@ public class RegisterActivity extends AppCompatActivity {
         final UserAccount account = new UserAccount();
 
         final EditText etUsername = (EditText) findViewById(R.id.etUsername);
-        final EditText etFirstName = (EditText) findViewById(R.id.etLastName);
-        final EditText etLastName = (EditText) findViewById(R.id.etFirstName);
+        final EditText etFirstName = (EditText) findViewById(R.id.etFirstName);
+        final EditText etLastName = (EditText) findViewById(R.id.etLastName);
         final EditText etEmail = (EditText) findViewById(R.id.etEmail);
         final EditText etPhone = (EditText) findViewById(R.id.etPhone);
         final EditText etPassword = (EditText) findViewById(R.id.etPassword);

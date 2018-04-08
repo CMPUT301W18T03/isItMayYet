@@ -8,6 +8,7 @@ package com.c301t3.c301t3app;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,7 +111,7 @@ public class TasksRequestedAdapter extends RecyclerView.Adapter<TasksRequestedAd
          * @param context Context for activity
          * @param itemView View for activity
          */
-        public TaskHolder(Context context, View itemView) {
+        public TaskHolder(final Context context, View itemView) {
             super(itemView);
 
             this.context = context;
@@ -140,6 +141,11 @@ public class TasksRequestedAdapter extends RecyclerView.Adapter<TasksRequestedAd
                 @Override
                 public void onClick(View v) {
                     //TODO: bring user to owner profile
+                    Intent ownerProfileIntent = new Intent(context,TaskOwnerProfile.class);
+                    String owner = taskOwnerView.getText().toString();
+                    ownerProfileIntent.putExtra("ownerName",owner);
+                    context.startActivity(ownerProfileIntent);
+
                 }
             });
         }
