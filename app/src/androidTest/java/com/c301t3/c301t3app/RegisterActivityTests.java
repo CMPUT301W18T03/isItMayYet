@@ -51,6 +51,9 @@ public class RegisterActivityTests extends ActivityInstrumentationTestCase2{
         solo.clickOnView(solo.getView(R.id.bCreate));
 
         solo.assertCurrentActivity("Wrong activity", SimpleLoginActivity.class);
+//        ElasticsearchController.deleteUser("username");
+//        ElasticsearchController.DeleteUser delUser = new ElasticsearchController.DeleteUser();
+//        delUser.execute("username");
     }
 
     //TODO: test on registering
