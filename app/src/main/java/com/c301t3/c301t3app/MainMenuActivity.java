@@ -65,8 +65,13 @@ public class MainMenuActivity extends AppCompatActivity{
 
             case R.id.Profile:
                 Toast.makeText(getApplicationContext(), "Profile selected", Toast.LENGTH_SHORT).show();
-
-                //TODO: set up Profile activity.
+                if (ApplicationController.getCurrUser() == null) {
+                    Intent loginIntent = new Intent(activity, SimpleLoginActivity.class);
+                    activity.startActivity(loginIntent);
+                } else {
+                    Intent profileIntent = new Intent(activity, UserProfile.class);
+                    activity.startActivity(profileIntent);
+                }
 
                 break;
 
