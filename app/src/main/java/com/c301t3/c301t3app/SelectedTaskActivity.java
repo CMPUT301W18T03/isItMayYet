@@ -76,7 +76,7 @@ public class SelectedTaskActivity extends AppCompatActivity {
                 taskName.setText(tokens.nextToken());
                 taskDesc.setText(tokens.nextToken());
                 taskStat.setText(tokens.nextToken());
-                taskPrice.setText(tokens.nextToken());
+                taskPrice.setText("$" + tokens.nextToken());
 //                taskBid.setVisibility(View.GONE);
 //                taskBidBtn.setVisibility(View.GONE);
             }
@@ -142,6 +142,14 @@ public class SelectedTaskActivity extends AppCompatActivity {
         Intent mainMenuIntent = new Intent(this, MainMenuActivity.class);
         startActivity(mainMenuIntent);
 
+    }
+
+
+    public void goToMap(View view) {
+        Intent mapIntent = new Intent(this, FindTaskonMapActivity.class);
+        String coords = "33.8994864" + "/" + "-118.2861378"; //33.8994864,-118.2861378
+        mapIntent.putExtra("taskCoords", coords);
+        startActivity(mapIntent);
     }
 
     private void loadFromInfoPasser() {

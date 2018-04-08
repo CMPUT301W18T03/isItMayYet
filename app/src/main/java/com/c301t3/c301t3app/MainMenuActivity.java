@@ -1,10 +1,8 @@
 package com.c301t3.c301t3app;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -17,13 +15,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -47,6 +42,17 @@ public class MainMenuActivity extends AppCompatActivity{
 
 
     /// Menu Start Here-----------------------
+
+    // from https://stackoverflow.com/questions/9030268/set-visibility-in-menu-programmatically-android?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem signin = menu.findItem(R.id.SignIN);
+        if (ApplicationController.getCurrUser() != null) {
+            signin.setVisible(false);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -61,6 +67,7 @@ public class MainMenuActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         //This is the place to handle all the menu items.
         int id = item.getItemId();
+
 
         switch (id) {
 
@@ -134,6 +141,8 @@ public class MainMenuActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
+
     }
 
     /**

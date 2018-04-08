@@ -4,20 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,8 +45,8 @@ public class NewTaskActivity extends AppCompatActivity {
         final EditText priceText = findViewById(R.id.newTaskPrice);
 
         Button saveButton = findViewById(R.id.createButton);
-        Button addImageButton = findViewById(R.id.Button_addImage);
-        userPicture = findViewById(R.id.ImageView_userPicture);
+        Button addImageButton = findViewById(R.id.addImageBtn);
+        userPicture = findViewById(R.id.userPic);
 
         if (picture == null) {
              picture = BitmapFactory.decodeResource(getBaseContext().getResources(), R.drawable.logo_big);
@@ -94,16 +91,6 @@ public class NewTaskActivity extends AppCompatActivity {
             }
         });
 
-        addImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Add Image", Toast.LENGTH_SHORT).show();
-
-                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
-
-            }
-        });
-
     }
 
 
@@ -134,6 +121,11 @@ public class NewTaskActivity extends AppCompatActivity {
 
     }
 
+    public void goToMap(View view) {
+        Intent mapIntent = new Intent(this, addingTaskLocal.class);
+        startActivity(mapIntent);
+    }
+
     private Bitmap processImage(Bitmap picture) {
         Bitmap newPicture = picture;
         float span = Math.max(newPicture.getHeight(), newPicture.getWidth());
@@ -156,14 +148,22 @@ public class NewTaskActivity extends AppCompatActivity {
     private static Bitmap scaleDown(Bitmap realImage, float maxImageSize,
                                    boolean filter) {
         float ratio = Math.min(
-                (float) maxImageSize / realImage.getWidth(),
-                (float) maxImageSize / realImage.getHeight());
-        int width = Math.round((float) ratio * realImage.getWidth());
-        int height = Math.round((float) ratio * realImage.getHeight());
+                maxImageSize / realImage.getWidth(),
+                maxImageSize / realImage.getHeight());
+        int width = Math.round(ratio * realImage.getWidth());
+        int height = Math.round(ratio * realImage.getHeight());
 
         Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width,
                 height, filter);
         return newBitmap;
     }
 
+    public void addImage(View view) {
+        Toast.makeText(getApplicationContext(), "Add Image", Toast.LENGTH_SHORT).show();
+        startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+
+    }
+
 }
+
+
