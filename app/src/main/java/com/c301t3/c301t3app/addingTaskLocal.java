@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -24,9 +26,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
 
 public class addingTaskLocal extends FragmentActivity
         implements GoogleMap.OnMyLocationButtonClickListener,
@@ -37,20 +43,25 @@ public class addingTaskLocal extends FragmentActivity
     private LocationManager locationManager;
     private LocationListener locationListener;
     private float zoomLvl;
-
+    private EditText searchAddress;
+    private Button search;
+    private List<Address> addressesList;
+    private String address;
+    private String taskCoords;
+    public static final int REQUEST_LOCATION_CODE = 99;
 
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == 1) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED) {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        switch (requestCode) {
+            case REQUEST_LOCATION_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        mMap.setMyLocationEnabled(true);
+                    }
+                } else {
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show();
                 }
-            }
         }
     }
 
@@ -63,8 +74,11 @@ public class addingTaskLocal extends FragmentActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        Button search = findViewById(R.id.searchMap);
-        EditText searchAddress = findViewById(R.id.locationText);
+        search = findViewById(R.id.searchMap);
+        searchAddress = findViewById(R.id.locationText);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            checkLocationPermission();
+        }
     }
 
 
@@ -85,35 +99,13 @@ public class addingTaskLocal extends FragmentActivity
         // location permission from the user. This sample does not include
         // a request for location permission.
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-
-
-            if (Build.VERSION.SDK_INT < 23) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //0 second, 0 meters
-            } else {
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                } else {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //0 second, 0 meters
-                }
-            }
-
-            return;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
         }
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
     }
-
 
     @Override
     public boolean onMyLocationButtonClick() {
@@ -157,8 +149,12 @@ public class addingTaskLocal extends FragmentActivity
                                 Toast.makeText(getApplicationContext(), "Confirmed", Toast.LENGTH_SHORT).show();
 
 
-                                // set the LatLOG to task
+                                // set the LatLOG to task  send it to create new task activity.
 
+//                                //Intent mapIntent = new Intent(this, FindTaskonMapActivity.class);
+//                                String coords = "33.8994864" + "/" + "-118.2861378"; //33.8994864,-118.2861378
+//                                mapIntent.putExtra("taskCoords", coords);
+//                                startActivity(mapIntent);
 
                                 setResult(Activity.RESULT_OK);
                                 finish();
@@ -181,8 +177,40 @@ public class addingTaskLocal extends FragmentActivity
     }
 
     public void searchMap(View view) {
+        address = searchAddress.getText().toString();
+        if (!address.equals("")) {
+            Geocoder geocoder = new Geocoder(this);
+            try {
+                addressesList = geocoder.getFromLocationName(address, 4); // Max 4 locations in case its a popular place.
 
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            zoomLvl = 13.7f;
+            Address location = addressesList.get(0);
+            LatLng coords = new LatLng(location.getLatitude(), location.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(coords).title("Task Location"))
+                    //  got how to change colour here...https://stackoverflow.com/questions/16598169/changing-colour-of-markers-google-map-v2-android.
+                    .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, zoomLvl));
+        } else {
+            address = null;
+        }
 
+    }
+
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_CODE);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_CODE);
+            }
+            return false;
+        } else {
+            return true;
+        }
     }
 }
 
