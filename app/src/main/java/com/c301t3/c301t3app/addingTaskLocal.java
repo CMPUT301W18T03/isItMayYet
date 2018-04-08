@@ -1,7 +1,9 @@
 package com.c301t3.c301t3app;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -12,6 +14,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,6 +36,8 @@ public class addingTaskLocal extends FragmentActivity
     private GoogleMap mMap;
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private float zoomLvl;
+
 
 
     @Override
@@ -54,6 +63,8 @@ public class addingTaskLocal extends FragmentActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        Button search = findViewById(R.id.searchMap);
+        EditText searchAddress = findViewById(R.id.locationText);
     }
 
 
@@ -101,14 +112,6 @@ public class addingTaskLocal extends FragmentActivity
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
-
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-
     }
 
 
@@ -135,23 +138,40 @@ public class addingTaskLocal extends FragmentActivity
         }
         Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         mMap.clear(); //clears unwanted markers.
+        zoomLvl = 15.0f;
 
         LatLng userLocation = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
         mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, zoomLvl));
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 //alert for use then set the long and lat for the task as this location. Currently as doubles, change to floats.
+                new AlertDialog.Builder(addingTaskLocal.this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Accept Task Location")
+                        .setMessage("Are you sure you wish to set this location as the Task's location?")
+                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(getApplicationContext(), "Confirmed", Toast.LENGTH_SHORT).show();
 
+
+                                // set the LatLOG to task
+
+
+                                setResult(Activity.RESULT_OK);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
 
                 return false;
+
+
             }
         });
-
-
-        /// set the userLocation as the task lat, long as floats.
-
         return false;
     }
 
@@ -159,4 +179,10 @@ public class addingTaskLocal extends FragmentActivity
     public void onMyLocationClick(@NonNull Location location) {
 
     }
+
+    public void searchMap(View view) {
+
+
+    }
 }
+

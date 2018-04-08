@@ -45,6 +45,13 @@ public class FindTaskonMapActivity extends FragmentActivity
     private float zoomLvl;
     public TextView details;
 
+    /**
+     * THis is the logic for where the permission was grantied or not depending on the SDK of the phone. If not granted it does't show anything.
+     *
+     * @param requestCode  the  request code from the bottom portion of which permission we are talking about.
+     * @param permissions  The exact manifest permission in question.
+     * @param grantResults The param to see if user grants or doesn't grant permission.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -59,6 +66,11 @@ public class FindTaskonMapActivity extends FragmentActivity
         }
     }
 
+    /**
+     * Addtion to the usual onCreate, this also grabs the put extra part from the previous screen
+     * which holds the latitude and longitude of the task.
+     * @param savedInstanceState the bundle that holds any info
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +80,6 @@ public class FindTaskonMapActivity extends FragmentActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         taskCoords = null;
-
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -91,6 +102,7 @@ public class FindTaskonMapActivity extends FragmentActivity
     }
 
     /**
+     *
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera. In this case,
@@ -98,16 +110,18 @@ public class FindTaskonMapActivity extends FragmentActivity
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
+     *
+     * Also once the map has loaded, zooms to the tasks location.
+     * If the marker is clicked on then displays the address info on the top left.
+     * @param googleMap the actual API for google maps
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        // TODO: Before enabling the My Location layer, you must request
         // location permission from the user. This sample does not include
         // a request for location permission.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -147,7 +161,6 @@ public class FindTaskonMapActivity extends FragmentActivity
                             }
                         }
                         address = new StringBuilder(address.substring(0, address.length() - 2)); // This will give you forthrought, city area, postal code. If has those options.
-//                Toast.makeText(getApplicationContext(), address.toString(), Toast.LENGTH_SHORT).show();
                         details.setText(address);
                     }
 
@@ -158,7 +171,7 @@ public class FindTaskonMapActivity extends FragmentActivity
             }
         });
 
-
+        // checks the SDK version of the user's phone to see if the permission needs to be asked for.
         if (Build.VERSION.SDK_INT < 23) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //0 second, 0 meters
         } else {
@@ -172,12 +185,14 @@ public class FindTaskonMapActivity extends FragmentActivity
 
     }
 
+    /**
+     * used to zoom in to the users position on earth if location is on, using the location button.
+     * @return returns a bool if the button is unclicked
+     */
     @Override
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
-
         LatLng userLocation = new LatLng(lati, longi);
         mMap.clear(); // clears unwanted markers.
         mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
@@ -186,10 +201,12 @@ public class FindTaskonMapActivity extends FragmentActivity
         return false;
     }
 
+    /**
+     *  location fuction that was mandatory to have for mylocation, however this part isn't used
+     * @param location gps location of user
+     */
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
-
     }
 }
 
