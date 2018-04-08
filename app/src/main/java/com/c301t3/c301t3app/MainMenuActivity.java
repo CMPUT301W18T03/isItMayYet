@@ -43,7 +43,7 @@ public class MainMenuActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-        MenuItem item = menu.getItem(R.id.SignIN);
+//        MenuItem item = menu.getItem(R.id.SignIN);
 //        if() sigened in{
 //            item.setVisible(false);
 //        }

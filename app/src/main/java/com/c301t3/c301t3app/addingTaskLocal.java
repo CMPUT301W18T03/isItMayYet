@@ -19,6 +19,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,13 +35,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class addingTaskLocal extends FragmentActivity
         implements GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
-        OnMapReadyCallback {
+        OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     private GoogleMap mMap;
     private LocationManager locationManager;
@@ -109,6 +111,7 @@ public class addingTaskLocal extends FragmentActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         // TODO: Before enabling the My Location layer, you must request
         // location permission from the user. This sample does not include
@@ -120,7 +123,11 @@ public class addingTaskLocal extends FragmentActivity
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
+        mMap.setOnMapClickListener(this);
+
+
     }
+
 
     /**
      * When the button to the location is clicked, then it pans to the users location, then if the user clicks the marker
@@ -194,6 +201,7 @@ public class addingTaskLocal extends FragmentActivity
             }
         });
         return false;
+
     }
 
     /**
@@ -206,40 +214,36 @@ public class addingTaskLocal extends FragmentActivity
     }
 
     public void searchMap(View view) {
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         String query = searchAddress.getText().toString();
         query = query.replace(" ", "+");
         Log.i("The users request---->", query);
+        List<Address> addressesList = new ArrayList<>();
         if (!query.equals("")) {
-            Geocoder geocoder = new Geocoder(addingTaskLocal.this, Locale.getDefault());
-            List<Address> addressesList;
+            Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
             try {
                 addressesList = geocoder.getFromLocationName(query, 1); // Max 1 locations since task should be at one location.
                 zoomLvl = 13.7f;
                 Log.i("The address list ---->", addressesList.toString());
-
-                if (addressesList.size() != 0) {
-                    try {
-                        Address location = addressesList.get(0);
-                        LatLng coords = new LatLng(location.getLatitude(), location.getLongitude());
-                        Log.i("<_________", coords.toString() + location.getAddressLine(0) + location);
-                        mMap.addMarker(new MarkerOptions().position(coords).title("Task Location"))
-                                //  got how to change colour here...https://stackoverflow.com/questions/16598169/changing-colour-of-markers-google-map-v2-android.
-                                .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, zoomLvl));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            if (addressesList.size() > 0) {
+                try {
+                    Address location = addressesList.get(0);
+                    LatLng coords = new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.addMarker(new MarkerOptions().position(coords).title("Task Location"))
+                            //  got how to change colour here...https://stackoverflow.com/questions/16598169/changing-colour-of-markers-google-map-v2-android.
+                            .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, zoomLvl));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
 
         }
 
-//        Uri gmmIntentUri = Uri.parse("geo:37.7749,-122.4194?q=101+main+street");
-//        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-//        mapIntent.setPackage("com.google.android.apps.maps");
-//        startActivity(mapIntent);
     }
 
 
@@ -256,6 +260,30 @@ public class addingTaskLocal extends FragmentActivity
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_CODE);
             }
         }
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+        String address = "";
+        try {
+            List<Address> listAddresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+            if (listAddresses != null && listAddresses.size() > 0) {
+                if (listAddresses.get(0).getThoroughfare() != null) {
+                    if (listAddresses.get(0).getSubThoroughfare() != null) {
+                        address += listAddresses.get(0).getSubThoroughfare() + " ";
+                    }
+                    address += listAddresses.get(0).getThoroughfare();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mMap.addMarker(new MarkerOptions().position(latLng).title(address));
+        Log.i("<_________", latLng.toString() + address);
+
+
     }
 }
 
