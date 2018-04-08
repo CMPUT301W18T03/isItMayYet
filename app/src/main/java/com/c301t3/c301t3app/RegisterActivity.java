@@ -57,13 +57,8 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
 
-                else if (ElasticsearchController.serverUserQuery(etUsername.getText().toString())!=null) {
-                    Toast.makeText(RegisterActivity.this,
-                            "Username is taken. Please choose a different username.",
-                            Toast.LENGTH_LONG).show();
-                }
-
                 else {
+                    UserAccount checkAcc = new UserAccount();
                     account.setUsername(etUsername.getText().toString());
                     account.setFirstName(etFirstName.getText().toString());
                     account.setLastName(etLastName.getText().toString());
@@ -71,20 +66,43 @@ public class RegisterActivity extends AppCompatActivity {
                     account.setPhoneNum(etPhone.getText().toString());
                     account.setPassword(etPassword.getText().toString());
 
+                    ElasticsearchController.GetUserByUsername getUserByName =
+                            new ElasticsearchController.GetUserByUsername();
+                    ElasticsearchController.AddUser addUser =
+                            new ElasticsearchController.AddUser();
+                    ElasticsearchController.UpdateUser updateUser =
+                            new ElasticsearchController.UpdateUser();
+
+                    getUserByName.execute(account.getUsername());
+                    try {checkAcc = getUserByName.get();}
+                    catch (Exception e) {
+                        Log.i("Good","User not found");
+                    }
+
+                    if (checkAcc!=null) {
+                        Toast.makeText(RegisterActivity.this,
+                                "Username is taken. Please choose a different username.",
+                                Toast.LENGTH_LONG).show();
+                    }
+
+                    else {
+                        addUser.execute(account);
+                        updateUser.execute(account);
+                        // check to see if the uniqueID matches. ofc it does.
+                        Log.i("uniqueID", account.getID());
+
+                        //TODO: update user in database now after having set the uniqueID
+
+                        // send user account to jsonHandler.
+                        j.dumpUser(account);
+
+                        Intent loginIntent = new Intent(RegisterActivity.this, SimpleLoginActivity.class);
+                        RegisterActivity.this.startActivity(loginIntent);
+                    }
+
                     // send user to Elasticsearch server
-                    ElasticsearchController.userToServer(account);
-                    ElasticsearchController.userUpdateServer(account);
-
-                    // check to see if the uniqueID matches. ofc it does.
-                    Log.i("uniqueID", account.getID());
-
-                    //TODO: update user in database now after having set the uniqueID
-
-                    // send user account to jsonHandler.
-                    j.dumpUser(account);
-
-                    Intent loginIntent = new Intent(RegisterActivity.this, SimpleLoginActivity.class);
-                    RegisterActivity.this.startActivity(loginIntent);
+//                    ElasticsearchController.userToServer(account);
+//                    ElasticsearchController.userUpdateServer(account);
                 }
 
             }
