@@ -44,7 +44,7 @@ public class MyTasksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_tasks);
 
-//        getSupportActionBar().setHomeButtonEnabled(true); //TODO: Henry, what is this?
+        getSupportActionBar().setHomeButtonEnabled(true); //TODO: Henry, what is this?
 
         assignedTasks = (ListView) findViewById(R.id.ListView_assignedTasks);
         requestedTasks = (ListView) findViewById(R.id.ListView_requestedTasks);
