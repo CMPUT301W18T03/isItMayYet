@@ -38,6 +38,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newTaskName" />
 
+    <ImageView
+        android:id="@+id/userPic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newTaskPrice"
+        app:srcCompat="@mipmap/ic_launcher_round" />
+
+    <Button
+        android:id="@+id/addImageBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="addImage"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userPic" />
+
     <Button
         android:id="@+id/createButton"
         android:layout_width="wrap_content"
@@ -72,16 +97,16 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="124dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="8dp"
         android:background="@color/colorPrimary"
         android:contentDescription="@string/pic_for_maps"
         android:onClick="goToMap"
         android:tint="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/createButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.166"
         app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/newTaskPrice"
-        app:layout_constraintVertical_bias="0.258"
+        app:layout_constraintTop_toBottomOf="@+id/addImageBtn"
         app:srcCompat="@android:drawable/ic_dialog_map" />
 
     <TextView
@@ -94,6 +119,6 @@
         android:text="Add Location for Task"
         app:layout_constraintBottom_toTopOf="@+id/createButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newTaskPrice" />
+        app:layout_constraintTop_toBottomOf="@+id/addImageBtn" />
 
 </android.support.constraint.ConstraintLayout>

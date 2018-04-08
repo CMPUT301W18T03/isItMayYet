@@ -1,28 +1,24 @@
 package com.c301t3.c301t3app;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -49,6 +45,7 @@ public class MainMenuActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        //TODO Keifer, just  add the conditional, and will work.
 //        MenuItem item = menu.getItem(R.id.SignIN);
 //        if() sigened in{
 //            item.setVisible(false);

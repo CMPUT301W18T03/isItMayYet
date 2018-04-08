@@ -52,6 +52,7 @@ public class addingTaskLocal extends FragmentActivity
     private Button search;
     private String taskCoords;
     public static final int REQUEST_LOCATION_CODE = 1;
+    InputMethodManager imm;
 
 
     /**
@@ -92,6 +93,7 @@ public class addingTaskLocal extends FragmentActivity
         if (Build.VERSION.SDK_INT >= 22) {
             checkLocationPermission();
         }
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
 
@@ -111,14 +113,22 @@ public class addingTaskLocal extends FragmentActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        mMap.clear();
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         // TODO: Before enabling the My Location layer, you must request
         // location permission from the user. This sample does not include
         // a request for location permission.
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mMap.setMyLocationEnabled(true);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            checkLocationPermission();
+            return;
         }
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
@@ -137,6 +147,9 @@ public class addingTaskLocal extends FragmentActivity
      */
     @Override
     public boolean onMyLocationButtonClick() {
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(searchAddress.getWindowToken(), 0);
+        }
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -162,7 +175,8 @@ public class addingTaskLocal extends FragmentActivity
         LatLng userLocation = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
         mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location")).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, zoomLvl));
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // from https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard
         if (imm != null) {
             imm.hideSoftInputFromWindow(searchAddress.getWindowToken(), 0);
         }
@@ -215,6 +229,9 @@ public class addingTaskLocal extends FragmentActivity
 
     public void searchMap(View view) {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(searchAddress.getWindowToken(), 0);
+        }
         String query = searchAddress.getText().toString();
         query = query.replace(" ", "+");
         Log.i("The users request---->", query);
@@ -264,6 +281,7 @@ public class addingTaskLocal extends FragmentActivity
 
     @Override
     public void onMapClick(LatLng latLng) {
+        mMap.clear();
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         String address = "";
         try {
@@ -279,9 +297,46 @@ public class addingTaskLocal extends FragmentActivity
         } catch (IOException e) {
             e.printStackTrace();
         }
+        zoomLvl = 15.0f;
+        mMap.addMarker(new MarkerOptions().position(latLng).title(address)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLvl));
+//        Log.i("<_________", latLng.toString() + address);
+        Toast.makeText(getApplicationContext(), "If you wish to save this location, press the marker", Toast.LENGTH_LONG).show();
 
-        mMap.addMarker(new MarkerOptions().position(latLng).title(address));
-        Log.i("<_________", latLng.toString() + address);
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                //alert for use then set the long and lat for the task as this location. Currently as doubles, change to floats.
+                new AlertDialog.Builder(addingTaskLocal.this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Accept Task Location")
+                        .setMessage("Are you sure you wish to set this location as the Task's location?")
+                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(getApplicationContext(), "Confirmed", Toast.LENGTH_SHORT).show();
+
+
+                                // set the LatLOG to task  send it to create new task activity. and address if you want.
+
+//                                //Intent mapIntent = new Intent(this, FindTaskonMapActivity.class);
+//                                String coords = "33.8994864" + "/" + "-118.2861378"; //33.8994864,-118.2861378
+//                                mapIntent.putExtra("taskCoords", coords);
+//                                startActivity(mapIntent);
+
+                                setResult(Activity.RESULT_OK);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+
+                return false;
+
+
+            }
+        });
 
 
     }
