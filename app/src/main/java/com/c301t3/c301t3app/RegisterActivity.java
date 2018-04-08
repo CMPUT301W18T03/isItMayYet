@@ -23,11 +23,11 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        final UserAccount account = new UserAccount(); // move below, to spot after you get details from user
+        final UserAccount account = new UserAccount();
 
         final EditText etUsername = (EditText) findViewById(R.id.etUsername);
-        final EditText etFirstName = (EditText) findViewById(R.id.etLastName);
-        final EditText etLastName = (EditText) findViewById(R.id.etFirstName);
+        final EditText etFirstName = (EditText) findViewById(R.id.etFirstName);
+        final EditText etLastName = (EditText) findViewById(R.id.etLastName);
         final EditText etEmail = (EditText) findViewById(R.id.etEmail);
         final EditText etPhone = (EditText) findViewById(R.id.etPhone);
         final EditText etPassword = (EditText) findViewById(R.id.etPassword);
@@ -79,6 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
                         Log.i("Good","User not found");
                     }
 
+
                     if (checkAcc!=null) {
                         Toast.makeText(RegisterActivity.this,
                                 "Username is taken. Please choose a different username.",
@@ -90,6 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                         updateUser.execute(account);
                         // check to see if the uniqueID matches. ofc it does.
                         Log.i("uniqueID", account.getID());
+
 
                         //TODO: update user in database now after having set the uniqueID
 

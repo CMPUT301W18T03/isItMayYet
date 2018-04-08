@@ -2,6 +2,8 @@
 package com.c301t3.c301t3app;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -356,6 +358,7 @@ public class Task implements Serializable {
      */
     public String getOwnerName() {return ownerName;}
 
+
     /**
      * Setter for owner ID
      */
@@ -366,5 +369,6 @@ public class Task implements Serializable {
     public void setOwnerName(String name) {
         this.ownerName = name;
     }
+
 }
 

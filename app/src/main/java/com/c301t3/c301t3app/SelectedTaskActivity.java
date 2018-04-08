@@ -6,6 +6,7 @@ package com.c301t3.c301t3app;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.StringTokenizer;
 
@@ -32,6 +34,7 @@ public class SelectedTaskActivity extends AppCompatActivity {
 
     private TaskPasser passer;
     private Task currentTask;
+    private Bitmap currentPicture;
     private String extraString;
     //final InfoPasser infoInstance = InfoPasser.getInstance();
     /**
@@ -83,7 +86,7 @@ public class SelectedTaskActivity extends AppCompatActivity {
             //Toast.makeText(getApplicationContext(), "savedInstanceState not NULL", Toast.LENGTH_SHORT).show();
 
         }
-        
+
 //        ArrayList<Task> t = new ArrayList<>();
 
 //        taskBidBtn.setEnabled(false);
@@ -111,15 +114,23 @@ public class SelectedTaskActivity extends AppCompatActivity {
         String desc = currentTask.getDescription();
         TaskStatus stat = currentTask.getStatus();
         float price = currentTask.getPrice();
-        Bitmap picture = currentTask.getPicture();
 
+        if (currentPicture == null) {
+            Bitmap original_picture = BitmapFactory.decodeResource(getBaseContext().getResources(), R.drawable.logo_big);
+            int pic_height = Math.round((float) currentPicture.getHeight() / 2);
+            int pic_width = Math.round((float) currentPicture.getWidth() / 2);
+            currentPicture = Bitmap.createScaledBitmap(original_picture, pic_width, pic_height, true);
+        }
+
+        Toast.makeText(getApplicationContext(), currentPicture.toString(), Toast.LENGTH_SHORT).show();
 
         try {
             taskName.setText(name);
             taskDesc.setText(desc);
             taskStat.setText(stat.toString());
             taskPrice.setText(String.valueOf(price));
-            // taskImages.setImageBitmap(picture);
+//            test.setImageBitmap(picture);
+            taskImages.setImageBitmap(currentPicture);
         } catch (Exception e) {}
 
     }
@@ -143,6 +154,9 @@ public class SelectedTaskActivity extends AppCompatActivity {
         if (bundle != null) {
             if (bundle.containsKey("selectedTask")) {
                 currentTask = (Task) bundle.getSerializable("selectedTask");
+            }
+            if (bundle.containsKey("selectedPicture")) {
+                currentPicture = (Bitmap) bundle.getParcelable("selectedPicture");
             }
         }
 
