@@ -384,7 +384,7 @@ public class Task implements Serializable {
         this.ownerName = name;
     }
 
-    private byte[] convertToByteArray(Bitmap picture) {
+  private byte[] convertToByteArray(Bitmap picture) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         picture.compress(Bitmap.CompressFormat.PNG, 100, stream);
         return stream.toByteArray();
