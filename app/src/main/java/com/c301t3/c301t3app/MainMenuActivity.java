@@ -164,6 +164,14 @@ public class MainMenuActivity extends AppCompatActivity{
 //                Log.i("price", String.valueOf(selTask.getPrice()));
                 String strname = selTask.getName() + "/" + selTask.getDescription() + "/" + selTask.getStatus().toString() + "/" + String.valueOf(selTask.getPrice()) + "/" + String.valueOf(selTask.getLongitude()) + "/" + String.valueOf(selTask.getLatitude());
                 selectedIntent.putExtra("SelectedTask", strname);
+
+                // This is the chunk of code to send the whole task as an object straight to
+                // SelectedTaskActivity without the use of a string, which is a must when it comes to Bitmap.
+                final InfoPasser info = InfoPasser.getInstance();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("selectedTask", selTask);
+                info.setInfo(bundle);
+
                 startActivity(selectedIntent);
             }
         });
