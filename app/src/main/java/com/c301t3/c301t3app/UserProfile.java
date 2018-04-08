@@ -68,6 +68,8 @@ public class UserProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
+                //source: https://stackoverflow.com/questions/36747369/how-to-show-a-pop-up-in-android-studio-to-confirm-an-order
                 Context mContext = ApplicationController.c;
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setCancelable(true);
@@ -78,6 +80,7 @@ public class UserProfile extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 ElasticsearchController.deleteUser(ApplicationController.getCurrUser().getUsername());
+                                dialog.dismiss();
                                 Intent welcomeIntent = new Intent(UserProfile.this, WelcomeActivity.class);
                                 UserProfile.this.startActivity(welcomeIntent);
                             }
@@ -85,11 +88,12 @@ public class UserProfile extends AppCompatActivity {
                 builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
                 });
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
+//                AlertDialog dialog = builder.create();
+                builder.show();
              }
         });
 
