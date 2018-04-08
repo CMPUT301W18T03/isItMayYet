@@ -99,6 +99,7 @@ public class NewTaskActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Add Image", Toast.LENGTH_SHORT).show();
 
+                // uploading image from gallery taken from StackOverFlow website from link: https://stackoverflow.com/questions/9107900/how-to-upload-image-from-gallery-in-android
                 startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
 
             }
@@ -111,6 +112,7 @@ public class NewTaskActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // Catching image from gallery taken from StackOverFlow post: https://stackoverflow.com/questions/9107900/how-to-upload-image-from-gallery-in-android
         // Detects request codes
         if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
@@ -153,6 +155,7 @@ public class NewTaskActivity extends AppCompatActivity {
         return newPicture;
     }
 
+    // Method below is from a StackOverFlow post by the link: https://stackoverflow.com/questions/8471226/how-to-resize-image-bitmap-to-a-given-size
     private static Bitmap scaleDown(Bitmap realImage, float maxImageSize,
                                    boolean filter) {
         float ratio = Math.min(

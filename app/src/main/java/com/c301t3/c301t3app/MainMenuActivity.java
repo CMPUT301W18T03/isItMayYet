@@ -17,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -175,13 +174,20 @@ public class MainMenuActivity extends AppCompatActivity{
 
                 // This is the chunk of code to send the whole task as an object straight to
                 // SelectedTaskActivity without the use of a string, which is a must when it comes to Bitmap.
-                Bitmap selPicture = selTask.getPicture();
+
+                Bitmap original_picture = BitmapFactory.decodeResource(getBaseContext().getResources(), R.drawable.logo_big);
+                int pic_height = Math.round((float) original_picture.getHeight() / 2);
+                int pic_width = Math.round((float) original_picture.getWidth() / 2);
+                Bitmap selPicture = Bitmap.createScaledBitmap(original_picture, pic_width, pic_height, true);
+
 
                 final InfoPasser info = InfoPasser.getInstance();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("selectedTask", selTask);
-                bundle.putParcelable("selectedPicture", selPicture);
 
+                // bundle.putSerializable("selectedPicture", selPicture);
+                // Bitmap selPicture  = selTask.getPicture();
+                bundle.putParcelable("selectedPicture", selPicture);
                 info.setInfo(bundle);
 
                 startActivity(selectedIntent);

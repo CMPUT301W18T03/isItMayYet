@@ -2,11 +2,9 @@
 package com.c301t3.c301t3app;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import io.searchbox.annotations.JestId;
@@ -27,7 +25,7 @@ public class Task implements Serializable {
     private TaskStatus status;
     private float price;
     private ArrayList<Bid> bids;
-    private byte[] byteArrayImage;
+    private Bitmap picture;
     private double longitude;
     private double latitude;
     private String ownerName;
@@ -193,20 +191,12 @@ public class Task implements Serializable {
      * @param picture: the picture of the Task.
      */
     public void setPicture(Bitmap picture) throws IllegalArgumentException {
-        if (picture == null) {
-            this.byteArrayImage = null;
-            return;
-        }
-
-        picture = autoCompress(picture);
         int num_bytes = picture.getByteCount();
-
         if (num_bytes < 65536) {
-            this.byteArrayImage = convertToByteArray(picture);
+            this.picture = picture;
         } else {
             throw new IllegalArgumentException("Error: Picture cannot go over 65536 bytes");
         }
-
     }
 
     /**
@@ -260,12 +250,7 @@ public class Task implements Serializable {
      * @return: picture of the Task
      */
     public Bitmap getPicture() {
-        Bitmap bm = null;
-        if (this.byteArrayImage != null && this.byteArrayImage.length > 0) {
-             bm = convertToBitmap(this.byteArrayImage);
-        }
-        return bm;
-
+        return this.picture;
     }
 
     /**
@@ -373,6 +358,7 @@ public class Task implements Serializable {
      */
     public String getOwnerName() {return ownerName;}
 
+
     /**
      * Setter for owner ID
      */
@@ -382,47 +368,6 @@ public class Task implements Serializable {
 
     public void setOwnerName(String name) {
         this.ownerName = name;
-  
-    private byte[] convertToByteArray(Bitmap picture) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        picture.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        return stream.toByteArray();
-    }
-
-    private Bitmap convertToBitmap(byte[] byteArray) {
-        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-    }
-
-    private Bitmap autoCompress(Bitmap picture) {
-        Bitmap newPicture = picture;
-        float span = Math.max(newPicture.getHeight(), newPicture.getWidth());
-
-        while (true) {
-            if (newPicture.getByteCount() > 65536) {
-                span = (span / 4) * 3;
-                newPicture = scaleDown(newPicture, span, true);
-            } else if (span > 4096) {
-                span = 4096;
-                newPicture = scaleDown(newPicture, span, true);
-            } else {
-                break;
-            }
-        }
-
-        return newPicture;
-    }
-
-    private static Bitmap scaleDown(Bitmap realImage, float maxImageSize,
-                                    boolean filter) {
-        float ratio = Math.min(
-                (float) maxImageSize / realImage.getWidth(),
-                (float) maxImageSize / realImage.getHeight());
-        int width = Math.round((float) ratio * realImage.getWidth());
-        int height = Math.round((float) ratio * realImage.getHeight());
-
-        Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width,
-                height, filter);
-        return newBitmap;
     }
 
 }
