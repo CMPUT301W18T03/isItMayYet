@@ -4,13 +4,12 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,7 +17,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.List;
 
 public class addingTaskLocal extends FragmentActivity
@@ -46,7 +48,6 @@ public class addingTaskLocal extends FragmentActivity
     private EditText searchAddress;
     private Button search;
     private List<Address> addressesList;
-    private String address;
     private String taskCoords;
     public static final int REQUEST_LOCATION_CODE = 1;
 
@@ -155,6 +156,11 @@ public class addingTaskLocal extends FragmentActivity
         LatLng userLocation = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
         mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location")).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, zoomLvl));
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(searchAddress.getWindowToken(), 0);
+        }
+
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -201,28 +207,36 @@ public class addingTaskLocal extends FragmentActivity
     }
 
     public void searchMap(View view) {
-//        address = searchAddress.getText().toString();
-//        if (!address.equals("")) {
-//            Geocoder geocoder = new Geocoder(this);
-//            try {
-//                addressesList = geocoder.getFromLocationName(address, 1); // Max 1 locations since task should be at one location.
-//                zoomLvl = 13.7f;
-//                Address location = addressesList.get(0);
-//                LatLng coords = new LatLng(location.getLatitude(), location.getLongitude());
-//                mMap.addMarker(new MarkerOptions().position(coords).title("Task Location"))
-//                        //  got how to change colour here...https://stackoverflow.com/questions/16598169/changing-colour-of-markers-google-map-v2-android.
-//                        .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, zoomLvl));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
+        String address = searchAddress.getText().toString();
+        Log.i("The users request---->", address);
+        if (!address.equals("")) {
+            Geocoder geocoder = new Geocoder(this);
+            try {
+                addressesList = geocoder.getFromLocationName(address, 1); // Max 1 locations since task should be at one location.
+                zoomLvl = 13.7f;
+                if (addressesList.size() != 0) {
+                    try {
+                        Address location = addressesList.get(0);
+                        LatLng coords = new LatLng(location.getLatitude(), location.getLongitude());
+                        Log.i("<_________", coords.toString() + location.getAddressLine(0) + location);
+                        mMap.addMarker(new MarkerOptions().position(coords).title("Task Location"))
+                                //  got how to change colour here...https://stackoverflow.com/questions/16598169/changing-colour-of-markers-google-map-v2-android.
+                                .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, zoomLvl));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        Uri gmmIntentUri = Uri.parse("geo:37.7749,-122.4194?q=101+main+street");
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        mapIntent.setPackage("com.google.android.apps.maps");
-        startActivity(mapIntent);
+        }
+
+//        Uri gmmIntentUri = Uri.parse("geo:37.7749,-122.4194?q=101+main+street");
+//        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+//        mapIntent.setPackage("com.google.android.apps.maps");
+//        startActivity(mapIntent);
     }
 
 
