@@ -459,13 +459,26 @@ public class ElasticsearchController {
     }
 
     /**
-     * Deletes the user out of server.
+     * Deletes the user out of server and all of their tasks.
      * @param username the user
      * @return true if deleted.
      */
     public static boolean deleteUser(String username) {
         if (!checkOnline()) return false;
         ElasticsearchController.DeleteUser delUser = new ElasticsearchController.DeleteUser();
+
+        try {
+            String id = ElasticsearchController.serverUserQuery(username).getID();
+            ArrayList<Task> userTasks = ElasticsearchController.serverTasksByOwner(id);
+            if (userTasks != null) {
+                for (Task t : userTasks) {
+                    ElasticsearchController.deleteTaskByID(t.getId());
+                }
+            }
+        } catch (Exception e){
+            Log.i("Error", "null error with returned id");
+        }
+
         delUser.execute(username);
         Boolean success;
         try {
