@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -69,10 +70,9 @@ public class UserProfile extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                //source: https://stackoverflow.com/questions/36747369/how-to-show-a-pop-up-in-android-studio-to-confirm-an-order
-                Context mContext = ApplicationController.c;
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setCancelable(true);
+                //source: https://stackoverflow.com/questions/36747369/how-to-show-a-pop-up-in-android-studio-to-confirm-an-order;
+                AlertDialog.Builder builder = new AlertDialog.Builder(UserProfile.this);
+                //builder.setCancelable(true);
                 builder.setTitle("Delete User");
                 builder.setMessage("Are you sure you want to permanently delete user?");
                 builder.setPositiveButton("Confirm",
@@ -92,8 +92,8 @@ public class UserProfile extends AppCompatActivity {
                     }
                 });
 
-//                AlertDialog dialog = builder.create();
-                builder.show();
+                AppCompatDialog dialog = builder.create();
+                dialog.show();
              }
         });
 
