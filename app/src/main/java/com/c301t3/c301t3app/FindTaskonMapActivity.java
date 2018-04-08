@@ -46,7 +46,7 @@ public class FindTaskonMapActivity extends FragmentActivity
     public TextView details;
 
     /**
-     * THis is the logic for where the permission was grantied or not depending on the SDK of the phone. If not granted it does't show anything.
+     * THis is the logic for where the permission was granted or not depending on the SDK of the phone. If not granted it does't show anything.
      *
      * @param requestCode  the  request code from the bottom portion of which permission we are talking about.
      * @param permissions  The exact manifest permission in question.
@@ -54,14 +54,13 @@ public class FindTaskonMapActivity extends FragmentActivity
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         if (requestCode == 1) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED) {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    mMap.setMyLocationEnabled(true);
                 }
+            } else {
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show();
             }
         }
     }

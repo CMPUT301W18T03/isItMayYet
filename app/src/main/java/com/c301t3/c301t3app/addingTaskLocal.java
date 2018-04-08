@@ -4,12 +4,13 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,7 +32,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
 import java.util.List;
 
 public class addingTaskLocal extends FragmentActivity
@@ -48,24 +48,34 @@ public class addingTaskLocal extends FragmentActivity
     private List<Address> addressesList;
     private String address;
     private String taskCoords;
-    public static final int REQUEST_LOCATION_CODE = 99;
+    public static final int REQUEST_LOCATION_CODE = 1;
 
 
+    /**
+     * THis is the logic for where the permission was granted or not depending on the SDK of the phone. If not granted it does't show anything.
+     *
+     * @param requestCode  the  request code from the bottom portion of which permission we are talking about.
+     * @param permissions  The exact manifest permission in question.
+     * @param grantResults The param to see if user grants or doesn't grant permission.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_LOCATION_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        mMap.setMyLocationEnabled(true);
-                    }
-                } else {
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show();
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    mMap.setMyLocationEnabled(true);
                 }
+            } else {
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
-
+    /**
+     * createsthe map fragment then checks the SDK of the phone.
+     *
+     * @param savedInstanceState the saved instance of the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,13 +86,14 @@ public class addingTaskLocal extends FragmentActivity
         mapFragment.getMapAsync(this);
         search = findViewById(R.id.searchMap);
         searchAddress = findViewById(R.id.locationText);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= 22) {
             checkLocationPermission();
         }
     }
 
 
     /**
+     *
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera. In this case,
@@ -90,6 +101,9 @@ public class addingTaskLocal extends FragmentActivity
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
+     *
+     * Also once the map has loaded, zooms to the userslocation.
+     * @param googleMap the actual API for google maps
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -107,6 +121,12 @@ public class addingTaskLocal extends FragmentActivity
         mMap.setOnMyLocationClickListener(this);
     }
 
+    /**
+     * When the button to the location is clicked, then it pans to the users location, then if the user clicks the marker
+     * an alert asks if the users is sure to set that location as the task location.
+     * confirmation sends it to the creation screen.
+     * @return the passing or failing of the alert.
+     */
     @Override
     public boolean onMyLocationButtonClick() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -133,7 +153,7 @@ public class addingTaskLocal extends FragmentActivity
         zoomLvl = 15.0f;
 
         LatLng userLocation = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
+        mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location")).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, zoomLvl));
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
@@ -171,35 +191,46 @@ public class addingTaskLocal extends FragmentActivity
         return false;
     }
 
+    /**
+     * not used because we are using the built in portion above.
+     * @param location users location coords.
+     */
     @Override
     public void onMyLocationClick(@NonNull Location location) {
 
     }
 
     public void searchMap(View view) {
-        address = searchAddress.getText().toString();
-        if (!address.equals("")) {
-            Geocoder geocoder = new Geocoder(this);
-            try {
-                addressesList = geocoder.getFromLocationName(address, 4); // Max 4 locations in case its a popular place.
+//        address = searchAddress.getText().toString();
+//        if (!address.equals("")) {
+//            Geocoder geocoder = new Geocoder(this);
+//            try {
+//                addressesList = geocoder.getFromLocationName(address, 1); // Max 1 locations since task should be at one location.
+//                zoomLvl = 13.7f;
+//                Address location = addressesList.get(0);
+//                LatLng coords = new LatLng(location.getLatitude(), location.getLongitude());
+//                mMap.addMarker(new MarkerOptions().position(coords).title("Task Location"))
+//                        //  got how to change colour here...https://stackoverflow.com/questions/16598169/changing-colour-of-markers-google-map-v2-android.
+//                        .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, zoomLvl));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            zoomLvl = 13.7f;
-            Address location = addressesList.get(0);
-            LatLng coords = new LatLng(location.getLatitude(), location.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(coords).title("Task Location"))
-                    //  got how to change colour here...https://stackoverflow.com/questions/16598169/changing-colour-of-markers-google-map-v2-android.
-                    .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, zoomLvl));
-        } else {
-            address = null;
-        }
-
+        Uri gmmIntentUri = Uri.parse("geo:37.7749,-122.4194?q=101+main+street");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 
-    public boolean checkLocationPermission() {
+
+    /**
+     * This checks the manifest permission and what the user said they accept.
+     * Sets the permission code to 1
+     */
+    public void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -207,9 +238,6 @@ public class addingTaskLocal extends FragmentActivity
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_CODE);
             }
-            return false;
-        } else {
-            return true;
         }
     }
 }
