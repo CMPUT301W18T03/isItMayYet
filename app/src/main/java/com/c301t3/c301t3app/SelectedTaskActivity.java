@@ -110,6 +110,8 @@ public class SelectedTaskActivity extends AppCompatActivity {
 
     public void goToMap(View view) {
         Intent mapIntent = new Intent(this, MapsActivity.class);
+        String coords = "37.4633549" + "/" + "-105.8473954";
+        mapIntent.putExtra("taskCoords", coords);
         startActivity(mapIntent);
     }
 }

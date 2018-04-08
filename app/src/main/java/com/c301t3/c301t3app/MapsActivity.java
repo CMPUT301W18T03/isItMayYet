@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 public class MapsActivity extends FragmentActivity
         implements GoogleMap.OnMyLocationButtonClickListener,
@@ -38,6 +39,9 @@ public class MapsActivity extends FragmentActivity
     private GoogleMap mMap;
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private String taskCoords;
+    private float longi;
+    private float lati;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -61,8 +65,27 @@ public class MapsActivity extends FragmentActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-    }
+        taskCoords = null;
 
+
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if (extras == null) {
+                taskCoords = null;
+                Toast.makeText(getApplicationContext(), "extra string is NULL", Toast.LENGTH_SHORT).show();
+            } else {
+                taskCoords = extras.getString("taskCoords");
+
+                StringTokenizer tokens = new StringTokenizer(taskCoords, "/");
+                lati = Float.parseFloat(tokens.nextToken());
+                longi = Float.parseFloat(tokens.nextToken());
+            }
+        } else {
+            taskCoords = (String) savedInstanceState.getSerializable("MainToSelectedTask");
+            Toast.makeText(getApplicationContext(), "savedInstanceState not NULL", Toast.LENGTH_SHORT).show();
+
+        }
+    }
 
     /**
      * Manipulates the map once available.
@@ -113,7 +136,6 @@ public class MapsActivity extends FragmentActivity
                             }
                         }
                         address = address.substring(0, address.length() - 2); // This will give you forthrought, city area, postal code. If has those options.
-
                         Toast.makeText(getApplicationContext(), address, Toast.LENGTH_SHORT).show();
                     }
 
@@ -147,7 +169,6 @@ public class MapsActivity extends FragmentActivity
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             } else {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //0 second, 0 meters
-
                 //getting last known location.
 
                 Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -169,6 +190,11 @@ public class MapsActivity extends FragmentActivity
         Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
+        float zoomLevel = 15.0f;
+        LatLng userLocation = new LatLng(lati, longi);
+        mMap.clear(); // clears unwanted markers.
+        mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, zoomLevel));
         return false;
     }
 
