@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainConstraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -46,12 +45,10 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newTaskPrice" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/newTaskPrice"
@@ -67,5 +64,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newTaskDescription" />
+
+    <ImageButton
+        android:id="@+id/imageMapButton"
+        android:layout_width="65dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="84dp"
+        android:background="@color/colorPrimary"
+        android:contentDescription="@string/pic_for_maps"
+        android:onClick="goToMap"
+        android:tint="@color/colorAccent"
+        app:layout_constraintBottom_toTopOf="@+id/createButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/newTaskPrice"
+        app:layout_constraintVertical_bias="0.258"
+        app:srcCompat="@android:drawable/ic_dialog_map" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Add Location for Task"
+        app:layout_constraintBottom_toTopOf="@+id/createButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newTaskPrice" />
 
 </android.support.constraint.ConstraintLayout>

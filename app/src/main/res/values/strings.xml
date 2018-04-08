@@ -37,5 +37,6 @@
     <string name="imageview_desc">Task_images</string>
     <string name="AIzaSyDcZkIhHRSyTvvTuDH9pUEHbt9wxaXICO8">google_maps_key</string>
     <string name="search_maps">Search</string>
+    <string name="title_activity_adding_task_local">Map</string>
 
 </resources>

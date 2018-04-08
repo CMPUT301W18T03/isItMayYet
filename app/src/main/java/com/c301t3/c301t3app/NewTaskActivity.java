@@ -1,8 +1,9 @@
 package com.c301t3.c301t3app;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,4 +59,11 @@ public class NewTaskActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void goToMap(View view) {
+        Intent mapIntent = new Intent(this, addingTaskLocal.class);
+        startActivity(mapIntent);
+    }
+
 }
+

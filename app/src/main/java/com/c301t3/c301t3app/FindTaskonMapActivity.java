@@ -1,7 +1,6 @@
 package com.c301t3.c301t3app;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -63,7 +62,7 @@ public class FindTaskonMapActivity extends FragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_maps_find_task);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -100,7 +99,6 @@ public class FindTaskonMapActivity extends FragmentActivity
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
-    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -108,6 +106,16 @@ public class FindTaskonMapActivity extends FragmentActivity
         // TODO: Before enabling the My Location layer, you must request
         // location permission from the user. This sample does not include
         // a request for location permission.
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
@@ -118,6 +126,7 @@ public class FindTaskonMapActivity extends FragmentActivity
         mMap.clear(); // clears unwanted markers.
         mMap.addMarker(new MarkerOptions().position(userLocation).title("Task Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, zoomLvl));
+
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -149,29 +158,6 @@ public class FindTaskonMapActivity extends FragmentActivity
             }
         });
 
-//        locationListener = new LocationListener() {
-//            @Override
-//            public void onLocationChanged(Location location) {
-//
-//                // Updates the location when location moves.
-//
-//            }
-//
-//            @Override
-//            public void onStatusChanged(String s, int i, Bundle bundle) {
-//
-//            }
-//
-//            @Override
-//            public void onProviderEnabled(String s) {
-//
-//            }
-//
-//            @Override
-//            public void onProviderDisabled(String s) {
-//
-//            }
-//        };
 
         if (Build.VERSION.SDK_INT < 23) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //0 second, 0 meters
@@ -179,17 +165,6 @@ public class FindTaskonMapActivity extends FragmentActivity
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-//            } else {
-//                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //0 second, 0 meters
-//                //getting last known location.
-//
-//                Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//                mMap.clear(); //clears unwanted markers.
-//
-//                LatLng userLocation = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-//                mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
-//                mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
-
 
             }
 
@@ -202,7 +177,6 @@ public class FindTaskonMapActivity extends FragmentActivity
         Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
-
 
         LatLng userLocation = new LatLng(lati, longi);
         mMap.clear(); // clears unwanted markers.
@@ -218,3 +192,4 @@ public class FindTaskonMapActivity extends FragmentActivity
 
     }
 }
+
