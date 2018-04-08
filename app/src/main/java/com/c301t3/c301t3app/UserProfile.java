@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * Created by Kvongaza on 2018-04-07.
  */
@@ -88,13 +90,32 @@ public class UserProfile extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     ElasticsearchController.DeleteUser delUser =
                                             new ElasticsearchController.DeleteUser();
-                                    delUser.execute(ApplicationController.getCurrUser().getUsername());
-                                    dialog.dismiss();
-                                    ApplicationController.clearUser();
-                                    Intent welcomeIntent =
-                                            new Intent(UserProfile.this,
-                                                    WelcomeActivity.class);
-                                    UserProfile.this.startActivity(welcomeIntent);
+                                    ElasticsearchController.GetTaskByOwner getTaskByOwner =
+                                            new ElasticsearchController.GetTaskByOwner();
+                                    ElasticsearchController.DeleteTask delTask =
+                                            new ElasticsearchController.DeleteTask();
+
+                                    getTaskByOwner.execute(ApplicationController.getCurrUser().getID());
+                                    try {
+                                        ArrayList<Task> currUserTasks = getTaskByOwner.get();
+                                        Log.i("currUserTasks content",currUserTasks.toString());
+                                        for (Task t : currUserTasks) {
+                                            Log.i("T",t.getId());
+                                            delTask.execute(t.getId());
+                                            delTask = new ElasticsearchController.DeleteTask();
+                                            Log.i("Runs","Executes once");
+                                        }
+                                        delUser.execute(ApplicationController.getCurrUser().getUsername());
+                                        dialog.dismiss();
+                                        ApplicationController.clearUser();
+                                        Intent welcomeIntent =
+                                                new Intent(UserProfile.this,
+                                                        WelcomeActivity.class);
+                                        UserProfile.this.startActivity(welcomeIntent);
+                                    }
+                                    catch (Exception e) {
+                                        Log.i("E","No tasks found to delete for user");
+                                    }
                                 }
                             });
                     builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
