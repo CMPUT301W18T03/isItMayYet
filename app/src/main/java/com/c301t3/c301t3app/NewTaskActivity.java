@@ -140,8 +140,6 @@ public class NewTaskActivity extends AppCompatActivity {
         Bitmap newPicture = picture;
         float span = Math.max(newPicture.getHeight(), newPicture.getWidth());
 
-        Toast.makeText(getApplicationContext(), newPicture.toString(), Toast.LENGTH_SHORT).show();
-
         while (true) {
             if (newPicture.getByteCount() > 65536) {
                 span = (span / 4) * 3;
