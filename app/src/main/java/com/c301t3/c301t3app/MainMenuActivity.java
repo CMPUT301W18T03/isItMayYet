@@ -42,15 +42,20 @@ public class MainMenuActivity extends AppCompatActivity{
 
 
     /// Menu Start Here-----------------------
+
+    // from https://stackoverflow.com/questions/9030268/set-visibility-in-menu-programmatically-android?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem signin = menu.findItem(R.id.SignIN);
+        if (ApplicationController.getCurrUser() != null) {
+            signin.setVisible(false);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-        //TODO Keifer, just  add the conditional, and will work.
-//        MenuItem item = menu.getItem(R.id.SignIN);
-//        if() sigened in{
-//            item.setVisible(false);
-//        }
-
         return true;
     }
 
@@ -62,6 +67,8 @@ public class MainMenuActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         //This is the place to handle all the menu items.
         int id = item.getItemId();
+
+
         switch (id) {
 
             case R.id.Profile:
@@ -134,6 +141,8 @@ public class MainMenuActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
+
     }
 
     /**
