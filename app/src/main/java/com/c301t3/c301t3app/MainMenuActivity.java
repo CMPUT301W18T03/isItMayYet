@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,6 +43,10 @@ public class MainMenuActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        MenuItem item = menu.getItem(R.id.SignIN);
+//        if() sigened in{
+//            item.setVisible(false);
+//        }
         return true;
     }
 
@@ -55,7 +58,6 @@ public class MainMenuActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         //This is the place to handle all the menu items.
         int id = item.getItemId();
-
         switch (id) {
 
             case R.id.Profile:

@@ -35,6 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class addingTaskLocal extends FragmentActivity
         implements GoogleMap.OnMyLocationButtonClickListener,
@@ -47,7 +48,6 @@ public class addingTaskLocal extends FragmentActivity
     private float zoomLvl;
     private EditText searchAddress;
     private Button search;
-    private List<Address> addressesList;
     private String taskCoords;
     public static final int REQUEST_LOCATION_CODE = 1;
 
@@ -131,7 +131,6 @@ public class addingTaskLocal extends FragmentActivity
     @Override
     public boolean onMyLocationButtonClick() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -207,13 +206,17 @@ public class addingTaskLocal extends FragmentActivity
     }
 
     public void searchMap(View view) {
-        String address = searchAddress.getText().toString();
-        Log.i("The users request---->", address);
-        if (!address.equals("")) {
-            Geocoder geocoder = new Geocoder(this);
+        String query = searchAddress.getText().toString();
+        query = query.replace(" ", "+");
+        Log.i("The users request---->", query);
+        if (!query.equals("")) {
+            Geocoder geocoder = new Geocoder(addingTaskLocal.this, Locale.getDefault());
+            List<Address> addressesList;
             try {
-                addressesList = geocoder.getFromLocationName(address, 1); // Max 1 locations since task should be at one location.
+                addressesList = geocoder.getFromLocationName(query, 1); // Max 1 locations since task should be at one location.
                 zoomLvl = 13.7f;
+                Log.i("The address list ---->", addressesList.toString());
+
                 if (addressesList.size() != 0) {
                     try {
                         Address location = addressesList.get(0);

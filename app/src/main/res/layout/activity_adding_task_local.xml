@@ -17,9 +17,9 @@
 
     <Button
         android:id="@+id/searchMap"
-        android:layout_width="100dp"
+        android:layout_width="235dp"
         android:layout_height="45dp"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/map"
         android:layout_toEndOf="@+id/locationText"
         android:backgroundTint="@color/colorAccent"
         android:onClick="searchMap"
