@@ -9,6 +9,8 @@ import android.os.Parcelable;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import io.searchbox.annotations.JestId;
 
 /**
@@ -71,6 +73,19 @@ public class Task implements Serializable {
             throw new IllegalArgumentException("Error: Name cannot go over 30 characters in length");
         }
         this.name = name;
+    }
+
+    public String getMinBid() {
+        float min = -1;
+        if(bids.size() == 0) {
+            return "No bids";
+        }
+        for(Bid b : bids) {
+            if(b.getValue() > min) {
+                min = b.getValue();
+            }
+        }
+        return String.format("$%.2f", min);
     }
 
     /**
