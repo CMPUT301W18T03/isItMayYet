@@ -140,14 +140,14 @@ public class SelectedTaskActivity extends AppCompatActivity {
         float price = currentTask.getPrice();
         Bitmap picture = currentTask.getPicture();
 
-        if (currentPicture == null) {
+        if (currentPicture != null) {
             Bitmap original_picture = BitmapFactory.decodeResource(getBaseContext().getResources(), R.drawable.logo_big);
             int pic_height = Math.round((float) currentPicture.getHeight() / 2);
             int pic_width = Math.round((float) currentPicture.getWidth() / 2);
             currentPicture = Bitmap.createScaledBitmap(original_picture, pic_width, pic_height, true);
+            Toast.makeText(getApplicationContext(), currentPicture.toString(), Toast.LENGTH_SHORT).show();
         }
 
-        Toast.makeText(getApplicationContext(), currentPicture.toString(), Toast.LENGTH_SHORT).show();
 
         try {
             taskName.setText(name);

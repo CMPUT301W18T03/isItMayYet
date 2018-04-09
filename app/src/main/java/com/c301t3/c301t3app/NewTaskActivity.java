@@ -170,7 +170,7 @@ public class NewTaskActivity extends AppCompatActivity {
         float span = Math.max(newPicture.getHeight(), newPicture.getWidth());
 
         while (true) {
-            if (newPicture.getByteCount() > 65536) {
+            if (newPicture.getByteCount() > ApplicationController.MAX_PHOTO_BYTESIZE) {
                 span = (span / 4) * 3;
                 newPicture = scaleDown(newPicture, span, true);
             } else if (span > 4096) {
