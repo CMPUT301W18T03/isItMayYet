@@ -111,7 +111,7 @@ public class ViewBidsActivity extends AppCompatActivity {
                                 ElasticsearchController.deleteTaskByID(taskId);
                                 ElasticsearchController.taskToServer(task);
 
-                                Intent intent = new Intent(v.getContext(), MyTasksActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), MyTasksActivity.class);
                                 intent.putExtra(FACADE_TASK, task);
 
                                 setResult(Activity.RESULT_OK, intent);
