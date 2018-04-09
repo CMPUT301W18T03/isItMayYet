@@ -104,9 +104,6 @@ public class MyTasksActivity extends AppCompatActivity {
 
         loadInfo();
 
-        assignedTaskList = new ArrayList<Task>();
-        requestedTaskList = new ArrayList<Task>();
-
         assignedAdapter = new ArrayAdapter<Task>(this, R.layout.my_tasks_assigned, assignedTaskList);
         requestedAdapter = new ArrayAdapter<Task>(this, R.layout.my_tasks_requested, requestedTaskList);
 
