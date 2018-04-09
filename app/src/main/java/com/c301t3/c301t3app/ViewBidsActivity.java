@@ -68,20 +68,24 @@ public class ViewBidsActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         Toast.makeText(getApplicationContext(), "Confirmed", Toast.LENGTH_SHORT).show();
 
-                                        final InfoPasser info = InfoPasser.getInstance();
-                                        Bundle bundle = new Bundle();
+//                                        final InfoPasser info = InfoPasser.getInstance();
+//                                        Bundle bundle = new Bundle();
 
                                         ArrayList<Bid> newBids = new ArrayList<Bid>();
                                         Bid selectedBid = bids.get(position);
                                         newBids.add(selectedBid);
                                         task.setBids(newBids);
-                                        task.setStatus(TaskStatus.BIDDED);
+                                        task.setStatus(TaskStatus.ASSIGNED);
 
-                                        bundle.putSerializable("ViewBidsTask", task);
-                                        bundle.putInt("ViewBidsTaskIndex", taskIndex);
-                                        info.setInfo(bundle);
+                                        String taskId = task.getId();
+                                        ElasticsearchController.deleteTaskByID(taskId);
+                                        ElasticsearchController.taskToServer(task);
 
-                                        setResult(Activity.RESULT_OK);
+//                                        bundle.putSerializable("ViewBidsTask", task);
+//                                        bundle.putInt("ViewBidsTaskIndex", taskIndex);
+//                                        info.setInfo(bundle);
+
+//                                        setResult(Activity.RESULT_OK);
                                         finish();
                                     }
                                 })
@@ -109,17 +113,22 @@ public class ViewBidsActivity extends AppCompatActivity {
                                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        Toast.makeText(getApplicationContext(), "Confirmed", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
 
-                                        final InfoPasser info = InfoPasser.getInstance();
-                                        Bundle bundle = new Bundle();
+//                                        final InfoPasser info = InfoPasser.getInstance();
+//                                        Bundle bundle = new Bundle();
 
                                         task.remBid(position);
-                                        bundle.putSerializable("ViewBidsTask", task);
-                                        bundle.putInt("ViewBidsTaskIndex", taskIndex);
-                                        info.setInfo(bundle);
 
-                                        setResult(Activity.RESULT_OK);
+                                        String taskId = task.getId();
+                                        ElasticsearchController.deleteTaskByID(taskId);
+                                        ElasticsearchController.taskToServer(task);
+
+//                                        bundle.putSerializable("ViewBidsTask", task);
+//                                        bundle.putInt("ViewBidsTaskIndex", taskIndex);
+//                                        info.setInfo(bundle);
+
+//                                        setResult(Activity.RESULT_OK);
                                         finish();
                                     }
                                 })

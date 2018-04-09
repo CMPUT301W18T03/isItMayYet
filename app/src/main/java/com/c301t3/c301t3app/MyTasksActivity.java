@@ -44,7 +44,7 @@ public class MyTasksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_tasks);
 
-//        getSupportActionBar().setHomeButtonEnabled(true); //TODO: Henry, what is this?
+        getSupportActionBar().setHomeButtonEnabled(true); //TODO: Henry, what is this?
 
         assignedTasks = (ListView) findViewById(R.id.ListView_assignedTasks);
         requestedTasks = (ListView) findViewById(R.id.ListView_requestedTasks);
@@ -102,7 +102,6 @@ public class MyTasksActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        loadFromInfoPasser();
         loadInfo();
 
         assignedAdapter = new ArrayAdapter<Task>(this, R.layout.my_tasks_assigned, assignedTaskList);
@@ -116,7 +115,6 @@ public class MyTasksActivity extends AppCompatActivity {
     /**
      * Function that loads the task from infoPasser constructor.
      */
-
     private void loadFromInfoPasser() {
         final InfoPasser info = InfoPasser.getInstance();
         final JsonHandler j = new JsonHandler(this);
@@ -145,9 +143,13 @@ public class MyTasksActivity extends AppCompatActivity {
     }
 
     private void loadInfo() {
-        requestedTaskList = ElasticsearchController.serverTasksByOwner(ApplicationController.getCurrUser().getID());
+        UserAccount usr = ApplicationController.getCurrUser();
 
-        return;
+        if (usr != null) {
+            loadFromInfoPasser();
+            requestedTaskList = ElasticsearchController.serverTasksByOwner(usr.getID());
+        }
+
     }
 
 }

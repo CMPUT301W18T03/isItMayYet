@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TaskIt</string>
+    <string name="app_name">C301T3app</string>
     <string name="title_activity_my_tasks">myTasksActivity</string>
     <string name="enter_password">Enter Password</string>
     <string name="enter_username">Enter Username</string>
@@ -32,6 +32,12 @@
     <string name="start_searching">Start Searching</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="pic_for_maps">pic_for_maps</string>
+    <string name="imageview_desc">Task_images</string>
+    <string name="AIzaSyDcZkIhHRSyTvvTuDH9pUEHbt9wxaXICO8">google_maps_key</string>
+    <string name="search_maps">Search</string>
+    <string name="title_activity_adding_task_local">Map</string>
     <string name="selected_task_activity">Selected Task</string>
     <string name="bidding_screen">Biddings</string>
     <string name="main_menu_activity">Main Menu</string>

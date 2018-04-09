@@ -2,9 +2,11 @@
 package com.c301t3.c301t3app;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import io.searchbox.annotations.JestId;
@@ -366,8 +368,82 @@ public class Task implements Serializable {
         this.owner = id;
     }
 
+    /**
+     * Setter for Owner Name
+     *
+     * @param name: Represent's the Task Owner's Username
+     */
     public void setOwnerName(String name) {
         this.ownerName = name;
+    }
+
+    /**
+     * Converts a given Bitmap to a byteArray
+     *
+     * @param picture: Represents a picture to be turned into a byteArray.
+     * @return byte[]: Represents a byteArray that is a representation of the given Bitmap
+     */
+    private byte[] convertToByteArray(Bitmap picture) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        picture.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
+    }
+
+    /**
+     * Converts a given byteArray into a Bitmap image
+     *
+     * @param byteArray: Represents the byteArray that was originally a Bitmap
+     * @return Bitmap: Represents the Bitmap that was represented in the given byteArray
+     */
+    private Bitmap convertToBitmap(byte[] byteArray) {
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+    }
+
+    /**
+     * The method autocompresses a given bitmap to take up much smaller space than before in
+     * order to consistently satisfy the condition that all bitmaps stored are within 65536 bytes
+     *
+     * @param picture: Represents the uncompressed bitmap image
+     * @return newPicture: Represents the compressed bitmap image
+     */
+    private Bitmap autoCompress(Bitmap picture) {
+        Bitmap newPicture = picture;
+        float span = Math.max(newPicture.getHeight(), newPicture.getWidth());
+
+        while (true) {
+            if (newPicture.getByteCount() > 65536) {
+                span = (span / 4) * 3;
+                newPicture = scaleDown(newPicture, span, true);
+            } else if (span > 4096) {
+                span = 4096;
+                newPicture = scaleDown(newPicture, span, true);
+            } else {
+                break;
+            }
+        }
+
+        return newPicture;
+    }
+
+    /**
+     * The method that scales down an image's resolution whilst keeping its aspect ratio.
+     *
+     * @param realImage: The original Bitmap image to be modified
+     * @param maxImageSize: The length of the longest dimension (length, width) of the newBitmap
+     * @param filter: Boolean value for Bitmap.createScaledBitmap(...)
+     * @return newBitmap: Represents the modified bitmap
+     */
+    private static Bitmap scaleDown(Bitmap realImage, float maxImageSize,
+                                    boolean filter) {
+        float ratio = Math.min(
+                (float) maxImageSize / realImage.getWidth(),
+                (float) maxImageSize / realImage.getHeight());
+        int width = Math.round((float) ratio * realImage.getWidth());
+        int height = Math.round((float) ratio * realImage.getHeight());
+
+        Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width,
+                height, filter);
+        return newBitmap;
     }
 
 }
