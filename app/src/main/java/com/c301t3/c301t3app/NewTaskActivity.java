@@ -33,6 +33,13 @@ public class NewTaskActivity extends AppCompatActivity {
     private Task newTask;
     private Bitmap picture;
 
+    /**
+     * Sets up an initializes the Activity, its mainly in charge of having its "save" button
+     * detect if there is any interaction (clicks) so that it can gather all relevant information to
+     * create a Task when it detects so.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +100,14 @@ public class NewTaskActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * The method mainly catches data that is sent back from a recent activity startup,
+     * the data the it mainly catches are Bitmap images from the Gallery Activity.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -121,11 +135,35 @@ public class NewTaskActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * The method is used to launch an activity to pick out coordinates
+     * from google maps by the click of the "map" icon
+     *
+     * @param view
+     */
     public void goToMap(View view) {
         Intent mapIntent = new Intent(this, addingTaskLocal.class);
         startActivity(mapIntent);
     }
 
+    /**
+     * The method is used to launch an activity to select an image
+     * from the Gallery by the click of the Add Image button.
+     *
+     * @param view
+     */
+    public void addImage(View view) {
+        Toast.makeText(getApplicationContext(), "Add Image", Toast.LENGTH_SHORT).show();
+        startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+    }
+
+    /**
+     * The method autocompresses a given bitmap to take up much smaller space than before in
+     * order to consistently satisfy the condition that all bitmaps stored are within 65536 bytes
+     *
+     * @param picture: Represents the uncompressed bitmap image
+     * @return newPicture: Represents the compressed bitmap image
+     */
     private Bitmap processImage(Bitmap picture) {
         Bitmap newPicture = picture;
         float span = Math.max(newPicture.getHeight(), newPicture.getWidth());
@@ -145,6 +183,14 @@ public class NewTaskActivity extends AppCompatActivity {
         return newPicture;
     }
 
+    /**
+     * The method that scales down an image's resolution whilst keeping its aspect ratio.
+     *
+     * @param realImage: The original Bitmap image to be modified
+     * @param maxImageSize: The length of the longest dimension (length, width) of the newBitmap
+     * @param filter: Boolean value for Bitmap.createScaledBitmap(...)
+     * @return newBitmap: Represents the modified bitmap
+     */
     private static Bitmap scaleDown(Bitmap realImage, float maxImageSize,
                                    boolean filter) {
         float ratio = Math.min(
@@ -156,12 +202,6 @@ public class NewTaskActivity extends AppCompatActivity {
         Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width,
                 height, filter);
         return newBitmap;
-    }
-
-    public void addImage(View view) {
-        Toast.makeText(getApplicationContext(), "Add Image", Toast.LENGTH_SHORT).show();
-        startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
-
     }
 
 }
