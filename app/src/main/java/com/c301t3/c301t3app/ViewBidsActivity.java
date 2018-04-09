@@ -2,6 +2,7 @@ package com.c301t3.c301t3app;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,12 +23,13 @@ import java.util.ArrayList;
  */
 
 public class ViewBidsActivity extends AppCompatActivity {
+    public static final String FACADE_TASK = "com.c301t3.c301t3app.FACADE_TASK";
+
     private Task task;
     private int taskIndex;
     private ArrayList<Bid> bids;
     private ArrayAdapter<Bid> bidAdapter;
     private ListView bidList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +87,7 @@ public class ViewBidsActivity extends AppCompatActivity {
 //                                        bundle.putInt("ViewBidsTaskIndex", taskIndex);
 //                                        info.setInfo(bundle);
 
-//                                        setResult(Activity.RESULT_OK);
+                                        setResult(Activity.RESULT_OK);
                                         finish();
                                     }
                                 })
@@ -104,6 +106,9 @@ public class ViewBidsActivity extends AppCompatActivity {
                 bidList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {
+
+                        final View v = view;
+
                         // alert = new AlertDialog.Builder(getApplicationContext());
                         new AlertDialog.Builder(ViewBidsActivity.this)
                                 //.setIcon(android.R.drawable.ic_dialog_alert)
@@ -115,20 +120,20 @@ public class ViewBidsActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
 
-//                                        final InfoPasser info = InfoPasser.getInstance();
-//                                        Bundle bundle = new Bundle();
-
                                         task.remBid(position);
+                                        ArrayList<Bid> bidList = task.getBids();
+                                        if (bidList.size() == 0) {
+                                            task.setStatus(TaskStatus.REQUESTED);
+                                        }
 
                                         String taskId = task.getId();
                                         ElasticsearchController.deleteTaskByID(taskId);
                                         ElasticsearchController.taskToServer(task);
 
-//                                        bundle.putSerializable("ViewBidsTask", task);
-//                                        bundle.putInt("ViewBidsTaskIndex", taskIndex);
-//                                        info.setInfo(bundle);
+                                        Intent intent = new Intent(v.getContext(), MyTasksActivity.class);
+                                        intent.putExtra(FACADE_TASK, task);
 
-//                                        setResult(Activity.RESULT_OK);
+                                        setResult(Activity.RESULT_OK, intent);
                                         finish();
                                     }
                                 })
