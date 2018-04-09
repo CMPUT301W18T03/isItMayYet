@@ -16,6 +16,9 @@ import java.util.concurrent.ExecutionException;
  * Class for Registering a new user.
  */
 
+/** The Register Activity for when creating a profile
+ *  You need a username, first name, last name, email, phone, password, etc.
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     @Override
@@ -25,13 +28,13 @@ public class RegisterActivity extends AppCompatActivity {
 
         final UserAccount account = new UserAccount();
 
-        final EditText etUsername = (EditText) findViewById(R.id.etUsername);
-        final EditText etFirstName = (EditText) findViewById(R.id.etFirstName);
-        final EditText etLastName = (EditText) findViewById(R.id.etLastName);
-        final EditText etEmail = (EditText) findViewById(R.id.etEmail);
-        final EditText etPhone = (EditText) findViewById(R.id.etPhone);
-        final EditText etPassword = (EditText) findViewById(R.id.etPassword);
-        final EditText etConfirmPassword = (EditText) findViewById(R.id.etConfirmPassword);
+        final EditText etUsername = findViewById(R.id.etUsername);
+        final EditText etFirstName = findViewById(R.id.etFirstName);
+        final EditText etLastName = findViewById(R.id.etLastName);
+        final EditText etEmail = findViewById(R.id.etEmail);
+        final EditText etPhone = findViewById(R.id.etPhone);
+        final EditText etPassword = findViewById(R.id.etPassword);
+        final EditText etConfirmPassword = findViewById(R.id.etConfirmPassword);
         final JsonHandler j = new JsonHandler(this);
 
         final Button bRegister = (Button) findViewById(R.id.bCreate);
@@ -79,13 +82,11 @@ public class RegisterActivity extends AppCompatActivity {
                         Log.i("Good","User not found");
                     }
 
-
                     if (checkAcc!=null) {
                         Toast.makeText(RegisterActivity.this,
                                 "Username is taken. Please choose a different username.",
                                 Toast.LENGTH_LONG).show();
                     }
-
                     else {
                         addUser.execute(account);
                         updateUser.execute(account);
@@ -98,23 +99,16 @@ public class RegisterActivity extends AppCompatActivity {
                         Intent loginIntent = new Intent(RegisterActivity.this, SimpleLoginActivity.class);
                         RegisterActivity.this.startActivity(loginIntent);
                     }
-
-                    // send user to Elasticsearch server
-//                    ElasticsearchController.userToServer(account);
-//                    ElasticsearchController.userUpdateServer(account);
                 }
-
             }
         });
-
     }
 
-    /**
-     * Check if field is empty, prevents crashes
-     * @param editField
-     * @return boolean
+    /**Check if field is empty, prevents crashes
+     *
+     * @param editField; the field to check if it is empty or not
+     * @return boolean; false if it is not empty, true if it is
      */
-
     private boolean isEmpty(EditText editField) {
         if (editField.getText().toString().trim().length() > 0) {
             return false;

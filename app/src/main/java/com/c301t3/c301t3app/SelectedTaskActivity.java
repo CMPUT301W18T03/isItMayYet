@@ -159,7 +159,7 @@ public class SelectedTaskActivity extends AppCompatActivity {
 
     }
 
-    /**
+    /** Method used to return to the main meu
      *
      * @param view The bid button functionality.
      */
@@ -175,7 +175,7 @@ public class SelectedTaskActivity extends AppCompatActivity {
      * The method is used to launch an activity to view the location of the tasks
      * from google maps by the click of the "map" icon
      *
-     * @param view
+     * @param view; The bid button functionality
      */
     public void goToMap(View view) {
         Intent mapIntent = new Intent(this, FindTaskonMapActivity.class);
