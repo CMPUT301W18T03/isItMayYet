@@ -168,12 +168,13 @@ public class TasksRequestedAdapter extends RecyclerView.Adapter<TasksRequestedAd
             float taskPrice = task.getPrice();
             String taskPriceFormat = String.format("$%.2f",taskPrice);
             String taskOwner = task.getOwnerName();
+            String taskMBid = task.getMinBid();
 
 
             this.taskNameView.setText(taskName);
             this.taskStatusView.setText(taskStatus);
             this.taskDescriptionView.setText(taskDescription);
-            this.taskPriceView.setText(taskPriceFormat);
+            this.taskPriceView.setText(taskMBid + " / " + taskPriceFormat);
             this.taskOwnerView.setText(taskOwner);
         }
 
