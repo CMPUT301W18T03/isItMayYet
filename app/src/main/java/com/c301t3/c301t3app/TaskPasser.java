@@ -44,17 +44,5 @@ public class TaskPasser {
     public void setTasks(ArrayList<Task> t) {
         tasks = t;
     }
-
-    // The below is edited out because we think it is unnecessary right now
-    // Opinion on this might change in the future
-    /**
-    public Task getTask() {
-        return tasks.get(0);
-    }
-
-    public void setTask(Task t) {
-        tasks = new ArrayList<>();
-        tasks.add(t);
-    }
-    */
+    
 }

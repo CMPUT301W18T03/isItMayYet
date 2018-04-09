@@ -6,8 +6,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+/** The view for the profile of the task owner
+ *
+ */
 public class TaskOwnerProfile extends AppCompatActivity {
 
+
+    /** Called when the view is first created; sets several textViews
+     *
+     * @param savedInstanceState; Past data from the previous view
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
