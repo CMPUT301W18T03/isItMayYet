@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.StringTokenizer;
 
@@ -74,7 +73,7 @@ public class SelectedTaskActivity extends AppCompatActivity {
                 Log.i("the passed String is:", extraString);
                 StringTokenizer tokens = new StringTokenizer(extraString, "/");
                 taskName.setText(tokens.nextToken());
-                taskDesc.setText(tokens.nextToken());
+                taskDesc.setText("Description: " + tokens.nextToken());
                 taskStat.setText(tokens.nextToken());
                 taskPrice.setText("$" + tokens.nextToken());
 //                taskBid.setVisibility(View.GONE);
@@ -85,21 +84,6 @@ public class SelectedTaskActivity extends AppCompatActivity {
             //Toast.makeText(getApplicationContext(), "savedInstanceState not NULL", Toast.LENGTH_SHORT).show();
 
         }
-
-//        ArrayList<Task> t = new ArrayList<>();
-
-//        taskBidBtn.setEnabled(false);
-//        taskName.setText(currentTask.getTaskName());
-//        taskDesc.setText(currentTask.getTaskDescription());
-//        //taskImages.setImageResource(Drawablesres);
-//        taskStat.setText(currentTask.getStatus());
-//        taskPrice.setText(currentTask.getPrice());
-//        try {
-//            taskBid.setText(currentTask.getCurrentBid);
-//        } catch (Exception e) {
-//            Log.i("Bid error", "getting current bid error.");
-//            e.printStackTrace();
-//        }
 
     }
 
@@ -123,9 +107,9 @@ public class SelectedTaskActivity extends AppCompatActivity {
 
         try {
             taskName.setText(name);
-            taskDesc.setText(desc);
+            taskDesc.setText("Description: " + desc);
             taskStat.setText(stat.toString());
-            taskPrice.setText(String.valueOf(price));
+            taskPrice.setText("$" + String.valueOf(price));
 //            taskImages.setImageBitmap(jk);
             taskImages.setImageBitmap(picture);
         } catch (Exception e) {}
@@ -148,6 +132,7 @@ public class SelectedTaskActivity extends AppCompatActivity {
     public void goToMap(View view) {
         Intent mapIntent = new Intent(this, FindTaskonMapActivity.class);
         String coords = "33.8994864" + "/" + "-118.2861378"; //33.8994864,-118.2861378
+        Log.i("going to map", "this means button pressed and coords are " + coords);
         mapIntent.putExtra("taskCoords", coords);
         startActivity(mapIntent);
     }

@@ -22,6 +22,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -127,7 +128,24 @@ public class FindTaskonMapActivity extends FragmentActivity
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            return;
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                if (Build.VERSION.SDK_INT < 23) {
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //0 second, 0 meters
+                } else {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                    } else {
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //0 second, 0 meters
+                    }
+                }
+            }
         }
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
@@ -137,7 +155,7 @@ public class FindTaskonMapActivity extends FragmentActivity
         zoomLvl = 15.0f;
         LatLng userLocation = new LatLng(lati, longi);
         mMap.clear(); // clears unwanted markers.
-        mMap.addMarker(new MarkerOptions().position(userLocation).title("Task Location"));
+        mMap.addMarker(new MarkerOptions().position(userLocation).title("Task Location")).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, zoomLvl));
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -148,19 +166,20 @@ public class FindTaskonMapActivity extends FragmentActivity
                     List<Address> listAddress = geocoder.getFromLocation(lati, longi, 1);
                     if (listAddress != null && listAddress.size() > 0) {
                         Log.i("Place Info <----", listAddress.get(0).toString());
-                        StringBuilder address = new StringBuilder();
-                        int i = 0;
-                        int maxLen = listAddress.get(0).getMaxAddressLineIndex();
-
-                        while (i != maxLen) {
-                            if (listAddress.get(0).getAddressLine(0) != null) {
-                                address.append(listAddress.get(0).getAddressLine(i));
-                                i++;
-                                address.append(", ");
-                            }
-                        }
-                        address = new StringBuilder(address.substring(0, address.length() - 2)); // This will give you forthrought, city area, postal code. If has those options.
-                        details.setText(address);
+//                        StringBuilder address = new StringBuilder();
+//                        int i = 0;
+//                        int maxLen = listAddress.get(0).getMaxAddressLineIndex();
+//
+//                        while (i != maxLen) {
+//                            if (listAddress.get(0).getAddressLine(0) != null) {
+//                                address.append(listAddress.get(0).getAddressLine(i));
+//                                i++;
+//                                address.append(", ");
+//                            }
+//                        }
+//                        Log.i("dasda sfsfsf <---------", address.toString());
+//                        address = new StringBuilder(address.substring(0, address.length())); // This will give you forthrought, city area, postal code. If has those options.
+                        details.setText(listAddress.get(0).getAddressLine(0));
                     }
 
                 } catch (IOException e) {
@@ -169,18 +188,7 @@ public class FindTaskonMapActivity extends FragmentActivity
                 return false;
             }
         });
-
-        // checks the SDK version of the user's phone to see if the permission needs to be asked for.
-        if (Build.VERSION.SDK_INT < 23) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //0 second, 0 meters
-        } else {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-
-            }
-
-        }
+        mMap.clear();
 
     }
 
