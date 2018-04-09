@@ -189,7 +189,7 @@ public class MainMenuActivity extends AppCompatActivity{
                 final InfoPasser info = InfoPasser.getInstance();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("selectedTask", selTask);
-                bundle.putParcelable("selectedPicture", selPicture);
+                //bundle.putParcelable("selectedPicture", selPicture);
 
                 info.setInfo(bundle);
 
