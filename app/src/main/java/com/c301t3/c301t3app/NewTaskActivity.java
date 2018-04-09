@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 public class NewTaskActivity extends AppCompatActivity {
     public static final int GET_FROM_GALLERY = 3;
+    private NewTaskActivity activity = this;
 
     private ImageView userPicture;
 
@@ -64,6 +65,12 @@ public class NewTaskActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (ApplicationController.getCurrUser() == null) {
+                    Intent loginIntent = new Intent(activity, SimpleLoginActivity.class);
+                    activity.startActivity(loginIntent);
+                }
+
                 boolean end = false;
                 String price;
 
