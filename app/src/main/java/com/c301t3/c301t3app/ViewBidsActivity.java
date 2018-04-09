@@ -2,6 +2,7 @@ package com.c301t3.c301t3app;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,12 +22,13 @@ import java.util.ArrayList;
  * Handles accepting or denying a bid.
  */
 public class ViewBidsActivity extends AppCompatActivity {
+    public static final String FACADE_TASK = "com.c301t3.c301t3app.FACADE_TASK";
+
     private Task task;
     private int taskIndex;
     private ArrayList<Bid> bids;
     private ArrayAdapter<Bid> bidAdapter;
     private ListView bidList;
-
 
     /** Creates the new view for the app, initializes all the buttons on the screen
      *
@@ -74,6 +76,7 @@ public class ViewBidsActivity extends AppCompatActivity {
 
             case R.id.no:
                 switchcase02();
+
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -99,11 +102,19 @@ public class ViewBidsActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
 
                                 task.remBid(position);
+                                ArrayList<Bid> bidList = task.getBids();
+                                if (bidList.size() == 0) {
+                                    task.setStatus(TaskStatus.REQUESTED);
+                                }
 
                                 String taskId = task.getId();
                                 ElasticsearchController.deleteTaskByID(taskId);
                                 ElasticsearchController.taskToServer(task);
 
+                                Intent intent = new Intent(getApplicationContext(), MyTasksActivity.class);
+                                intent.putExtra(FACADE_TASK, task);
+
+                                setResult(Activity.RESULT_OK, intent);
                                 finish();
                             }
                         })
@@ -142,6 +153,7 @@ public class ViewBidsActivity extends AppCompatActivity {
                                 ElasticsearchController.deleteTaskByID(taskId);
                                 ElasticsearchController.taskToServer(task);
 
+                                setResult(Activity.RESULT_OK);
                                 finish();
                             }
                         })

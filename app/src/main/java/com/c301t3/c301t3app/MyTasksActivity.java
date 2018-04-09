@@ -1,5 +1,6 @@
 package com.c301t3.c301t3app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.icu.text.IDNA;
 import android.os.Bundle;
@@ -32,6 +33,8 @@ public class MyTasksActivity extends AppCompatActivity {
     public static final String TITLE_ASSIGNED_TASKS = "Assigned Tasks";
     public static final String TITLE_REQUESTED_TASKS = "Requested Tasks";
 
+    public static final int MY_BID_CODE = 1;
+
     private ArrayList<Task> assignedTaskList = new ArrayList<Task>();
     private ArrayList<Task> requestedTaskList = new ArrayList<Task>();
     private ArrayAdapter<Task> assignedAdapter;
@@ -41,6 +44,9 @@ public class MyTasksActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Toast.makeText(getApplicationContext(), "onCreate()", Toast.LENGTH_SHORT).show();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_tasks);
 
@@ -91,7 +97,7 @@ public class MyTasksActivity extends AppCompatActivity {
                 info.setInfo(bundle);
 
                 Intent intent = new Intent(view.getContext(), ViewBidsActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, MY_BID_CODE);
             }
 
         });
@@ -101,6 +107,8 @@ public class MyTasksActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        Toast.makeText(getApplicationContext(), "onStart()", Toast.LENGTH_SHORT).show();
 
         loadInfo();
 
@@ -143,6 +151,9 @@ public class MyTasksActivity extends AppCompatActivity {
     }
 
     private void loadInfo() {
+
+        Toast.makeText(getApplicationContext(), "loadInfo()", Toast.LENGTH_SHORT).show();
+
         UserAccount usr = ApplicationController.getCurrUser();
 
         if (usr != null) {
@@ -150,6 +161,15 @@ public class MyTasksActivity extends AppCompatActivity {
             requestedTaskList = ElasticsearchController.serverTasksByOwner(usr.getID());
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        Toast.makeText(getApplicationContext(), "onActivityResult()", Toast.LENGTH_SHORT).show();
+
+        // loadInfo();
     }
 
 }
