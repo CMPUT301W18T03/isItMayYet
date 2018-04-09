@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 /**
@@ -52,7 +53,7 @@ public class SelectedTaskActivity extends AppCompatActivity {
         taskStat = findViewById(R.id.textViewStatus);
         taskPrice = findViewById(R.id.textViewPrice);
         taskImages = findViewById(R.id.imageView);
-        EditText taskBid = findViewById(R.id.editTextBid);
+        final EditText taskBid = findViewById(R.id.editTextBid);
         Button taskBidBtn = findViewById(R.id.bidBtn);
 
         /**
@@ -85,6 +86,48 @@ public class SelectedTaskActivity extends AppCompatActivity {
             //Toast.makeText(getApplicationContext(), "savedInstanceState not NULL", Toast.LENGTH_SHORT).show();
 
         }
+
+        taskBidBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserAccount usr = ApplicationController.getCurrUser();
+
+                if (usr != null) {
+                    TaskStatus status = currentTask.getStatus();
+
+                    if (usr.getUsername().equals(currentTask.getOwnerName())) {
+                        Toast.makeText(getApplicationContext(),
+                                "You can't bid on your own Task.",
+                                Toast.LENGTH_SHORT).show();
+                    } else if (status == TaskStatus.COMPLETED || status == TaskStatus.ASSIGNED) {
+                        Toast.makeText(getApplicationContext(),
+                                "It seems the Task is already completed or assigned.",
+                                Toast.LENGTH_SHORT).show();
+                    } else  {
+                        String text = taskBid.getText().toString();
+                        float value = Float.valueOf(text);
+
+                        Bid bid = new Bid(value, usr.getID());
+                        currentTask.addBid(bid);
+                        currentTask.setStatus(TaskStatus.BIDDED);
+
+                        String id = currentTask.getId();
+                        ElasticsearchController.deleteTaskByID(id);
+
+                        ElasticsearchController.taskToServer(currentTask);
+
+                        Toast.makeText(getApplicationContext(),
+                                "Bid successful.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Please log in to be able to bid on a Task.",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
 
 //        ArrayList<Task> t = new ArrayList<>();
 

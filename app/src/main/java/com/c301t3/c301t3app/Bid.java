@@ -42,7 +42,8 @@ public class Bid {
 
     @Override
     public String toString() {
-        String message = userId + "      " + String.valueOf(value);
+        UserAccount account = ElasticsearchController.serverUserQueryByID(userId);
+        String message = account.getUsername() + "      " + String.valueOf(value);
         return message;
     }
 }
