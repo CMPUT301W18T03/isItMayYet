@@ -28,22 +28,22 @@ public class UserProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        final TextView tvUsername = (TextView) findViewById(R.id.tvUsername);
+        final EditText etFirstName = (EditText) findViewById(R.id.etFirstName);
+        final EditText etLastName = (EditText) findViewById(R.id.etLastName);
+        final EditText etEmail = (EditText) findViewById(R.id.etEmail);
+        final EditText etPhone = (EditText) findViewById(R.id.etPhone);
+        final EditText etAddress = (EditText) findViewById(R.id.etAddress);
+        final Button bSave = (Button) findViewById(R.id.bSave);
+        final Button bDelete = (Button) findViewById(R.id.bDelete);
+        final JsonHandler j = new JsonHandler(this);
+
         ElasticsearchController.GetUserByUsername getUserByName =
                 new ElasticsearchController.GetUserByUsername();
         getUserByName.execute(ApplicationController.getCurrUser().getUsername());
 
         try {
             UserAccount user = getUserByName.get();
-            final TextView tvUsername = (TextView) findViewById(R.id.tvUsername);
-            final EditText etFirstName = (EditText) findViewById(R.id.etFirstName);
-            final EditText etLastName = (EditText) findViewById(R.id.etLastName);
-            final EditText etEmail = (EditText) findViewById(R.id.etEmail);
-            final EditText etPhone = (EditText) findViewById(R.id.etPhone);
-            final EditText etAddress = (EditText) findViewById(R.id.etAddress);
-            final Button bSave = (Button) findViewById(R.id.bSave);
-            final Button bDelete = (Button) findViewById(R.id.bDelete);
-            final JsonHandler j = new JsonHandler(this);
-
 
             tvUsername.setText(user.getUsername());
             etFirstName.setText(user.getFirstName(), TextView.BufferType.EDITABLE);
@@ -98,12 +98,9 @@ public class UserProfile extends AppCompatActivity {
                                     getTaskByOwner.execute(ApplicationController.getCurrUser().getID());
                                     try {
                                         ArrayList<Task> currUserTasks = getTaskByOwner.get();
-                                        Log.i("currUserTasks content",currUserTasks.toString());
                                         for (Task t : currUserTasks) {
-                                            Log.i("T",t.getId());
                                             delTask.execute(t.getId());
                                             delTask = new ElasticsearchController.DeleteTask();
-                                            Log.i("Runs","Executes once");
                                         }
                                         delUser.execute(ApplicationController.getCurrUser().getUsername());
                                         dialog.dismiss();
