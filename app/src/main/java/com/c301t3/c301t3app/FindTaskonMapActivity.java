@@ -80,6 +80,7 @@ public class FindTaskonMapActivity extends FragmentActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         taskCoords = null;
+        mMap.clear();
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -188,7 +189,6 @@ public class FindTaskonMapActivity extends FragmentActivity
                 return false;
             }
         });
-        mMap.clear();
 
     }
 
