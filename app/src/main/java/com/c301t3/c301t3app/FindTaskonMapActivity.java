@@ -80,7 +80,6 @@ public class FindTaskonMapActivity extends FragmentActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         taskCoords = null;
-        mMap.clear();
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -201,8 +200,8 @@ public class FindTaskonMapActivity extends FragmentActivity
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
         LatLng userLocation = new LatLng(lati, longi);
-        mMap.clear(); // clears unwanted markers.
-        mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
+        //mMap.clear(); // clears unwanted markers.
+        //mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
 
         return false;
