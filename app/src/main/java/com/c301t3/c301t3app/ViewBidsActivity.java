@@ -107,9 +107,7 @@ public class ViewBidsActivity extends AppCompatActivity {
                                     task.setStatus(TaskStatus.REQUESTED);
                                 }
 
-                                String taskId = task.getId();
-                                ElasticsearchController.deleteTaskByID(taskId);
-                                ElasticsearchController.taskToServer(task);
+                                ElasticsearchController.taskUpdateServer(task);
 
                                 Intent intent = new Intent(getApplicationContext(), MyTasksActivity.class);
                                 intent.putExtra(FACADE_TASK, task);
@@ -145,13 +143,15 @@ public class ViewBidsActivity extends AppCompatActivity {
 
                                 ArrayList<Bid> newBids = new ArrayList<Bid>();
                                 Bid selectedBid = bids.get(position);
+
+                                String bidderId = selectedBid.getUserId();
+                                task.setAssignee(bidderId);
+
                                 newBids.add(selectedBid);
                                 task.setBids(newBids);
                                 task.setStatus(TaskStatus.ASSIGNED);
 
-                                String taskId = task.getId();
-                                ElasticsearchController.deleteTaskByID(taskId);
-                                ElasticsearchController.taskToServer(task);
+                                ElasticsearchController.taskUpdateServer(task);
 
                                 setResult(Activity.RESULT_OK);
                                 finish();

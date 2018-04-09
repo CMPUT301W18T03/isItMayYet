@@ -27,10 +27,10 @@ public class Task implements Serializable {
     private TaskStatus status;
     private float price;
     private ArrayList<Bid> bids;
-    private Bitmap picture;
     private double longitude;
     private double latitude;
     private String ownerName;
+    private byte[] byteArrayImage;
     @JestId
     private String id;
     private String owner;
@@ -195,9 +195,16 @@ public class Task implements Serializable {
      * @param picture: the picture of the Task.
      */
     public void setPicture(Bitmap picture) throws IllegalArgumentException {
+        if (picture == null) {
+            this.byteArrayImage = null;
+            return;
+        }
+
+        picture = autoCompress(picture);
         int num_bytes = picture.getByteCount();
+
         if (num_bytes < 65536) {
-            this.picture = picture;
+            this.byteArrayImage = convertToByteArray(picture);
         } else {
             throw new IllegalArgumentException("Error: Picture cannot go over 65536 bytes");
         }
@@ -254,7 +261,11 @@ public class Task implements Serializable {
      * @return: picture of the Task
      */
     public Bitmap getPicture() {
-        return this.picture;
+        Bitmap bm = null;
+        if (this.byteArrayImage != null && this.byteArrayImage.length > 0) {
+            bm = convertToBitmap(this.byteArrayImage);
+        }
+        return bm;
     }
 
     /**
