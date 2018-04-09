@@ -22,6 +22,11 @@ public class WelcomeActivity extends AppCompatActivity {
     private Intent loginIntent;
     private Intent mainMenuIntent;
 
+    /** Creates the new view for the app, initializes all the buttons on the screen
+     *
+     *
+     * @param savedInstanceState; previous information from the last screen
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +52,9 @@ public class WelcomeActivity extends AppCompatActivity {
 
     }
 
-    /**
+    /** Method for when the login Button is clicked, takes user to mainMenu or to login page
+     *
+     *
      * @param view The Login button that brings the user right to the login page.
      */
     public void loginClick(View view) {
