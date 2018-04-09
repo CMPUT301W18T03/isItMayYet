@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * Created by Kvongaza on 2018-04-07.
  */
@@ -26,22 +28,22 @@ public class UserProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        final TextView tvUsername = (TextView) findViewById(R.id.tvUsername);
+        final EditText etFirstName = (EditText) findViewById(R.id.etFirstName);
+        final EditText etLastName = (EditText) findViewById(R.id.etLastName);
+        final EditText etEmail = (EditText) findViewById(R.id.etEmail);
+        final EditText etPhone = (EditText) findViewById(R.id.etPhone);
+        final EditText etAddress = (EditText) findViewById(R.id.etAddress);
+        final Button bSave = (Button) findViewById(R.id.bSave);
+        final Button bDelete = (Button) findViewById(R.id.bDelete);
+        final JsonHandler j = new JsonHandler(this);
+
         ElasticsearchController.GetUserByUsername getUserByName =
                 new ElasticsearchController.GetUserByUsername();
         getUserByName.execute(ApplicationController.getCurrUser().getUsername());
 
         try {
             UserAccount user = getUserByName.get();
-            final TextView tvUsername = (TextView) findViewById(R.id.tvUsername);
-            final EditText etFirstName = (EditText) findViewById(R.id.etFirstName);
-            final EditText etLastName = (EditText) findViewById(R.id.etLastName);
-            final EditText etEmail = (EditText) findViewById(R.id.etEmail);
-            final EditText etPhone = (EditText) findViewById(R.id.etPhone);
-            final EditText etAddress = (EditText) findViewById(R.id.etAddress);
-            final Button bSave = (Button) findViewById(R.id.bSave);
-            final Button bDelete = (Button) findViewById(R.id.bDelete);
-            final JsonHandler j = new JsonHandler(this);
-
 
             tvUsername.setText(user.getUsername());
             etFirstName.setText(user.getFirstName(), TextView.BufferType.EDITABLE);
@@ -88,13 +90,29 @@ public class UserProfile extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     ElasticsearchController.DeleteUser delUser =
                                             new ElasticsearchController.DeleteUser();
-                                    delUser.execute(ApplicationController.getCurrUser().getUsername());
-                                    dialog.dismiss();
-                                    ApplicationController.clearUser();
-                                    Intent welcomeIntent =
-                                            new Intent(UserProfile.this,
-                                                    WelcomeActivity.class);
-                                    UserProfile.this.startActivity(welcomeIntent);
+                                    ElasticsearchController.GetTaskByOwner getTaskByOwner =
+                                            new ElasticsearchController.GetTaskByOwner();
+                                    ElasticsearchController.DeleteTask delTask =
+                                            new ElasticsearchController.DeleteTask();
+
+                                    getTaskByOwner.execute(ApplicationController.getCurrUser().getID());
+                                    try {
+                                        ArrayList<Task> currUserTasks = getTaskByOwner.get();
+                                        for (Task t : currUserTasks) {
+                                            delTask.execute(t.getId());
+                                            delTask = new ElasticsearchController.DeleteTask();
+                                        }
+                                        delUser.execute(ApplicationController.getCurrUser().getUsername());
+                                        dialog.dismiss();
+                                        ApplicationController.clearUser();
+                                        Intent welcomeIntent =
+                                                new Intent(UserProfile.this,
+                                                        WelcomeActivity.class);
+                                        UserProfile.this.startActivity(welcomeIntent);
+                                    }
+                                    catch (Exception e) {
+                                        Log.i("E","No tasks found to delete for user");
+                                    }
                                 }
                             });
                     builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {

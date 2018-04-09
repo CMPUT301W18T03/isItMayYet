@@ -112,6 +112,7 @@ public class NewTaskActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // Catching image from gallery taken from StackOverFlow post: https://stackoverflow.com/questions/9107900/how-to-upload-image-from-gallery-in-android
         // Detects request codes
         if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
@@ -169,7 +170,7 @@ public class NewTaskActivity extends AppCompatActivity {
         float span = Math.max(newPicture.getHeight(), newPicture.getWidth());
 
         while (true) {
-            if (newPicture.getByteCount() > 65536) {
+            if (newPicture.getByteCount() > ApplicationController.MAX_PHOTO_BYTESIZE) {
                 span = (span / 4) * 3;
                 newPicture = scaleDown(newPicture, span, true);
             } else if (span > 4096) {
