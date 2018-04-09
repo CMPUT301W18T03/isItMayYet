@@ -36,8 +36,14 @@ public class SelectedTaskActivity extends AppCompatActivity {
     private TaskPasser passer;
     private Task currentTask;
     private String extraString;
-    //final InfoPasser infoInstance = InfoPasser.getInstance();
+
+
     /**
+     * Sets up the initialization of the given Activity,
+     * it loads in information as an additional measure from saveInstanceState
+     * and handles the bid button, which it checks for any extraneous conditions
+     * such as bidding on the user's own Task, bidding when the user isn't logged on, etc.
+     *
      * @param savedInstanceState
      */
     @Override
@@ -45,8 +51,6 @@ public class SelectedTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selected_task);
         extraString = null;
-//        final TaskPasser passer = new TaskPasser();
-        //get current selected task.
 
         taskName = findViewById(R.id.textViewTaskName);
         taskDesc = findViewById(R.id.textViewTaskDes);
@@ -55,14 +59,6 @@ public class SelectedTaskActivity extends AppCompatActivity {
         taskImages = findViewById(R.id.imageView);
         final EditText taskBid = findViewById(R.id.editTextBid);
         Button taskBidBtn = findViewById(R.id.bidBtn);
-
-        /**
-         * This Grabs any extras from other activities and applies the changes we want. Which is to show only task detials but not to bid on it.
-         */
-//        Task task = new Task();--- garbage
-//        Bundle bundle1 = infoInstance.getInfo();
-//        task = (Task) bundle1.getSerilizable("assignedTask");
-        //Log.i("the passed String is:", extraString);
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -78,13 +74,9 @@ public class SelectedTaskActivity extends AppCompatActivity {
                 taskDesc.setText("Description: " + tokens.nextToken());
                 taskStat.setText(tokens.nextToken());
                 taskPrice.setText("$" + tokens.nextToken());
-//                taskBid.setVisibility(View.GONE);
-//                taskBidBtn.setVisibility(View.GONE);
             }
         } else {
             extraString = (String) savedInstanceState.getSerializable("MainToSelectedTask");
-            //Toast.makeText(getApplicationContext(), "savedInstanceState not NULL", Toast.LENGTH_SHORT).show();
-
         }
 
         taskBidBtn.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +123,10 @@ public class SelectedTaskActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Loads all info from outside sources (elasticSearch/InfoPasser)
+     * into things currentTask and into TextViews/ImageViews for the Activity itself
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -154,7 +150,6 @@ public class SelectedTaskActivity extends AppCompatActivity {
             taskDesc.setText("Description: " + desc);
             taskStat.setText(stat.toString());
             taskPrice.setText("$" + String.valueOf(price));
-//            taskImages.setImageBitmap(jk);
             taskImages.setImageBitmap(picture);
         } catch (Exception e) {}
 
@@ -172,7 +167,12 @@ public class SelectedTaskActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * The method is used to launch an activity to view the location of the tasks
+     * from google maps by the click of the "map" icon
+     *
+     * @param view
+     */
     public void goToMap(View view) {
         Intent mapIntent = new Intent(this, FindTaskonMapActivity.class);
         String coords = "33.8994864" + "/" + "-118.2861378"; //33.8994864,-118.2861378
@@ -181,6 +181,9 @@ public class SelectedTaskActivity extends AppCompatActivity {
         startActivity(mapIntent);
     }
 
+    /**
+     * Loads all info (Task) from InfoPasser onto currentTask
+     */
     private void loadFromInfoPasser() {
         final InfoPasser info = InfoPasser.getInstance();
         Bundle bundle = info.getInfo();
