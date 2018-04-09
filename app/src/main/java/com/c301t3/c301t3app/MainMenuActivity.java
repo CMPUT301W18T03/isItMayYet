@@ -130,7 +130,7 @@ public class MainMenuActivity extends AppCompatActivity{
 
         addTaskButton = findViewById(R.id.addTaskButton);
         taskListView = findViewById(R.id.tasksView);
-
+        
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

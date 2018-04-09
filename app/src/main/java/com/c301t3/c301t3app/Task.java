@@ -34,6 +34,7 @@ public class Task implements Serializable {
     @JestId
     private String id;
     private String owner;
+    private String assignee;
 
     // Photo photo;     // Commented out from not knowing how/what to represent photo with.
     // GeoLoc location;     // Commented out from not knowing how/what to represent location with.
@@ -47,6 +48,7 @@ public class Task implements Serializable {
         this.status = TaskStatus.REQUESTED;
         this.price = 0;
         this.bids = new ArrayList<Bid>();
+        this.assignee = "NO_ONE";
         UserAccount u = ApplicationController.getCurrUser();
         if(u != null) {
             this.owner = u.getID();
@@ -360,12 +362,26 @@ public class Task implements Serializable {
      */
     public String getOwnerName() {return ownerName;}
 
+    /**
+     * Getter for assignee's id
+     * @return String id
+     */
+    public String getAssignee() {return assignee;}
 
     /**
      * Setter for owner ID
      */
     public void setOwner(String id) {
         this.owner = id;
+    }
+
+    /**
+     * Setter for Assignee Name
+     *
+     * @param id: Represent's the Task Assignee's Username
+     */
+    public void setAssignee(String id) {
+        this.assignee = id;
     }
 
     /**

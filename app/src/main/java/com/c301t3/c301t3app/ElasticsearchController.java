@@ -60,6 +60,40 @@ public class ElasticsearchController {
         }
     }
 
+    /**
+     * Sync a task to elasticsearch server
+     */
+    public static class UpdateTask extends AsyncTask<Task, Void, Boolean> {
+
+        /**
+         * Sync a user to Elasticsearch
+         * @param task the user being synced
+         * @return true if user synced
+         */
+        @Override
+        protected Boolean doInBackground(Task... task) {
+            verifySettings();
+            Boolean taskSynced = Boolean.FALSE;
+            for (Task t : task) {
+                try {
+                    String taskID = t.getId();
+                    Index index = new Index.Builder(t).index("cmput301w18t03").type("task").id(taskID).build();
+                    DocumentResult documentresult = client.execute(index);
+                    taskSynced = documentresult.isSucceeded();
+                    if (!taskSynced) {
+                        Log.i("Error", "Failed to sync task to Elasticsearch");
+                    }
+                    return taskSynced;
+                }
+                catch (Exception e) {
+                    Log.i("Error", "Application failed to sync the task");
+                    return false;
+                }
+            }
+            return taskSynced;
+        }
+    }
+
     public static class DeleteTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
@@ -191,6 +225,49 @@ public class ElasticsearchController {
         }
     }
 
+    public static class GetTaskByAssignee extends AsyncTask<String, Void, ArrayList<Task>> {
+        @Override
+        protected ArrayList<Task> doInBackground(String... ids) {
+            verifySettings();
+            ArrayList<Task> results = new ArrayList<>();
+
+            for (String s : ids) {
+                String query = "{\"query\": {\"match\" : { \"assignee\" : \"" + s + "\" }}}";
+                Search search = new Search.Builder(query)
+                        .addIndex("cmput301w18t03")
+                        .addType("task")
+                        .build();
+                try {
+                    // TODO get the results of the query
+                    SearchResult result = client.execute(search);
+                    if (result.isSucceeded()) {
+                        List<Task> returnTask = result.getSourceAsObjectList(Task.class);
+                        results.addAll(returnTask);
+                    }
+                } catch (Exception e) {
+                    Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+                }
+            }
+            return results;
+        }
+    }
+
+    public static ArrayList<Task> serverTasksByAssignee(String... params) {
+        if (!checkOnline()) return null; //check if connected to network
+
+        ElasticsearchController.GetTaskByAssignee getTask = new ElasticsearchController.GetTaskByAssignee();
+        try {
+            getTask.execute(params);
+            return getTask.get();
+        } catch (InterruptedException e) {
+            Log.e("E", e.getMessage().toString());
+        } catch (ExecutionException e) {
+            Log.e("E", e.getMessage().toString());
+        }
+        return null;
+
+    }
+
     public static ArrayList<Task> serverTasksByOwner(String... params) {
         if (!checkOnline()) return null; //check if connected to network
 
@@ -241,6 +318,27 @@ public class ElasticsearchController {
         ElasticsearchController.AddTask addTask = new ElasticsearchController.AddTask();
         addTask.execute(q.toArray(new Task[q.size()]));
         return true;
+    }
+
+    /**
+     * Update an existing task in Elasticsearch
+     * @param t the user being updated.
+     */
+    public static boolean taskUpdateServer(Task t) {
+        if (!checkOnline()) return false;
+        ElasticsearchController.UpdateTask task = new ElasticsearchController.UpdateTask();
+        Boolean taskUpdated;
+        task.execute(t);
+        try {
+            taskUpdated = task.get();
+            //Do Gson stuff here.
+            Gson gson = new Gson();
+            Log.i("Task Synced", gson.toJson(t));
+            return taskUpdated;
+        } catch (Exception e) {
+            Log.i("Error", "Task failed to sync");
+            return false;
+        }
     }
 
     public static ArrayList<Task> serverTaskQuery(String... params) {
