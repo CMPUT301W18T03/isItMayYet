@@ -67,10 +67,16 @@ public class MyTasksActivity extends AppCompatActivity {
                 Object listItem = assignedTasks.getItemAtPosition(position);
                 Task task = (Task) listItem;
 
+//                final InfoPasser info = InfoPasser.getInstance();
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("assignedTask", task);
+//                bundle.putInt("assignedIndex", position);
+//                info.setInfo(bundle);
+
                 final InfoPasser info = InfoPasser.getInstance();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("assignedTask", task);
-                bundle.putInt("assignedIndex", position);
+                bundle.putSerializable("selectedTask", task);
+
                 info.setInfo(bundle);
 
                 Intent intent = new Intent(view.getContext(), SelectedTaskActivity.class);
