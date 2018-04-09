@@ -48,8 +48,6 @@ public class MyTasksActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Toast.makeText(getApplicationContext(), "onCreate()", Toast.LENGTH_SHORT).show();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_tasks);
 
@@ -145,8 +143,6 @@ public class MyTasksActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        Toast.makeText(getApplicationContext(), "onStart()", Toast.LENGTH_SHORT).show();
-
         loadInfo();
 
         assignedAdapter = new ArrayAdapter<Task>(this, R.layout.my_tasks_assigned, assignedTaskList);
@@ -190,9 +186,6 @@ public class MyTasksActivity extends AppCompatActivity {
     }
 
     private void loadInfo() {
-
-        Toast.makeText(getApplicationContext(), "loadInfo()", Toast.LENGTH_SHORT).show();
-
         UserAccount usr = ApplicationController.getCurrUser();
 
         if (usr != null) {
@@ -205,8 +198,6 @@ public class MyTasksActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-
-        Toast.makeText(getApplicationContext(), "onActivityResult()", Toast.LENGTH_SHORT).show();
 
         // loadInfo();
     }
