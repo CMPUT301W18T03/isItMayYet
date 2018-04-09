@@ -1,0 +1,17 @@
+"
+Let's say you need to paint your fence, but you're going on vacation.
+
+Or you and your spouse get invited to an important diner, but someone needs to watch the kids.
+
+Maybe you need to deliver a package, but you get called into the office.  How would you get any of these tasks done?
+
+Introducing TaskIt.  TaskIt allows you request a service at the price you want to pay.  Other users will then bid for your business, giving you the best service at the lowest price.
+
+You can also requests tasks offline.  You can create a task while in airplane mode, and the task will upload to the cloud once you have cell service or wifi again.
+
+Register, create a profile, request a task, and wait for people to bid to do your task.
+
+TaskIt, the new way to get things done.
+
+Brought to you by Team03, isItMayYet?"
+"

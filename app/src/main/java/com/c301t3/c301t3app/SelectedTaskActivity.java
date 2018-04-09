@@ -35,6 +35,7 @@ public class SelectedTaskActivity extends AppCompatActivity {
 
     private TaskPasser passer;
     private Task currentTask;
+    private Bitmap currentPicture;
     private String extraString;
 
 
@@ -139,11 +140,14 @@ public class SelectedTaskActivity extends AppCompatActivity {
         float price = currentTask.getPrice();
         Bitmap picture = currentTask.getPicture();
 
-        if (picture == null) {
+        if (currentPicture != null) {
             Bitmap original_picture = BitmapFactory.decodeResource(getBaseContext().getResources(), R.drawable.logo_big);
-            currentTask.setPicture(original_picture);
-            picture = currentTask.getPicture();
+            int pic_height = Math.round((float) currentPicture.getHeight() / 2);
+            int pic_width = Math.round((float) currentPicture.getWidth() / 2);
+            currentPicture = Bitmap.createScaledBitmap(original_picture, pic_width, pic_height, true);
+            Toast.makeText(getApplicationContext(), currentPicture.toString(), Toast.LENGTH_SHORT).show();
         }
+
 
         try {
             taskName.setText(name);
@@ -191,6 +195,9 @@ public class SelectedTaskActivity extends AppCompatActivity {
         if (bundle != null) {
             if (bundle.containsKey("selectedTask")) {
                 currentTask = (Task) bundle.getSerializable("selectedTask");
+            }
+            if (bundle.containsKey("selectedPicture")) {
+                currentPicture = (Bitmap) bundle.getParcelable("selectedPicture");
             }
         }
 

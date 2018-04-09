@@ -21,7 +21,6 @@ import java.util.ArrayList;
  * Displays all bids, and userIDs for the given task selected.
  * Handles accepting or denying a bid.
  */
-
 public class ViewBidsActivity extends AppCompatActivity {
     public static final String FACADE_TASK = "com.c301t3.c301t3app.FACADE_TASK";
 
@@ -31,6 +30,11 @@ public class ViewBidsActivity extends AppCompatActivity {
     private ArrayAdapter<Bid> bidAdapter;
     private ListView bidList;
 
+    /** Creates the new view for the app, initializes all the buttons on the screen
+     *
+     *
+     * @param savedInstanceState; previous information from the last screen
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,115 +46,127 @@ public class ViewBidsActivity extends AppCompatActivity {
 
     }
 
+    /** Creates the menu for the view
+     *
+     *
+     * @param menu; menu to inflate in the view
+     * @return true; always returns true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_yes_no, menu);
         return true;
     }
 
+    /** Create the confirm or cancel buttons on the view
+     *
+     *
+     * @param item; The items to be drawn on the screen
+     * @return boolean; true or false on whether the item is selected
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
         switch (id) {
             case R.id.yes:
-                Toast.makeText(getApplicationContext(), "Confirm bid selected", Toast.LENGTH_SHORT).show();
-                //
-                bidList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {
-                        // alert = new AlertDialog.Builder(getApplicationContext());
-                        new AlertDialog.Builder(ViewBidsActivity.this)
-                                //.setIcon(android.R.drawable.ic_dialog_alert)
-                                .setIcon(R.drawable.circle)
-                                .setTitle("Confirmation of Bid")
-                                .setMessage("Are you sure you wish to confirm this bid for your task?")
-                                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        Toast.makeText(getApplicationContext(), "Confirmed", Toast.LENGTH_SHORT).show();
-
-//                                        final InfoPasser info = InfoPasser.getInstance();
-//                                        Bundle bundle = new Bundle();
-
-                                        ArrayList<Bid> newBids = new ArrayList<Bid>();
-                                        Bid selectedBid = bids.get(position);
-                                        newBids.add(selectedBid);
-                                        task.setBids(newBids);
-                                        task.setStatus(TaskStatus.ASSIGNED);
-
-                                        String taskId = task.getId();
-                                        ElasticsearchController.deleteTaskByID(taskId);
-                                        ElasticsearchController.taskToServer(task);
-
-//                                        bundle.putSerializable("ViewBidsTask", task);
-//                                        bundle.putInt("ViewBidsTaskIndex", taskIndex);
-//                                        info.setInfo(bundle);
-
-                                        setResult(Activity.RESULT_OK);
-                                        finish();
-                                    }
-                                })
-                                .setNegativeButton("Cancel", null)
-                                .show();
-
-                        return false;
-                    }
-                });
+                switchcase01();
 
                 break;
 
             case R.id.no:
-                Toast.makeText(getApplicationContext(), "Remove bid selected", Toast.LENGTH_SHORT).show();
-                //
-                bidList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {
-
-                        final View v = view;
-
-                        // alert = new AlertDialog.Builder(getApplicationContext());
-                        new AlertDialog.Builder(ViewBidsActivity.this)
-                                //.setIcon(android.R.drawable.ic_dialog_alert)
-                                .setIcon(R.drawable.cross)
-                                .setTitle("Removal of Bid")
-                                .setMessage("Are you sure you wish to remove this bid for your task?")
-                                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
-
-                                        task.remBid(position);
-                                        ArrayList<Bid> bidList = task.getBids();
-                                        if (bidList.size() == 0) {
-                                            task.setStatus(TaskStatus.REQUESTED);
-                                        }
-
-                                        String taskId = task.getId();
-                                        ElasticsearchController.deleteTaskByID(taskId);
-                                        ElasticsearchController.taskToServer(task);
-
-                                        Intent intent = new Intent(v.getContext(), MyTasksActivity.class);
-                                        intent.putExtra(FACADE_TASK, task);
-
-                                        setResult(Activity.RESULT_OK, intent);
-                                        finish();
-                                    }
-                                })
-                                .setNegativeButton("Cancel", null)
-                                .show();
-
-                        return false;
-                    }
-                });
-
+                switchcase02();
 
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
+    /** The second switch case option called by onOptionsItemSelected
+     *  If clicked, selected bid is removed
+     *
+     */
+    private void switchcase02() {
+        Toast.makeText(getApplicationContext(), "Remove bid selected", Toast.LENGTH_SHORT).show();
+        //
+        bidList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {
+                new AlertDialog.Builder(ViewBidsActivity.this)
+                         .setIcon(R.drawable.cross)
+                        .setTitle("Removal of Bid")
+                        .setMessage("Are you sure you wish to remove this bid for your task?")
+                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+
+                                task.remBid(position);
+                                ArrayList<Bid> bidList = task.getBids();
+                                if (bidList.size() == 0) {
+                                    task.setStatus(TaskStatus.REQUESTED);
+                                }
+
+                                String taskId = task.getId();
+                                ElasticsearchController.deleteTaskByID(taskId);
+                                ElasticsearchController.taskToServer(task);
+
+                                Intent intent = new Intent(v.getContext(), MyTasksActivity.class);
+                                intent.putExtra(FACADE_TASK, task);
+
+                                setResult(Activity.RESULT_OK, intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+                return false;
+            }
+        });
+    }
+
+    /** The first switch case option called by onOptionsItemSelected
+     *  If clicked, selected bid is selected
+     *
+     */
+    private void switchcase01() {
+        Toast.makeText(getApplicationContext(), "Confirm bid selected", Toast.LENGTH_SHORT).show();
+        bidList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {
+                new AlertDialog.Builder(ViewBidsActivity.this)
+                        .setIcon(R.drawable.circle)
+                        .setTitle("Confirmation of Bid")
+                        .setMessage("Are you sure you wish to confirm this bid for your task?")
+                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(getApplicationContext(), "Confirmed", Toast.LENGTH_SHORT).show();
+
+                                ArrayList<Bid> newBids = new ArrayList<Bid>();
+                                Bid selectedBid = bids.get(position);
+                                newBids.add(selectedBid);
+                                task.setBids(newBids);
+                                task.setStatus(TaskStatus.ASSIGNED);
+
+                                String taskId = task.getId();
+                                ElasticsearchController.deleteTaskByID(taskId);
+                                ElasticsearchController.taskToServer(task);
+
+                                setResult(Activity.RESULT_OK);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+                return false;
+            }
+        });
+    }
+
+    /** Called when the view is first created, loads data from InfoPasser
+     *  Creates and shows the list of bids
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -163,6 +179,9 @@ public class ViewBidsActivity extends AppCompatActivity {
 
     }
 
+    /** Load the information from the InfoPasser, gets the task and bids
+     *  Will catch NullPointerException and create an empty array list
+     */
     private void loadFromInfoPasser() {
         final InfoPasser info = InfoPasser.getInstance();
         Bundle bundle = info.getInfo();
@@ -171,8 +190,6 @@ public class ViewBidsActivity extends AppCompatActivity {
         taskIndex = bundle.getInt("requestedIndex");
 
         try {
-            // Toast.makeText(getApplicationContext(), task.toString(), Toast.LENGTH_SHORT).show();
-            //ArrayList<Bid> b = task.getBids();
             bids = task.getBids();
 
         } catch (NullPointerException e) {
