@@ -21,18 +21,13 @@ public class WelcomeActivity extends AppCompatActivity {
     private TaskPasser taskPasser;
     private Intent loginIntent;
     private Intent mainMenuIntent;
-    /* Here is a good site with a good tutorial for back button and info sharing between activities.
-    * https://google-developer-training.gitbooks.io/android-developer-fundamentals-course-practicals/content/en/Unit%201/21_p_create_and_start_activities.html*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         ApplicationController createContext = new ApplicationController(getApplicationContext());
-
         taskPasser = new TaskPasser();
-
         Button mainButton = findViewById(R.id.button_GoToMainMenu);
         Button loginButton = findViewById(R.id.loginBtn);
 
@@ -43,7 +38,6 @@ public class WelcomeActivity extends AppCompatActivity {
              */
             public void onClick(View v) {
                 setResult(RESULT_OK);
-                //Toast.makeText(getApplicationContext(), v.toString(),Toast.LENGTH_SHORT).show();
                 mainMenuIntent = new Intent(activity, MainMenuActivity.class);
                 startActivity(mainMenuIntent);
 
