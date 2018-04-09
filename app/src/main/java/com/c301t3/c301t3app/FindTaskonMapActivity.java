@@ -122,19 +122,7 @@ public class FindTaskonMapActivity extends FragmentActivity
         // location permission from the user. This sample does not include
         // a request for location permission.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
                 if (Build.VERSION.SDK_INT < 23) {
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //0 second, 0 meters
                 } else {
@@ -166,19 +154,7 @@ public class FindTaskonMapActivity extends FragmentActivity
                     List<Address> listAddress = geocoder.getFromLocation(lati, longi, 1);
                     if (listAddress != null && listAddress.size() > 0) {
                         Log.i("Place Info <----", listAddress.get(0).toString());
-//                        StringBuilder address = new StringBuilder();
-//                        int i = 0;
-//                        int maxLen = listAddress.get(0).getMaxAddressLineIndex();
-//
-//                        while (i != maxLen) {
-//                            if (listAddress.get(0).getAddressLine(0) != null) {
-//                                address.append(listAddress.get(0).getAddressLine(i));
-//                                i++;
-//                                address.append(", ");
-//                            }
-//                        }
-//                        Log.i("dasda sfsfsf <---------", address.toString());
-//                        address = new StringBuilder(address.substring(0, address.length())); // This will give you forthrought, city area, postal code. If has those options.
+                        // puts address info into the text view top left.
                         details.setText(listAddress.get(0).getAddressLine(0));
                     }
 
@@ -200,8 +176,6 @@ public class FindTaskonMapActivity extends FragmentActivity
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
         LatLng userLocation = new LatLng(lati, longi);
-        //mMap.clear(); // clears unwanted markers.
-        //mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
 
         return false;
