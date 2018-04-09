@@ -92,9 +92,6 @@ public class RegisterActivity extends AppCompatActivity {
                         // check to see if the uniqueID matches. ofc it does.
                         Log.i("uniqueID", account.getID());
 
-
-                        //TODO: update user in database now after having set the uniqueID
-
                         // send user account to jsonHandler.
                         j.dumpUser(account);
 
