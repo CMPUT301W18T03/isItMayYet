@@ -152,6 +152,7 @@ public class MyTasksActivity extends AppCompatActivity {
         if (usr != null) {
             loadFromInfoPasser();
             requestedTaskList = ElasticsearchController.serverTasksByOwner(usr.getID());
+            assignedTaskList = ElasticsearchController.serverTasksByAssignee(usr.getID());
         }
 
     }
