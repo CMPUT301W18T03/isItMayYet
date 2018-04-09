@@ -1,10 +1,13 @@
 package com.c301t3.c301t3app;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.text.IDNA;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -100,6 +103,40 @@ public class MyTasksActivity extends AppCompatActivity {
 
         });
 
+        requestedTasks.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Object listItem = requestedTasks.getItemAtPosition(position);
+                final Task taskItem = (Task) listItem;
+
+                //source: https://stackoverflow.com/questions/36747369/how-to-show-a-pop-up-in-android-studio-to-confirm-an-order;
+                AlertDialog.Builder builder = new AlertDialog.Builder(MyTasksActivity.this);
+                //builder.setCancelable(true);
+                builder.setTitle("Delete Task");
+                builder.setMessage("Are you sure you want to permanently delete this task?");
+                builder.setPositiveButton("Confirm",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ElasticsearchController.deleteTaskByID(taskItem.getId());
+                                requestedTaskList = ElasticsearchController.serverTasksByOwner(ApplicationController.getCurrUser().getID());
+                                requestedAdapter.remove(taskItem);
+                                requestedAdapter.notifyDataSetChanged();
+                            }
+                        });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AppCompatDialog dialog = builder.create();
+                dialog.show();
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -113,6 +150,8 @@ public class MyTasksActivity extends AppCompatActivity {
 
         assignedTasks.setAdapter(assignedAdapter);
         requestedTasks.setAdapter(requestedAdapter);
+        assignedAdapter.notifyDataSetChanged();
+        requestedAdapter.notifyDataSetChanged();
 
     }
 
