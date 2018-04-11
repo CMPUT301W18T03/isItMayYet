@@ -99,7 +99,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TaskOwnerProfile"></activity>
+        <activity
+            android:name=".TaskOwnerProfile"
+            android:label="@string/contact_information" />
     </application>
 
 </manifest>

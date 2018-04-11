@@ -51,5 +51,6 @@
     <string name="username">username:</string>
     <string name="Save">Save</string>
     <string name="Delete">Delete Account</string>
+    <string name="contact_information">Contact Information</string>
 
 </resources>
